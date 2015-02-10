@@ -20,8 +20,11 @@ public class imgVwr {
 		ViewerView viewer2 = new ViewerView();
 		ViewerView viewer3 = new ViewerView();
 		JButton EN = new JButton("English");
-		JButton FR = new JButton("Francais");
-		JButton PY = new JButton("Pycknn");
+		JButton FR = new JButton("Français");
+		JButton PY = new JButton("pycknn");
+		try {
+			PY = new JButton(new String((new String("pусский")).getBytes(), "UTF-8")); // pour l'encodage des char spec
+		} catch (Exception e) {}
 
 		panel3.add(EN);
 		panel3.add(FR);
