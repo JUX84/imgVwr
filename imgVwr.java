@@ -17,8 +17,8 @@ public class imgVwr {
 		panel3.setLayout(new BoxLayout(panel3, BoxLayout.LINE_AXIS));
 
 		ViewerView viewer = new ViewerView();
-		ViewerView viewer2 = new ViewerView();
-		ViewerView viewer3 = new ViewerView();
+		KeywordsView keywords = new KeywordsView();
+		ExplorerView explorer = new ExplorerView();
 		JButton EN = new JButton("English");
 		JButton FR = new JButton("Francais");
 		JButton PY = new JButton("Pycknn");
@@ -28,8 +28,8 @@ public class imgVwr {
 		panel3.add(PY);
 		panel.add(panel3, BorderLayout.CENTER);
 		panel.add(viewer);
-		panel2.add(viewer2);
-		panel2.add(viewer3);
+		panel2.add(keywords);
+		panel2.add(explorer);
 		panel.add(panel2);
 
 		frame.add(panel);
