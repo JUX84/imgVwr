@@ -6,6 +6,6 @@ public class ViewerView extends BasePanel {
 	private JButton hide;
 
 	public ViewerView() {
-		super("Viewer", 640, 480);
+		super("Viewer", 360, 240);
 	}
 }
