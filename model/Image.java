@@ -1,3 +1,5 @@
+package model;
+
 import java.awt.image.*;
 import java.awt.*;
 import javax.swing.*;

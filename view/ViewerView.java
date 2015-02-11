@@ -1,5 +1,8 @@
+package view;
+
 import javax.swing.*;
 import java.util.*;
+import model.*;
 
 public class ViewerView extends BaseView {
 	private Image image;

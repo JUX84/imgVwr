@@ -1,3 +1,5 @@
+package model;
+
 import java.util.*;
 
 public class Language {
@@ -11,7 +13,7 @@ public class Language {
 			locale = Locale.JAPANESE;
 		else
 			locale = Locale.ENGLISH;
-		rb = ResourceBundle.getBundle("resources.strings", locale);
+		rb = ResourceBundle.getBundle("resource.strings", locale);
 	}
 
 	public static String getString(String key) {

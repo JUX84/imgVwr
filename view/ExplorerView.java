@@ -1,3 +1,6 @@
+package view;
+
+import model.*;
 import javax.swing.*;
 import java.awt.*;
 import java.util.*;
@@ -32,7 +35,7 @@ public class ExplorerView extends BaseView
 						|| extension.equals("jpg")
 						|| extension.equals("gif")
 						|| extension.equals("png")) {
-					Image img = new Image(f.getAbsolutePath());
+					model.Image img = new model.Image(f.getAbsolutePath());
 					img.setPreferredSize(new Dimension(300, 300));
 					imagesPanel.add(img);
 				}
