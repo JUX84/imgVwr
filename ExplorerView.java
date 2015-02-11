@@ -1,8 +1,8 @@
 import javax.swing.*;
-import java.util.*;
 import java.awt.*;
+import java.util.*;
 
-public class ExplorerView extends BasePanel implements Observer
+public class ExplorerView extends BaseView
 {
 	private JScrollPane scroll;
 
@@ -19,15 +19,10 @@ public class ExplorerView extends BasePanel implements Observer
 
 	public ExplorerView()
 	{
-		super("Explorer", 300, 300);
-		SwingUtilities.invokeLater(new Runnable() {
-			public void run()
-			{
-				imagesPanel = new JPanel();
-				scroll = new JScrollPane();
-				add(scroll);
-			}
-		});
+		super("Explorer", 360, 240);
+		imagesPanel = new JPanel();
+		scroll = new JScrollPane();
+		add(scroll);
 	}
 
 	public void update(Observable o, Object arg)

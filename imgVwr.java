@@ -15,21 +15,20 @@ public class imgVwr {
 		panel2.setLayout(new BoxLayout(panel2, BoxLayout.LINE_AXIS));
 		JPanel panel3 = new JPanel();
 		panel3.setLayout(new BoxLayout(panel3, BoxLayout.LINE_AXIS));
+		JPanel panel4 = new JPanel();
+		panel4.setLayout(new BoxLayout(panel4, BoxLayout.LINE_AXIS));
 
 		ViewerView viewer = new ViewerView();
 		KeywordsView keywords = new KeywordsView();
 		ExplorerView explorer = new ExplorerView();
 		LangView lang = new LangView();
-		/*JButton EN = new JButton("English");
-		JButton FR = new JButton("Français");
-		JButton PY = new JButton("pycknn");
-		try {
-			PY = new JButton(new String((new String("pусский")).getBytes(), "UTF-8")); // pour l'encodage des char spec
-		} catch (Exception e) {}*/
+		TreeView tree = new TreeView();
 
 		panel3.add(lang);
 		panel.add(panel3, BorderLayout.CENTER);
-		panel.add(viewer);
+		panel4.add(tree);
+		panel4.add(viewer);
+		panel.add(panel4);
 		panel2.add(keywords);
 		panel2.add(explorer);
 		panel.add(panel2);
