@@ -1,5 +1,6 @@
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.*;
 
 public class imgVwr {
 
@@ -7,8 +8,10 @@ public class imgVwr {
 		JFrame frame = new JFrame("imgVwr");
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
+		Language.setLanguage("ja");
+
 		JPanel panel = new JPanel();
-		panel.setPreferredSize(new Dimension(720,490));
+		panel.setPreferredSize(new Dimension(720,480));
 		panel.setLayout(new BoxLayout(panel, BoxLayout.PAGE_AXIS));
 		JPanel panel2 = new JPanel();
 		panel2.setPreferredSize(new Dimension(720,240));
@@ -23,6 +26,9 @@ public class imgVwr {
 		ExplorerView explorer = new ExplorerView();
 		LangView lang = new LangView();
 		TreeView tree = new TreeView();
+		MenuView menu = new MenuView();
+
+		frame.setJMenuBar(menu);
 
 		panel3.add(lang);
 		panel.add(panel3, BorderLayout.CENTER);
