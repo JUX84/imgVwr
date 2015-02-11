@@ -19,16 +19,15 @@ public class imgVwr {
 		ViewerView viewer = new ViewerView();
 		KeywordsView keywords = new KeywordsView();
 		ExplorerView explorer = new ExplorerView();
-		JButton EN = new JButton("English");
+		LangView lang = new LangView();
+		/*JButton EN = new JButton("English");
 		JButton FR = new JButton("Français");
 		JButton PY = new JButton("pycknn");
 		try {
 			PY = new JButton(new String((new String("pусский")).getBytes(), "UTF-8")); // pour l'encodage des char spec
-		} catch (Exception e) {}
+		} catch (Exception e) {}*/
 
-		panel3.add(EN);
-		panel3.add(FR);
-		panel3.add(PY);
+		panel3.add(lang);
 		panel.add(panel3, BorderLayout.CENTER);
 		panel.add(viewer);
 		panel2.add(keywords);
