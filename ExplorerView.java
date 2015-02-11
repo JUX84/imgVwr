@@ -9,13 +9,12 @@ public class ExplorerView extends BasePanel implements Observer
 
 	private JPanel imagesPanel;
 	private JButton browse;
-	private String path = "/home/etudiants/inf/uapv1202958";
+	private String path = "/";
 
 	public void createImages()
 	{
 		imagesPanel.removeAll();
-		GridBagLayout layout = new GridBagLayout();
-		layout.insets = new Insets(10, 10, 10, 10);
+		FlowLayout layout = new FlowLayout(FlowLayout.LEADING, 10, 10);
 		imagesPanel.setLayout(layout);
 
 		File folder = new File(path);
