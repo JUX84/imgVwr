@@ -34,14 +34,14 @@ public class imgVwr {
 		panel.add(panel2);
 
 		frame.add(panel);
-		frame.setResizable(false);
+		// frame.setResizable(false);
 		frame.pack();
 		frame.setVisible(true);
 	}
 
 	public static void main (String[] args) {
 		javax.swing.SwingUtilities.invokeLater(new Runnable() {
-			public void run() {
+		public void run() {
 				startGUI();
 			}
 		});
