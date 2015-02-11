@@ -8,13 +8,8 @@ public class KeywordsView extends BasePanel
 	public KeywordsView()
 	{
 		super("Keywords", 300, 300);
-		SwingUtilities.invokeLater(new Runnable() {
-			public void run()
-			{
-				text = new JTextArea();
-				scroll = new JScrollPane(text);
-				add(scroll);
-			}
-		});
+		text = new JTextArea();
+		scroll = new JScrollPane(text);
+		add(scroll);
 	}
 }

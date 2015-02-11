@@ -8,6 +8,6 @@ public class BasePanel extends JPanel {
 		setBorder(BorderFactory.createCompoundBorder(
 					BorderFactory.createTitledBorder(title),
 					BorderFactory.createEmptyBorder(5,5,5,5)));
-		setPreferredSize(new Dimension(width, length));
+		// setPreferredSize(new Dimension(width, length));
 	}
 }

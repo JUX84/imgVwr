@@ -36,7 +36,7 @@ public class imgVwr {
 		panel.add(panel2);
 
 		frame.add(panel);
-		frame.setResizable(false);
+		// frame.setResizable(false);
 		frame.pack();
 		frame.setVisible(true);
 	}
