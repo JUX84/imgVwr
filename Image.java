@@ -1,17 +1,24 @@
 import java.awt.image.*;
 import java.awt.*;
 import javax.swing.*;
+import java.io.*;
+import javax.imageio.ImageIO;
 
 public class Image extends JPanel
 {
 	private String name;
 	private String path;
-	private java.awt.BufferedImage image;
+	// private BufferedImage image = null;
+	private java.awt.Image image = null;
 
 	public Image(String path)
 	{
 		this.path = path;
-		image = new ImageIcon(path).getImage();
+		try {
+			BufferedImage bi = ImageIO.read(new File(path));
+			image = bi.getScaledInstance(300, -1, java.awt.Image.SCALE_FAST);
+		}
+		catch (Exception e) {}
 	}
 
 	public void paint(Graphics g)

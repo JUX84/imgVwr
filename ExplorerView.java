@@ -9,12 +9,14 @@ public class ExplorerView extends BasePanel implements Observer
 
 	private JPanel imagesPanel;
 	private JButton browse;
-	private String path = "/Users/manu/Pictures/4chan/4chan_general";
+	private String path = "/home/etudiants/inf/uapv1202958";
 
 	public void createImages()
 	{
 		imagesPanel.removeAll();
-		imagesPanel.setLayout(new GridLayout(5, 10, 2, 2));
+		GridBagLayout layout = new GridBagLayout();
+		layout.insets = new Insets(10, 10, 10, 10);
+		imagesPanel.setLayout(layout);
 
 		File folder = new File(path);
 		File[] files = folder.listFiles();
@@ -32,7 +34,7 @@ public class ExplorerView extends BasePanel implements Observer
 						|| extension.equals("gif")
 						|| extension.equals("png")) {
 					Image img = new Image(f.getAbsolutePath());
-					img.setMinimumSize(new Dimension(50, 50));
+					img.setPreferredSize(new Dimension(300, 300));
 					imagesPanel.add(img);
 				}
 			}
@@ -47,8 +49,8 @@ public class ExplorerView extends BasePanel implements Observer
 
 		imagesPanel = new JPanel();
 		createImages();
-		scroll = new JScrollPane();
-		scroll.setViewportView(imagesPanel);
+		scroll = new JScrollPane(imagesPanel);
+		scroll.setPreferredSize(new Dimension(300, 300));
 
 		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 		add(browse);
