@@ -3,22 +3,24 @@ package view;
 import model.*;
 import javax.swing.*;
 import java.awt.*;
+import java.awt.image.*;
 import java.util.*;
 import java.io.*;
+import javax.imageio.ImageIO;
 
 public class ExplorerView extends BaseView
 {
 	private JScrollPane scroll;
 
-	private JPanel imagesPanel;
+	private DefaultListModel iconListModel;
+	private JList<Thumbnail> iconList;
+
 	private JButton browse;
-	private String path = "/";
+	private String path = System.getProperty("user.home");
 
 	public void createImages()
 	{
-		imagesPanel.removeAll();
-		FlowLayout layout = new FlowLayout(FlowLayout.LEADING, 10, 10);
-		imagesPanel.setLayout(layout);
+		iconListModel.clear();
 
 		File folder = new File(path);
 		File[] files = folder.listFiles();
@@ -35,9 +37,13 @@ public class ExplorerView extends BaseView
 						|| extension.equals("jpg")
 						|| extension.equals("gif")
 						|| extension.equals("png")) {
-					model.Image img = new model.Image(f.getAbsolutePath());
-					img.setPreferredSize(new Dimension(300, 300));
-					imagesPanel.add(img);
+					try {
+						// BufferedImage bi = ImageIO.read(new File(f.getAbsolutePath()));
+						// ImageIcon img = new ImageIcon(bi.getScaledInstance(-1, 100, java.awt.Image.SCALE_FAST));
+						iconListModel.addElement(new Thumbnail(f.getAbsolutePath(), 100, 100));
+					}
+					catch (Exception e)
+					{}
 				}
 			}
 		}
@@ -49,9 +55,16 @@ public class ExplorerView extends BaseView
 
 		browse = new JButton("Browse");
 
-		imagesPanel = new JPanel();
+		iconListModel = new DefaultListModel();
+		iconList = new JList<Thumbnail>(iconListModel);
+		iconList.setCellRenderer(new iconListCellRenderer());
+		iconList.setLayoutOrientation(JList.HORIZONTAL_WRAP);
+		iconList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		iconList.setVisibleRowCount(-1);
+
 		createImages();
-		scroll = new JScrollPane(imagesPanel);
+
+		scroll = new JScrollPane(iconList);
 		scroll.setPreferredSize(new Dimension(300, 300));
 
 		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
@@ -61,4 +74,37 @@ public class ExplorerView extends BaseView
 
 	public void update(Observable o, Object arg)
 	{}
+
+
+	private class iconListCellRenderer extends JLabel implements ListCellRenderer<Thumbnail>
+	{
+		public iconListCellRenderer()
+		{
+			setOpaque(true);
+		}
+
+		public Component getListCellRendererComponent(JList<? extends Thumbnail> list, Thumbnail value, int index, boolean isSelected, boolean cellHasFocus)
+		{
+			ImageIcon image = value.getImage();
+			setPreferredSize(new Dimension(image.getIconWidth(), image.getIconHeight() + 20));
+
+			setText(value.getName());
+			setVerticalTextPosition(JLabel.BOTTOM);
+			setHorizontalTextPosition(JLabel.CENTER);
+
+			setIcon(value.getImage());
+			setHorizontalAlignment(JLabel.CENTER);
+
+			if (isSelected) {
+				setBackground(list.getSelectionBackground());
+				setForeground(list.getSelectionForeground());
+			}
+			else {
+				setBackground(list.getBackground());
+				setForeground(list.getForeground());
+			}
+
+			return this;
+		}
+	}
 }
