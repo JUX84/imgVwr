@@ -9,7 +9,8 @@ public class imgVwr {
 
 	public static void startGUI() {
 		model.Image i = new model.Image();
-		Controller controller = new Controller(i);
+		Path p = new Path();
+		Controller controller = new Controller(i,p);
 
 		JFrame frame = new JFrame("imgVwr");
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -31,7 +32,7 @@ public class imgVwr {
 		KeywordsView keywords = new KeywordsView();
 		ExplorerView explorer = new ExplorerView(controller);
 		LangView lang = new LangView();
-		TreeView tree = new TreeView();
+		TreeView tree = new TreeView(controller);
 		MenuView menu = new MenuView();
 
 		frame.setJMenuBar(menu);

@@ -6,22 +6,27 @@ import javax.swing.tree.*;
 import java.awt.*;
 import java.util.*;
 import java.io.*;
+import model.Path;
+import controller.Controller;
 
 public class TreeView extends BaseView
 {
 	private JScrollPane scroll;
 	private JTree tree;
 	private FileSystemModel fileSystemModel;
+	private Controller controller;
 
-	public TreeView()
+	public TreeView(Controller controller)
 	{
 		super("Tree explorer", 100, 300);
+		this.controller = controller;
 		fileSystemModel = new FileSystemModel(new File("/"));
 		tree = new JTree(fileSystemModel);
 		tree.setEditable(true);
 		tree.addTreeSelectionListener(new TreeSelectionListener() {
 			public void valueChanged(TreeSelectionEvent event) {
 				File file = (File) tree.getLastSelectedPathComponent();
+				controller.pathSelected(file);
 			}
 		});
 		scroll = new JScrollPane(tree);
