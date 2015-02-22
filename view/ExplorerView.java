@@ -20,6 +20,7 @@ import java.io.File;
 import javax.imageio.ImageIO;
 import controller.Controller;
 import model.Thumbnail;
+import model.Path;
 
 public class ExplorerView extends BaseView implements Observer
 {
@@ -95,7 +96,11 @@ public class ExplorerView extends BaseView implements Observer
 	}
 
 	public void update(Observable o, Object arg)
-	{}
+	{
+		Path p = (Path)o;
+		path = p.getPath();
+		createImages();
+	}
 
 	private class iconListCellRenderer extends JLabel implements ListCellRenderer<Thumbnail>
 	{
