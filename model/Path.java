@@ -15,8 +15,8 @@ public class Path extends Observable {
 	}
 
 	public void set(File f) {
-		setPath(f.getName());
+		setPath(f.getAbsolutePath());
 		setChanged();
 		notifyObservers();
-	}		
+	}
 }

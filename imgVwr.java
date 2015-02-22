@@ -30,7 +30,7 @@ public class imgVwr {
 
 		ViewerView viewer = new ViewerView(i);
 		KeywordsView keywords = new KeywordsView();
-		ExplorerView explorer = new ExplorerView(controller);
+		ExplorerView explorer = new ExplorerView(controller, p);
 		LangView lang = new LangView();
 		TreeView tree = new TreeView(controller);
 		MenuView menu = new MenuView();

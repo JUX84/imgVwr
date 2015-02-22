@@ -40,6 +40,9 @@ public class ExplorerView extends BaseView implements Observer
 
 		File folder = new File(path);
 		File[] files = folder.listFiles();
+		if (files == null)
+			return;
+
 		for (File f : files) {
 			String name = f.getName();
 			String extension = null;
@@ -54,6 +57,7 @@ public class ExplorerView extends BaseView implements Observer
 						|| extension.equals("gif")
 						|| extension.equals("png")) {
 					try {
+						System.out.println("add: " + f.getAbsolutePath());
 						iconListModel.addElement(new Thumbnail(f.getAbsolutePath(), 100, 100));
 					}
 					catch (Exception e)
@@ -63,11 +67,13 @@ public class ExplorerView extends BaseView implements Observer
 		}
 	}
 
-	public ExplorerView(Controller controller)
+	public ExplorerView(Controller controller, Path p)
 	{
 		super("Explorer", 300, 300);
 
 		this.controller = controller;
+
+		p.addObserver(this);
 
 		browse = new JButton("Browse");
 
