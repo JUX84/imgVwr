@@ -11,11 +11,13 @@ import javax.swing.ListCellRenderer;
 import javax.swing.ListSelectionModel;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.event.ListSelectionEvent;
+import javax.swing.SwingWorker;
 import java.awt.Image;
 import java.awt.Dimension;
 import java.awt.Component;
 import java.util.Observer;
 import java.util.Observable;
+import java.util.List;
 import java.io.File;
 import javax.imageio.ImageIO;
 import controller.Controller;
@@ -34,37 +36,63 @@ public class ExplorerView extends BaseView implements Observer
 	private JButton browse;
 	private String path = System.getProperty("user.home");
 
+	private SwingWorker<Void, Thumbnail> loadImageWorker = null;
+
 	public void createImages()
 	{
-		iconListModel.clear();
+		if (loadImageWorker != null) {
+			loadImageWorker.cancel(true);
+			iconListModel.clear();
+		}
 
-		File folder = new File(path);
-		File[] files = folder.listFiles();
-		if (files == null)
-			return;
+		loadImageWorker = new SwingWorker<Void, Thumbnail>() {
+			@Override
+			protected Void doInBackground() throws Exception
+			{
+				Thread.currentThread().sleep(200);
+				iconListModel.clear();
+				File folder = new File(path);
+				File[] files = folder.listFiles();
+				if (files == null)
+					return null;
 
-		for (File f : files) {
-			String name = f.getName();
-			String extension = null;
-			int pos = name.lastIndexOf('.');
-			if (pos > 0 &&  pos < name.length() - 1) {
-				extension = name.substring(pos + 1).toLowerCase();
+				for (File f : files) {
+					Thread.currentThread().sleep(60);
+					String name = f.getName();
+					String extension = null;
+					int pos = name.lastIndexOf('.');
+					if (pos > 0 &&  pos < name.length() - 1) {
+						extension = name.substring(pos + 1).toLowerCase();
+					}
+
+					if (extension != null) {
+						if (extension.equals("jpeg")
+								|| extension.equals("jpg")
+								|| extension.equals("gif")
+								|| extension.equals("png")) {
+							try {
+								Thumbnail t = new Thumbnail(f.getAbsolutePath(), 100, 100);
+								publish(t);
+							}
+							catch (Exception e)
+							{}
+						}
+					}
+				}
+
+				return null;
 			}
 
-			if (extension != null) {
-				if (extension.equals("jpeg")
-						|| extension.equals("jpg")
-						|| extension.equals("gif")
-						|| extension.equals("png")) {
-					try {
-						System.out.println("add: " + f.getAbsolutePath());
-						iconListModel.addElement(new Thumbnail(f.getAbsolutePath(), 100, 100));
-					}
-					catch (Exception e)
-					{}
+			protected void process(List<Thumbnail> chunks)
+			{
+				if (!Thread.currentThread().isInterrupted()) {
+					for (Thumbnail t : chunks)
+						iconListModel.addElement(t);
 				}
 			}
-		}
+		};
+
+		loadImageWorker.execute();
 	}
 
 	public ExplorerView(Controller controller, Path p)
@@ -119,22 +147,24 @@ public class ExplorerView extends BaseView implements Observer
 		public Component getListCellRendererComponent(JList<? extends Thumbnail> list, Thumbnail value, int index, boolean isSelected, boolean cellHasFocus)
 		{
 			ImageIcon image = value.getImage();
-			setPreferredSize(new Dimension(image.getIconWidth(), image.getIconHeight() + 20));
+			if (image != null) {
+				setPreferredSize(new Dimension(image.getIconWidth(), image.getIconHeight() + 20));
 
-			setText(value.getName());
-			setVerticalTextPosition(JLabel.BOTTOM);
-			setHorizontalTextPosition(JLabel.CENTER);
+				setText(value.getName());
+				setVerticalTextPosition(JLabel.BOTTOM);
+				setHorizontalTextPosition(JLabel.CENTER);
 
-			setIcon(value.getImage());
-			setHorizontalAlignment(JLabel.CENTER);
+				setIcon(value.getImage());
+				setHorizontalAlignment(JLabel.CENTER);
 
-			if (isSelected) {
-				setBackground(list.getSelectionBackground());
-				setForeground(list.getSelectionForeground());
-			}
-			else {
-				setBackground(list.getBackground());
-				setForeground(list.getForeground());
+				if (isSelected) {
+					setBackground(list.getSelectionBackground());
+					setForeground(list.getSelectionForeground());
+				}
+				else {
+					setBackground(list.getBackground());
+					setForeground(list.getForeground());
+				}
 			}
 
 			return this;
