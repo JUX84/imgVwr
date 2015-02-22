@@ -2,7 +2,7 @@ package model;
 
 import java.util.*;
 
-public class Language {
+public class Language extends Observable {
 	private static ResourceBundle rb;
 
 	public static void setLanguage(String lang) {

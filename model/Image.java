@@ -5,8 +5,9 @@ import java.awt.*;
 import javax.swing.*;
 import java.io.*;
 import javax.imageio.ImageIO;
+import java.util.*;
 
-public class Image extends JPanel
+public class Image extends Observable
 {
 	private String name;
 	private String path;
