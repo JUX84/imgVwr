@@ -1,6 +1,8 @@
 package model;
 
-import java.util.*;
+import java.util.Observable;
+import java.util.ResourceBundle;
+import java.util.Locale;
 
 public class Language extends Observable {
 	private static ResourceBundle rb;

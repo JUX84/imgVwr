@@ -10,7 +10,7 @@ public class imgVwr {
 		JFrame frame = new JFrame("imgVwr");
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-		Language.setLanguage("ja");
+		Language.setLanguage("fr");
 
 		JPanel panel = new JPanel();
 		panel.setPreferredSize(new Dimension(720,480));

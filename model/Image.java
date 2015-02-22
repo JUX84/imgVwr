@@ -1,11 +1,7 @@
 package model;
 
-import java.awt.image.*;
-import java.awt.*;
-import javax.swing.*;
-import java.io.*;
-import javax.imageio.ImageIO;
-import java.util.*;
+import java.awt.image.BufferedImage;
+import java.util.Observable;
 
 public class Image extends Observable
 {
