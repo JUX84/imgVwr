@@ -5,7 +5,7 @@ import java.io.File;
 
 public class Path extends Observable {
 	private String path;
-	private String selected = null;
+	private static String selected = null;
 
 	public String getPath() {
 		return path;
@@ -21,7 +21,10 @@ public class Path extends Observable {
 
 	public void set(File f) {
 		if(!f.isDirectory()) {
-			selected = f.getAbsolutePath();
+			if(Image.isImage(f.getName()))
+				selected = f.getName();
+			else
+				selected = null;
 			f = f.getParentFile();
 		} else {
 			selected = null;
@@ -29,5 +32,11 @@ public class Path extends Observable {
 		setPath(f.getAbsolutePath());
 		setChanged();
 		notifyObservers();
+	}
+
+	public static boolean isSelected(String name) {
+		if(name.equals(selected))
+			return true;
+		return false;
 	}
 }

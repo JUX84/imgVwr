@@ -21,8 +21,7 @@ import java.util.List;
 import java.io.File;
 import javax.imageio.ImageIO;
 import controller.Controller;
-import model.Thumbnail;
-import model.Path;
+import model.*;
 
 public class ExplorerView extends BaseView implements Observer
 {
@@ -49,7 +48,7 @@ public class ExplorerView extends BaseView implements Observer
 			@Override
 			protected Void doInBackground() throws Exception
 			{
-				Thread.currentThread().sleep(200);
+				Thread.currentThread().sleep(60);
 				iconListModel.clear();
 				File folder = new File(path);
 				File[] files = folder.listFiles();
@@ -57,26 +56,14 @@ public class ExplorerView extends BaseView implements Observer
 					return null;
 
 				for (File f : files) {
-					Thread.currentThread().sleep(60);
-					String name = f.getName();
-					String extension = null;
-					int pos = name.lastIndexOf('.');
-					if (pos > 0 &&  pos < name.length() - 1) {
-						extension = name.substring(pos + 1).toLowerCase();
-					}
-
-					if (extension != null) {
-						if (extension.equals("jpeg")
-								|| extension.equals("jpg")
-								|| extension.equals("gif")
-								|| extension.equals("png")) {
-							try {
-								Thumbnail t = new Thumbnail(f.getAbsolutePath(), 100, 100);
-								publish(t);
-							}
-							catch (Exception e)
-							{}
+					if(model.Image.isImage(f.getName())) {
+						try {
+							Thumbnail t = new Thumbnail(f.getAbsolutePath(), 100, 100);
+							publish(t);
 						}
+						catch (Exception e)
+						{}
+						Thread.currentThread().sleep(60);
 					}
 				}
 
@@ -86,8 +73,11 @@ public class ExplorerView extends BaseView implements Observer
 			protected void process(List<Thumbnail> chunks)
 			{
 				if (!Thread.currentThread().isInterrupted()) {
-					for (Thumbnail t : chunks)
+					for (Thumbnail t : chunks) {
 						iconListModel.addElement(t);
+						if(Path.isSelected(t.getName()))
+								iconList.setSelectedValue(t, true);
+					}
 				}
 			}
 		};

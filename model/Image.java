@@ -30,4 +30,21 @@ public class Image extends Observable
 		setChanged();
 		notifyObservers();
 	}
+
+	public static boolean isImage(String path) {
+		String extension = null;
+		int pos = path.lastIndexOf('.');
+		if(pos>0 && pos<path.length()-1) {                  
+			extension = path.substring(pos+1).toLowerCase();
+		}
+		if (extension != null) {
+			if (extension.equals("jpeg")
+					|| extension.equals("jpg")
+					|| extension.equals("gif")
+					|| extension.equals("png")) {
+				return true;
+			}
+		}
+		return false;
+	}
 }
