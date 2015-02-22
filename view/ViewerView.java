@@ -24,5 +24,6 @@ public class ViewerView extends BaseView implements Observer {
 			remove(label);
 		label = new JLabel(new ImageIcon(image.getBufferedImage()));
 		add(label);
+		System.out.println("test");
 	}
 }

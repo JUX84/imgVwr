@@ -8,7 +8,8 @@ import controller.Controller;
 public class imgVwr {
 
 	public static void startGUI() {
-		Controller controller = new Controller();
+		model.Image i = new model.Image();
+		Controller controller = new Controller(i);
 
 		JFrame frame = new JFrame("imgVwr");
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -26,7 +27,7 @@ public class imgVwr {
 		JPanel panel4 = new JPanel();
 		panel4.setLayout(new BoxLayout(panel4, BoxLayout.LINE_AXIS));
 
-		ViewerView viewer = new ViewerView();
+		ViewerView viewer = new ViewerView(i);
 		KeywordsView keywords = new KeywordsView();
 		ExplorerView explorer = new ExplorerView(controller);
 		LangView lang = new LangView();
