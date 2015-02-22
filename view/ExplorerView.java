@@ -38,8 +38,6 @@ public class ExplorerView extends BaseView
 						|| extension.equals("gif")
 						|| extension.equals("png")) {
 					try {
-						// BufferedImage bi = ImageIO.read(new File(f.getAbsolutePath()));
-						// ImageIcon img = new ImageIcon(bi.getScaledInstance(-1, 100, java.awt.Image.SCALE_FAST));
 						iconListModel.addElement(new Thumbnail(f.getAbsolutePath(), 100, 100));
 					}
 					catch (Exception e)

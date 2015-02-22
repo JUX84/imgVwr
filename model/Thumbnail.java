@@ -9,6 +9,7 @@ import java.nio.file.Paths;
 
 public class Thumbnail
 {
+	private BufferedImage original;
 	private ImageIcon image;
 	private String name;
 
@@ -18,10 +19,10 @@ public class Thumbnail
 		name = p.getFileName().toString();
 
 		try {
-			BufferedImage bi = ImageIO.read(new File(path));
+			original = ImageIO.read(new File(path));
 
-			int imgWidth = bi.getWidth();
-			int imgHeight = bi.getHeight();
+			int imgWidth = original.getWidth();
+			int imgHeight = original.getHeight();
 
 			double maxRatio = (double)maxWidth / maxHeight;
 			double imgRatio = (double)imgWidth / imgHeight;
@@ -30,7 +31,7 @@ public class Thumbnail
 			int newWidth = (int)(imgWidth * scale);
 			int newHeight = (int)(imgHeight * scale);
 
-			image = new ImageIcon(bi.getScaledInstance(newWidth, newHeight, java.awt.Image.SCALE_FAST));
+			image = new ImageIcon(original.getScaledInstance(newWidth, newHeight, java.awt.Image.SCALE_FAST));
 		}
 		catch (Exception e) {}
 	}
@@ -43,5 +44,10 @@ public class Thumbnail
 	public ImageIcon getImage()
 	{
 		return image;
+	}
+
+	public BufferedImage getOriginalImage()
+	{
+		return original;
 	}
 }
