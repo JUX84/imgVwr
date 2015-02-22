@@ -5,6 +5,7 @@ import javax.swing.JButton;
 import javax.swing.ImageIcon;
 import java.util.Observer;
 import java.util.Observable;
+import java.awt.Graphics;
 import model.Image;
 import model.Thumbnail;
 
@@ -17,14 +18,18 @@ public class ViewerView extends BaseView implements Observer {
 	public ViewerView(Image image) {
 		super("Viewer", 360, 240);
 		this.image = image;
+		label = new JLabel();
+		add(label);
 		image.addObserver(this);
 	}
 
+	public void paintComponent(Graphics g) {
+		super.paintComponent(g);
+		g.drawImage(image.getBufferedImage(), 0, 0, this);
+	}
+
 	public void update (Observable o, Object arg) {
-		if(getComponentCount() == 3)
-			remove(label);
 		label = new JLabel(new ImageIcon(image.getBufferedImage()));
-		add(label);
-		System.out.println("test");
+		repaint();
 	}
 }
