@@ -7,9 +7,13 @@ import java.awt.image.*;
 import java.util.*;
 import java.io.*;
 import javax.imageio.ImageIO;
+import javax.swing.event.*;
+import controller.Controller;
 
 public class ExplorerView extends BaseView
 {
+	private Controller controller;
+
 	private JScrollPane scroll;
 
 	private DefaultListModel iconListModel;
@@ -47,9 +51,11 @@ public class ExplorerView extends BaseView
 		}
 	}
 
-	public ExplorerView()
+	public ExplorerView(Controller controller)
 	{
 		super("Explorer", 300, 300);
+
+		this.controller = controller;
 
 		browse = new JButton("Browse");
 
@@ -59,6 +65,13 @@ public class ExplorerView extends BaseView
 		iconList.setLayoutOrientation(JList.HORIZONTAL_WRAP);
 		iconList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		iconList.setVisibleRowCount(-1);
+		iconList.addListSelectionListener(new ListSelectionListener() {
+			public void valueChanged(ListSelectionEvent e)
+			{
+				Thumbnail t = (Thumbnail)iconList.getSelectedValue();
+				controller.thumbnailSelected(t);
+			}
+		});
 
 		createImages();
 

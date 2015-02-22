@@ -3,10 +3,13 @@ import java.awt.*;
 import java.awt.event.*;
 import model.*;
 import view.*;
+import controller.Controller;
 
 public class imgVwr {
 
 	public static void startGUI() {
+		Controller controller = new Controller();
+
 		JFrame frame = new JFrame("imgVwr");
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
@@ -25,7 +28,7 @@ public class imgVwr {
 
 		ViewerView viewer = new ViewerView();
 		KeywordsView keywords = new KeywordsView();
-		ExplorerView explorer = new ExplorerView();
+		ExplorerView explorer = new ExplorerView(controller);
 		LangView lang = new LangView();
 		TreeView tree = new TreeView();
 		MenuView menu = new MenuView();
