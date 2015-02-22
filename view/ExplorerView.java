@@ -86,7 +86,8 @@ public class ExplorerView extends BaseView implements Observer
 			public void valueChanged(ListSelectionEvent e)
 			{
 				Thumbnail t = (Thumbnail)iconList.getSelectedValue();
-				controller.thumbnailSelected(t);
+				if (t != null)
+					controller.thumbnailSelected(t);
 			}
 		});
 
