@@ -14,15 +14,14 @@ public class ViewerView extends BaseView implements Observer {
 	private JButton rename;
 	private JButton hide;
 
-	public ViewerView() {
+	public ViewerView(Image image) {
 		super("Viewer", 360, 240);
+		this.image = image;
 	}
 
 	public void update (Observable o, Object arg) {
-		Thumbnail thumb = (Thumbnail)o;
-		image.setName(thumb.getName());
-		image.setPath(thumb.getPath());
-		image.setBufferedImage(thumb.getOriginalImage());
+		if(getComponentCount() == 3)
+			remove(label);
 		label = new JLabel(new ImageIcon(image.getBufferedImage()));
 		add(label);
 	}
