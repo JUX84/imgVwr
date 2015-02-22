@@ -19,6 +19,7 @@ public class Controller
 	}
 
 	public void pathSelected(File f) {
+		System.out.println("test");
 		path.set(f);
 	}
 }

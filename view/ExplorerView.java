@@ -57,7 +57,6 @@ public class ExplorerView extends BaseView implements Observer
 						|| extension.equals("gif")
 						|| extension.equals("png")) {
 					try {
-						System.out.println("add: " + f.getAbsolutePath());
 						iconListModel.addElement(new Thumbnail(f.getAbsolutePath(), 100, 100));
 					}
 					catch (Exception e)
