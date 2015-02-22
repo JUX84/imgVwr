@@ -21,15 +21,13 @@ public class Image extends Observable
 		return bi;
 	}
 
-	public void setName(String name) {
-		this.name = name;
-	}
+	public void set(Thumbnail t)
+	{
+		name = t.getName();
+		path = t.getPath();
+		bi = t.getOriginalImage();
 
-	public void setPath(String path) {
-		this.path = path;
-	}
-
-	public void setBufferedImage(BufferedImage bi) {
-		this.bi = bi;
+		setChanged();
+		notifyObservers();
 	}
 }

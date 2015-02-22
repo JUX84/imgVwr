@@ -17,6 +17,7 @@ public class ViewerView extends BaseView implements Observer {
 	public ViewerView(Image image) {
 		super("Viewer", 360, 240);
 		this.image = image;
+		image.addObserver(this);
 	}
 
 	public void update (Observable o, Object arg) {

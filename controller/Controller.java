@@ -12,9 +12,6 @@ public class Controller
 
 	public void thumbnailSelected(Thumbnail t)
 	{
-		image.setName(t.getName());
-		image.setPath(t.getPath());
-		image.setBufferedImage(t.getOriginalImage());
-		t.selected();
+		image.set(t);
 	}
 }
