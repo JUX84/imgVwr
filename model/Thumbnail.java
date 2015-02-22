@@ -6,15 +6,18 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Observable;
 
-public class Thumbnail
+public class Thumbnail extends Observable
 {
 	private BufferedImage original;
 	private ImageIcon image;
 	private String name;
+	private String path;
 
 	public Thumbnail(String path, int maxWidth, int maxHeight)
 	{
+		this.path = path;
 		Path p = Paths.get(path);
 		name = p.getFileName().toString();
 
@@ -39,6 +42,10 @@ public class Thumbnail
 	public String getName()
 	{
 		return name;
+	}
+
+	public String getPath() {
+		return path;
 	}
 
 	public ImageIcon getImage()

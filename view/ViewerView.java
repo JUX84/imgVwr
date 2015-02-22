@@ -15,8 +15,11 @@ public class ViewerView extends BaseView {
 	}
 
 	public void update (Observable o, Object arg) {
-		image = ((Thumbnail)o).getOriginalImage();
-		label = new JLabel(new ImageIcon(image));
+		Thumbnail thumb = (Thumbnail)o;
+		image.setName(thumb.getName());
+		image.setPath(thumb.getPath());
+		image.setBufferedImage(thumb.getOriginalImage());
+		label = new JLabel(new ImageIcon(image.getBufferedImage()));
 		add(label);
 	}
 }

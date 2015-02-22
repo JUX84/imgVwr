@@ -11,21 +11,29 @@ public class Image extends Observable
 {
 	private String name;
 	private String path;
-	// private BufferedImage image = null;
-	private java.awt.Image image = null;
+	private BufferedImage bi = null;
 
-	public Image(String path)
-	{
-		this.path = path;
-		try {
-			BufferedImage bi = ImageIO.read(new File(path));
-			image = bi.getScaledInstance(300, -1, java.awt.Image.SCALE_FAST);
-		}
-		catch (Exception e) {}
+	public String getName() {
+		return name;
 	}
 
-	public void paint(Graphics g)
-	{
-		g.drawImage(image, 0, 0, null);
+	public String getPath() {
+		return path;
+	}
+
+	public BufferedImage getBufferedImage() {
+		return bi;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public void setPath(String path) {
+		this.path = path;
+	}
+
+	public void setBufferedImage(BufferedImage bi) {
+		this.bi = bi;
 	}
 }
