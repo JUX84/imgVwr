@@ -57,4 +57,9 @@ public class Thumbnail extends Observable
 	{
 		return original;
 	}
+
+	public void selected()
+	{
+		notifyObservers();
+	}
 }
