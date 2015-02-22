@@ -1,16 +1,27 @@
 package view;
 
-import model.*;
-import javax.swing.*;
-import java.awt.*;
-import java.awt.image.*;
-import java.util.*;
-import java.io.*;
+import javax.swing.JScrollPane;
+import javax.swing.JList;
+import javax.swing.JLabel;
+import javax.swing.JButton;
+import javax.swing.ImageIcon;
+import javax.swing.DefaultListModel;
+import javax.swing.BoxLayout;
+import javax.swing.ListCellRenderer;
+import javax.swing.ListSelectionModel;
+import javax.swing.event.ListSelectionListener;
+import javax.swing.event.ListSelectionEvent;
+import java.awt.Image;
+import java.awt.Dimension;
+import java.awt.Component;
+import java.util.Observer;
+import java.util.Observable;
+import java.io.File;
 import javax.imageio.ImageIO;
-import javax.swing.event.*;
 import controller.Controller;
+import model.Thumbnail;
 
-public class ExplorerView extends BaseView
+public class ExplorerView extends BaseView implements Observer
 {
 	private Controller controller;
 
@@ -85,7 +96,6 @@ public class ExplorerView extends BaseView
 
 	public void update(Observable o, Object arg)
 	{}
-
 
 	private class iconListCellRenderer extends JLabel implements ListCellRenderer<Thumbnail>
 	{
