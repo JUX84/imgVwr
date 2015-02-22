@@ -15,19 +15,12 @@ public class Path extends Observable {
 		this.path = path;
 	}
 
-	public String getSelected() {
-		return selected;
-	}
-
 	public void set(File f) {
+		selected = null;
 		if(!f.isDirectory()) {
 			if(Image.isImage(f.getName()))
 				selected = f.getName();
-			else
-				selected = null;
 			f = f.getParentFile();
-		} else {
-			selected = null;
 		}
 		setPath(f.getAbsolutePath());
 		setChanged();

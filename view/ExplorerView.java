@@ -41,6 +41,9 @@ public class ExplorerView extends BaseView implements Observer
 	{
 		if (loadImageWorker != null) {
 			loadImageWorker.cancel(true);
+			try {
+				Thread.currentThread().sleep(60);
+			} catch(Exception e) {}
 			iconListModel.clear();
 		}
 
@@ -123,8 +126,22 @@ public class ExplorerView extends BaseView implements Observer
 	public void update(Observable o, Object arg)
 	{
 		Path p = (Path)o;
+		String tmp = path;
 		path = p.getPath();
-		createImages();
+		if(tmp.equals(path))
+			select();
+		else
+			createImages();
+	}
+
+	private void select() {
+		for(int i = 0; i<iconListModel.getSize(); ++i) {
+			if(Path.isSelected(((Thumbnail)iconListModel.getElementAt(i)).getName())) {
+				iconList.setSelectedValue(iconListModel.getElementAt(i), true);
+				return;
+			}
+		}
+		iconList.clearSelection();
 	}
 
 	private class iconListCellRenderer extends JLabel implements ListCellRenderer<Thumbnail>
