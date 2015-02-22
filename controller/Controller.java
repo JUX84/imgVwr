@@ -19,6 +19,11 @@ public class Controller
 	}
 
 	public void pathSelected(File f) {
+		if(!f.isDirectory()) {
+			Thumbnail t = new Thumbnail(f.getAbsolutePath(), 0, 0);
+			image.set(t);
+			f = f.getParentFile();
+		}
 		path.set(f);
 	}
 }
