@@ -7,6 +7,7 @@ import java.awt.*;
 import java.util.*;
 import java.io.*;
 import model.Path;
+import model.Language;
 import controller.Controller;
 
 public class TreeView extends BaseView
@@ -16,9 +17,9 @@ public class TreeView extends BaseView
 	private FileSystemModel fileSystemModel;
 	private final Controller controller;
 
-	public TreeView(final Controller controller)
+	public TreeView(final Controller controller, Language lang)
 	{
-		super("Tree explorer", 100, 300);
+		super(lang, "tree", 100, 300);
 		this.controller = controller;
 		fileSystemModel = new FileSystemModel(new File("/"));
 		tree = new JTree(fileSystemModel);

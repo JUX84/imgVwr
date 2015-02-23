@@ -5,9 +5,9 @@ import java.util.ResourceBundle;
 import java.util.Locale;
 
 public class Language extends Observable {
-	private static ResourceBundle rb;
+	private ResourceBundle rb;
 
-	public static void setLanguage(String lang) {
+	public void setLanguage(String lang) {
 		Locale locale;
 		if(lang == "fr")
 			locale = Locale.FRENCH;
@@ -18,7 +18,7 @@ public class Language extends Observable {
 		rb = ResourceBundle.getBundle("resource.strings", locale);
 	}
 
-	public static String getString(String key) {
+	public String getString(String key) {
 		try {
 			return new String(rb.getString(key).getBytes("ISO-8859-1"), "UTF-8");
 		} catch (Exception e) {

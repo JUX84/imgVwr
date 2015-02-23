@@ -2,10 +2,11 @@ package view;
 
 import javax.swing.*;
 import java.util.*;
+import model.Language;
 
 public class LangView extends BaseView {
-	public LangView() {
-		super("Language", 360, 80);
+	public LangView(Language lang) {
+		super(lang, "language", 360, 80);
 		setLayout(new BoxLayout(this, BoxLayout.LINE_AXIS));
 		JButton engBtn, fraBtn, japBtn;
 		engBtn = new JButton("English");

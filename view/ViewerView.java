@@ -8,6 +8,7 @@ import java.util.Observable;
 import java.awt.Graphics;
 import model.Image;
 import model.Thumbnail;
+import model.Language;
 
 public class ViewerView extends BaseView implements Observer {
 	private Image image;
@@ -15,8 +16,8 @@ public class ViewerView extends BaseView implements Observer {
 	private JButton rename;
 	private JButton hide;
 
-	public ViewerView(Image image) {
-		super("Viewer", 360, 240);
+	public ViewerView(Image image, Language lang) {
+		super(lang, "viewer", 360, 240);
 		this.image = image;
 		label = new JLabel();
 		add(label);

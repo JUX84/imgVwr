@@ -8,14 +8,16 @@ import controller.Controller;
 public class imgVwr {
 
 	public static void startGUI() {
+
 		model.Image i = new model.Image();
 		Path p = new Path();
-		Controller controller = new Controller(i,p);
+		Language l = new Language();
+		l.setLanguage("fr");
+
+		Controller controller = new Controller(i,p,l);
 
 		JFrame frame = new JFrame("imgVwr");
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
-		Language.setLanguage("fr");
 
 		JPanel panel = new JPanel();
 		panel.setPreferredSize(new Dimension(720,480));
@@ -28,12 +30,12 @@ public class imgVwr {
 		JPanel panel4 = new JPanel();
 		panel4.setLayout(new BoxLayout(panel4, BoxLayout.LINE_AXIS));
 
-		ViewerView viewer = new ViewerView(i);
-		KeywordsView keywords = new KeywordsView();
-		ExplorerView explorer = new ExplorerView(controller, p);
-		LangView lang = new LangView();
-		TreeView tree = new TreeView(controller);
-		MenuView menu = new MenuView();
+		ViewerView viewer = new ViewerView(i,l);
+		KeywordsView keywords = new KeywordsView(l);
+		ExplorerView explorer = new ExplorerView(controller, p, l);
+		LangView lang = new LangView(l);
+		TreeView tree = new TreeView(controller, l);
+		MenuView menu = new MenuView(l);
 
 		frame.setJMenuBar(menu);
 
