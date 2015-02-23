@@ -14,9 +14,9 @@ public class TreeView extends BaseView
 	private JScrollPane scroll;
 	private JTree tree;
 	private FileSystemModel fileSystemModel;
-	private Controller controller;
+	private final Controller controller;
 
-	public TreeView(Controller controller)
+	public TreeView(final Controller controller)
 	{
 		super("Tree explorer", 100, 300);
 		this.controller = controller;

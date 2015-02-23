@@ -25,7 +25,7 @@ import model.*;
 
 public class ExplorerView extends BaseView implements Observer
 {
-	private Controller controller;
+	private final Controller controller;
 
 	private JScrollPane scroll;
 
@@ -88,7 +88,7 @@ public class ExplorerView extends BaseView implements Observer
 		loadImageWorker.execute();
 	}
 
-	public ExplorerView(Controller controller, Path p)
+	public ExplorerView(final Controller controller, Path p)
 	{
 		super("Explorer", 300, 300);
 
