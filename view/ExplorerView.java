@@ -21,7 +21,8 @@ import java.util.List;
 import java.io.File;
 import javax.imageio.ImageIO;
 import controller.Controller;
-import model.*;
+import model.Thumbnail;
+import model.Path;
 
 public class ExplorerView extends BaseView implements Observer
 {
@@ -39,19 +40,13 @@ public class ExplorerView extends BaseView implements Observer
 
 	public void createImages()
 	{
-		if (loadImageWorker != null) {
+		if (loadImageWorker != null)
 			loadImageWorker.cancel(true);
-			try {
-				Thread.currentThread().sleep(60);
-			} catch(Exception e) {}
-			iconListModel.clear();
-		}
 
 		loadImageWorker = new SwingWorker<Void, Thumbnail>() {
 			@Override
 			protected Void doInBackground() throws Exception
 			{
-				Thread.currentThread().sleep(60);
 				iconListModel.clear();
 				File folder = new File(path);
 				File[] files = folder.listFiles();
@@ -59,6 +54,9 @@ public class ExplorerView extends BaseView implements Observer
 					return null;
 
 				for (File f : files) {
+					if (isCancelled())
+						return null;
+
 					if(model.Image.isImage(f.getName())) {
 						try {
 							Thumbnail t = new Thumbnail(f.getAbsolutePath(), 100, 100);
@@ -66,16 +64,16 @@ public class ExplorerView extends BaseView implements Observer
 						}
 						catch (Exception e)
 						{}
-						Thread.currentThread().sleep(60);
 					}
 				}
 
 				return null;
 			}
 
+			@Override
 			protected void process(List<Thumbnail> chunks)
 			{
-				if (!Thread.currentThread().isInterrupted()) {
+				if (!isCancelled()) {
 					for (Thumbnail t : chunks) {
 						iconListModel.addElement(t);
 						if(Path.isSelected(t.getName()))
