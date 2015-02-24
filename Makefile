@@ -1,6 +1,6 @@
 JAVA=java
 JAVAC=javac
-CLASSPATH=bin/:.:$(HOME)/sqlite-jdbc-3.8.7.jar
+CLASSPATH=bin/:.:sqlite-jdbc-3.8.7.jar
 
 VIEW_SRC=$(wildcard view/*.java)
 VIEW_CLASS=$(VIEW_SRC:.java=.class)
