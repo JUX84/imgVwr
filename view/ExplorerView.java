@@ -29,7 +29,7 @@ public class ExplorerView extends BaseView implements Observer
 {
 	private final Controller controller;
 	private Language language;
-	private Path path;
+	private String path;
 
 	private JScrollPane scroll;
 
@@ -50,7 +50,7 @@ public class ExplorerView extends BaseView implements Observer
 			protected Void doInBackground() throws Exception
 			{
 				iconListModel.clear();
-				File folder = new File(path.getPath());
+				File folder = new File(path);
 				File[] files = folder.listFiles();
 				if (files == null)
 					return null;
@@ -78,7 +78,7 @@ public class ExplorerView extends BaseView implements Observer
 				if (!isCancelled()) {
 					for (Thumbnail t : chunks) {
 						iconListModel.addElement(t);
-						if(Path.isSelected(t.getName()))
+						if (Path.isSelected(t.getName()))
 								iconList.setSelectedValue(t, true);
 					}
 				}
@@ -127,14 +127,15 @@ public class ExplorerView extends BaseView implements Observer
 		super.setTitle(language.getString("explorer"));
 	}
 
-	public void setPath(Path path) {
-		Path p = path;
-		String tmp = path.getPath();
-		this.path = p;
-		if(tmp.equals(path.getPath()))
+	public void setPath(Path p)
+	{
+		if (path != null && path.equals(p.getPath())) {
 			select();
-		else
+		}
+		else {
+			path = p.getPath();
 			createImages();
+		}
 	}
 
 	public void update(Observable o, Object arg)
