@@ -7,7 +7,7 @@ VIEW_CLASS=$(VIEW_SRC:.java=.class)
 BIN_VIEW_CLASS=$(addprefix bin/,$(VIEW_CLASS))
 MODEL_SRC=$(wildcard model/*.java)
 MODEL_CLASS=$(MODEL_SRC:.java=.class)
-BIN_VIEW_MODEL=$(addprefix bin/,$(MODEL_CLASS))
+BIN_MODEL_CLASS=$(addprefix bin/,$(MODEL_CLASS))
 
 all: bin/imgVwr.class bin/controller/Controller.class $(BIN_MODEL_CLASS) $(BIN_VIEW_CLASS)
 
