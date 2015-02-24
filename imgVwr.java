@@ -1,8 +1,16 @@
-import javax.swing.*;
-import java.awt.*;
-import java.awt.event.*;
-import model.*;
-import view.*;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.JSplitPane;
+import javax.swing.BoxLayout;
+import java.awt.Dimension;
+import model.Language;
+import model.Path;
+import view.ExplorerView;
+import view.LangView;
+import view.KeywordsView;
+import view.ViewerView;
+import view.MenuView;
+import view.TreeView;
 import controller.Controller;
 
 public class imgVwr {

@@ -1,7 +1,8 @@
 package view;
 
-import javax.swing.*;
-import java.util.*;
+import javax.swing.JButton;
+import javax.swing.BoxLayout;
+import java.util.Observable;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import model.Language;

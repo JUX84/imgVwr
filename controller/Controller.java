@@ -1,7 +1,15 @@
 package controller;
 
-import view.*;
-import model.*;
+import view.ExplorerView;
+import view.LangView;
+import view.KeywordsView;
+import view.ViewerView;
+import view.MenuView;
+import view.TreeView;
+import model.Language;
+import model.Image;
+import model.Path;
+import model.Thumbnail;
 import java.io.File;
 
 public class Controller

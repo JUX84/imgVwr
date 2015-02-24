@@ -1,7 +1,8 @@
 package view;
 
-import javax.swing.*;
-import java.util.*;
+import javax.swing.JTextArea;
+import javax.swing.JScrollPane;
+import java.util.Observable;
 import model.Language;
 import controller.Controller;
 
