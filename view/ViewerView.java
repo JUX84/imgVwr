@@ -9,19 +9,35 @@ import java.awt.Graphics;
 import model.Image;
 import model.Thumbnail;
 import model.Language;
+import controller.Controller;
 
 public class ViewerView extends BaseView implements Observer {
+	private Language language;
 	private Image image;
+	private Controller controller;
 	private JLabel label;
 	private JButton rename;
 	private JButton hide;
 
-	public ViewerView(Image image, Language lang) {
-		super(lang, "viewer", 360, 240);
-		this.image = image;
+	public ViewerView(final Controller controller) {
+		super();
+		this.controller = controller;
 		label = new JLabel();
 		add(label);
-		image.addObserver(this);
+		controller.init(this);
+	}
+
+	public void setImage(Image image) {
+		this.image = image;
+		if(image.getBufferedImage() != null) {
+			label = new JLabel(new ImageIcon(image.getBufferedImage()));
+			repaint();
+		}
+	}
+
+	public void setLanguage(Language language) {
+		this.language = language;
+		super.setTitle(language.getString("viewer"));
 	}
 
 	public void paintComponent(Graphics g) {
@@ -30,7 +46,10 @@ public class ViewerView extends BaseView implements Observer {
 	}
 
 	public void update (Observable o, Object arg) {
-		label = new JLabel(new ImageIcon(image.getBufferedImage()));
-		repaint();
+		String tmp = (String)arg;
+		if(tmp.equals("language"))
+			setLanguage((Language)o);
+		else if(tmp.equals("image"))
+			setImage((Image)o);
 	}
 }

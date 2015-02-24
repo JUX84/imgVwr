@@ -16,10 +16,11 @@ public class TreeView extends BaseView
 	private JTree tree;
 	private FileSystemModel fileSystemModel;
 	private final Controller controller;
+	private Language language;
 
-	public TreeView(final Controller controller, Language lang)
+	public TreeView(final Controller controller)
 	{
-		super(lang, "tree", 100, 300);
+		super();
 		this.controller = controller;
 		fileSystemModel = new FileSystemModel(new File("/"));
 		tree = new JTree(fileSystemModel);
@@ -32,9 +33,18 @@ public class TreeView extends BaseView
 		});
 		scroll = new JScrollPane(tree);
 		add(scroll);
+		controller.init(this);
+	}
+
+	public void setLanguage(Language language) {
+		this.language = language;
+		super.setTitle(language.getString("tree"));
 	}
 
 	public void update (Observable o, Object arg) {
+		String tmp = (String)arg;
+		if(tmp.equals("language"))
+			setLanguage((Language)o);
 	}
 }
 

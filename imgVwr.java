@@ -10,9 +10,8 @@ public class imgVwr {
 	public static void startGUI() {
 
 		model.Image i = new model.Image();
-		Path p = new Path();
-		Language l = new Language();
-		l.setLanguage("fr");
+		Path p = new Path(System.getProperty("user.home"));
+		Language l = new Language("fr");
 
 		Controller controller = new Controller(i,p,l);
 
@@ -30,12 +29,12 @@ public class imgVwr {
 		JPanel panel4 = new JPanel();
 		panel4.setLayout(new BoxLayout(panel4, BoxLayout.LINE_AXIS));
 
-		ViewerView viewer = new ViewerView(i,l);
-		KeywordsView keywords = new KeywordsView(l);
-		ExplorerView explorer = new ExplorerView(controller, p, l);
-		LangView lang = new LangView(l);
-		TreeView tree = new TreeView(controller, l);
-		MenuView menu = new MenuView(l);
+		ViewerView viewer = new ViewerView(controller);
+		KeywordsView keywords = new KeywordsView(controller);
+		ExplorerView explorer = new ExplorerView(controller);
+		LangView lang = new LangView(controller);
+		TreeView tree = new TreeView(controller);
+		MenuView menu = new MenuView(controller);
 
 		frame.setJMenuBar(menu);
 

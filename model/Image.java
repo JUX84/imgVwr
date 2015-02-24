@@ -28,7 +28,7 @@ public class Image extends Observable
 		bi = t.getOriginalImage();
 
 		setChanged();
-		notifyObservers();
+		notifyObservers("image");
 	}
 
 	public static boolean isImage(String path) {

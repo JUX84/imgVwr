@@ -8,16 +8,15 @@ import java.util.Observable;
 import model.Language;
 
 public abstract class BaseView extends JPanel implements Observer {
-	protected Language lang;
-
-	public BaseView(Language lang, String title, int width, int length) {
+	public BaseView() {
 		super();
-		this.lang = lang;
 		setLayout(new GridLayout(1,1));
+	}
+
+	public void setTitle(String str) {
 		setBorder(BorderFactory.createCompoundBorder(
-					BorderFactory.createTitledBorder(lang.getString(title)),
+					BorderFactory.createTitledBorder(str),
 					BorderFactory.createEmptyBorder(5,5,5,5)));
-		// setPreferredSize(new Dimension(width, length));
 	}
 
 	public abstract void update (Observable o, Object arg);

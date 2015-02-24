@@ -2,23 +2,46 @@ package view;
 
 import javax.swing.*;
 import model.*;
+import controller.Controller;
+import java.util.Observer;
+import java.util.Observable;
 
-public class MenuView extends JMenuBar {
-	private Language lang;
+public class MenuView extends JMenuBar implements Observer {
 
-	public MenuView(Language lang) {
+	private Controller controller;
+	private Language language;
+
+	private JMenu fileMenu;
+	private JMenuItem opnImg;
+	private JMenuItem exit;
+
+	public MenuView(Controller controller) {
 		super();
 
-		this.lang = lang;
+		this.controller = controller;
 
-		JMenu fileMenu = new JMenu(lang.getString("menuFile"));
-		JMenuItem opnImg = new JMenuItem(lang.getString("menuFileOpen"));
-		JMenuItem exit = new JMenuItem(lang.getString("menuFileExit"));
-
+		fileMenu = new JMenu();
+		opnImg = new JMenuItem();
+		exit = new JMenuItem();
 
 		fileMenu.add(opnImg);
 		fileMenu.add(exit);
 
 		add(fileMenu);
+
+		controller.init(this);
+	}
+
+	public void setLanguage(Language language) {
+		this.language = language;
+		fileMenu.setText(language.getString("menuFile"));
+		opnImg.setText(language.getString("menuFileOpen"));
+		exit.setText(language.getString("menuFileExit"));
+	}
+
+	public void update(Observable o, Object arg) {
+		String tmp = (String)arg;
+		if(tmp.equals("language"))
+			setLanguage((Language)o);
 	}
 }

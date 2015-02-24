@@ -28,6 +28,8 @@ import model.Language;
 public class ExplorerView extends BaseView implements Observer
 {
 	private final Controller controller;
+	private Language language;
+	private Path path;
 
 	private JScrollPane scroll;
 
@@ -35,7 +37,6 @@ public class ExplorerView extends BaseView implements Observer
 	private JList<Thumbnail> iconList;
 
 	private JButton browse;
-	private String path = System.getProperty("user.home");
 
 	private SwingWorker<Void, Thumbnail> loadImageWorker = null;
 
@@ -49,7 +50,7 @@ public class ExplorerView extends BaseView implements Observer
 			protected Void doInBackground() throws Exception
 			{
 				iconListModel.clear();
-				File folder = new File(path);
+				File folder = new File(path.getPath());
 				File[] files = folder.listFiles();
 				if (files == null)
 					return null;
@@ -87,13 +88,11 @@ public class ExplorerView extends BaseView implements Observer
 		loadImageWorker.execute();
 	}
 
-	public ExplorerView(final Controller controller, Path p, Language lang)
+	public ExplorerView(final Controller controller)
 	{
-		super(lang, "explorer", 300, 300);
+		super();
 
 		this.controller = controller;
-
-		p.addObserver(this);
 
 		browse = new JButton("Browse");
 
@@ -120,17 +119,31 @@ public class ExplorerView extends BaseView implements Observer
 		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 		add(browse);
 		add(scroll);
+		controller.init(this);
+	}
+
+	public void setLanguage(Language language) {
+		this.language = language;
+		super.setTitle(language.getString("explorer"));
+	}
+
+	public void setPath(Path path) {
+		Path p = path;
+		String tmp = path.getPath();
+		this.path = p;
+		if(tmp.equals(path.getPath()))
+			select();
+		else
+			createImages();
 	}
 
 	public void update(Observable o, Object arg)
 	{
-		Path p = (Path)o;
-		String tmp = path;
-		path = p.getPath();
-		if(tmp.equals(path))
-			select();
-		else
-			createImages();
+		String tmp = (String)arg;
+		if (tmp.equals("path"))
+			setPath((Path)o);
+		else if (tmp.equals("language"))
+			setLanguage((Language)o);
 	}
 
 	private void select() {

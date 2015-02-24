@@ -3,20 +3,33 @@ package view;
 import javax.swing.*;
 import java.util.*;
 import model.Language;
+import controller.Controller;
 
 public class KeywordsView extends BaseView
 {
+	private Controller controller;
+	private Language language;
 	private JScrollPane scroll;
 	private JTextArea text;
 
-	public KeywordsView(Language lang)
+	public KeywordsView(Controller controller)
 	{
-		super(lang, "keywords", 100, 240);
+		super();
+		this.controller = controller;
 		text = new JTextArea();
 		scroll = new JScrollPane(text);
 		add(scroll);
+		controller.init(this);
+	}
+
+	public void setLanguage(Language language) {
+		this.language = language;
+		super.setTitle(language.getString("keywords"));
 	}
 
 	public void update(Observable o, Object arg) {
+		String tmp = (String)arg;
+		if(tmp.equals("language"))
+			setLanguage((Language)o);
 	}
 }

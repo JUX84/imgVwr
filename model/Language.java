@@ -7,6 +7,10 @@ import java.util.Locale;
 public class Language extends Observable {
 	private ResourceBundle rb;
 
+	public Language(String lang) {
+		setLanguage(lang);
+	}
+
 	public void setLanguage(String lang) {
 		Locale locale;
 		if(lang == "fr")
@@ -16,6 +20,9 @@ public class Language extends Observable {
 		else
 			locale = Locale.ENGLISH;
 		rb = ResourceBundle.getBundle("resource.strings", locale);
+
+		setChanged();
+		notifyObservers("language");
 	}
 
 	public String getString(String key) {

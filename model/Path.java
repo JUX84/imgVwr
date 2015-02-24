@@ -5,7 +5,12 @@ import java.io.File;
 
 public class Path extends Observable {
 	private String path;
-	private static String selected = null;
+	private static String selected;
+
+	public Path(String path) {
+		this.path = path;
+		selected = null;
+	}
 
 	public String getPath() {
 		return path;
@@ -23,8 +28,9 @@ public class Path extends Observable {
 			f = f.getParentFile();
 		}
 		setPath(f.getAbsolutePath());
+
 		setChanged();
-		notifyObservers();
+		notifyObservers("path");
 	}
 
 	public static boolean isSelected(String name) {
