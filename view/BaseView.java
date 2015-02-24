@@ -14,10 +14,10 @@ public abstract class BaseView extends JPanel implements Observer {
 	{
 		super();
 		this.lang = lang;
-		setLayout(new GridLayout(1,1));
+		setLayout(new GridLayout(1, 1));
 		setBorder(BorderFactory.createCompoundBorder(
 					BorderFactory.createTitledBorder(lang.getString(title)),
-					BorderFactory.createEmptyBorder(5,5,5,5)));
+					BorderFactory.createEmptyBorder(5, 5, 5, 5)));
 	}
 
 	public abstract void update (Observable o, Object arg);
