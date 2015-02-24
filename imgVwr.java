@@ -18,7 +18,6 @@ public class imgVwr {
 		JFrame frame = new JFrame("imgVwr");
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-<<<<<<< HEAD
 		JPanel panel = new JPanel();
 		panel.setPreferredSize(new Dimension(720,480));
 		panel.setLayout(new BoxLayout(panel, BoxLayout.PAGE_AXIS));
@@ -36,14 +35,6 @@ public class imgVwr {
 		LangView lang = new LangView(controller);
 		TreeView tree = new TreeView(controller);
 		MenuView menu = new MenuView(controller);
-=======
-		ViewerView viewer = new ViewerView(i, l);
-		KeywordsView keywords = new KeywordsView(l);
-		ExplorerView explorer = new ExplorerView(controller, p, l);
-		LangView lang = new LangView(l);
-		TreeView tree = new TreeView(controller, l);
-		MenuView menu = new MenuView(l);
->>>>>>> 425ec8fdfcf83d8de5799a23f975d4c027992117
 
 		JPanel mainPanel = new JPanel();
 		mainPanel.setPreferredSize(new Dimension(720, 480));
