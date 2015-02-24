@@ -5,8 +5,8 @@ import java.util.Observable;
 
 public class Image extends Observable
 {
-	private String name;
-	private String path;
+	private String name = null;
+	private String path = null;
 	private BufferedImage bi = null;
 
 	public String getName() {
@@ -34,7 +34,7 @@ public class Image extends Observable
 	public static boolean isImage(String path) {
 		String extension = null;
 		int pos = path.lastIndexOf('.');
-		if(pos>0 && pos<path.length()-1) {                  
+		if(pos>0 && pos<path.length()-1) {
 			extension = path.substring(pos+1).toLowerCase();
 		}
 		if (extension != null) {

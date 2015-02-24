@@ -3,8 +3,11 @@ import javax.swing.JPanel;
 import javax.swing.JSplitPane;
 import javax.swing.BoxLayout;
 import java.awt.Dimension;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowAdapter;
 import model.Language;
 import model.Path;
+import model.DBConnection;
 import view.ExplorerView;
 import view.LangView;
 import view.KeywordsView;
@@ -24,7 +27,13 @@ public class imgVwr {
 		Controller controller = new Controller(i, p, l);
 
 		JFrame frame = new JFrame("imgVwr");
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.addWindowListener(new WindowAdapter() {
+			public void windowClosing(WindowEvent e)
+			{
+				DBConnection.closeConnection();
+				System.exit(0);
+			}
+		});
 
 		JPanel panel = new JPanel();
 		panel.setPreferredSize(new Dimension(720,480));
@@ -81,7 +90,7 @@ public class imgVwr {
 
 	public static void main (String[] args) {
 		javax.swing.SwingUtilities.invokeLater(new Runnable() {
-		public void run() {
+			public void run() {
 				startGUI();
 			}
 		});

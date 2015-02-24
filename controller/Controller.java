@@ -10,6 +10,7 @@ import model.Language;
 import model.Image;
 import model.Path;
 import model.Thumbnail;
+import model.Keywords;
 import java.io.File;
 
 public class Controller
@@ -33,6 +34,7 @@ public class Controller
 
 	public void init(KeywordsView keywords) {
 		language.addObserver(keywords);
+		image.addObserver(keywords);
 		keywords.setLanguage(language);
 	}
 
@@ -69,5 +71,12 @@ public class Controller
 
 	public void pathSelected(File f) {
 		path.set(f);
+	}
+
+	public void keywordsSaved(String kws)
+	{
+		String p = image.getPath();
+		if (p != null)
+			Keywords.setKeywords(p, kws);
 	}
 }
