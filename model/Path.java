@@ -16,6 +16,9 @@ public class Path extends Observable {
 	}
 
 	public void set(File f) {
+		if (f == null)
+			return;
+
 		selected = null;
 		if(!f.isDirectory()) {
 			if(Image.isImage(f.getName()))
