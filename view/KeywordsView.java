@@ -10,7 +10,7 @@ public class KeywordsView extends BaseView
 
 	public KeywordsView()
 	{
-		super("Keywords", 100, 240);
+		super("Keywords");
 		text = new JTextArea();
 		scroll = new JScrollPane(text);
 		add(scroll);

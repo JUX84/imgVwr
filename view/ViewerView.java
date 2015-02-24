@@ -16,7 +16,7 @@ public class ViewerView extends BaseView implements Observer {
 	private JButton hide;
 
 	public ViewerView(Image image) {
-		super("Viewer", 360, 240);
+		super("Viewer");
 		this.image = image;
 		label = new JLabel();
 		add(label);

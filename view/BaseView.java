@@ -7,7 +7,8 @@ import java.util.Observer;
 import java.util.Observable;
 
 public abstract class BaseView extends JPanel implements Observer {
-	public BaseView(String title, int width, int length) {
+	public BaseView(String title)
+	{
 		super();
 		setLayout(new GridLayout(1,1));
 		setBorder(BorderFactory.createCompoundBorder(

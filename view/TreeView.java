@@ -18,7 +18,7 @@ public class TreeView extends BaseView
 
 	public TreeView(final Controller controller)
 	{
-		super("Tree explorer", 100, 300);
+		super("Tree explorer");
 		this.controller = controller;
 		fileSystemModel = new FileSystemModel(new File("/"));
 		tree = new JTree(fileSystemModel);

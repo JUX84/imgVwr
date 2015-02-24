@@ -88,7 +88,7 @@ public class ExplorerView extends BaseView implements Observer
 
 	public ExplorerView(final Controller controller, Path p)
 	{
-		super("Explorer", 300, 300);
+		super("Explorer");
 
 		this.controller = controller;
 

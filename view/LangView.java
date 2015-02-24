@@ -5,7 +5,7 @@ import java.util.*;
 
 public class LangView extends BaseView {
 	public LangView() {
-		super("Language", 360, 80);
+		super("Language");
 		setLayout(new BoxLayout(this, BoxLayout.LINE_AXIS));
 		JButton engBtn, fraBtn, japBtn;
 		engBtn = new JButton("English");
