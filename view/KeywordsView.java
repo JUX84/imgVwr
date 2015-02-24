@@ -2,15 +2,16 @@ package view;
 
 import javax.swing.*;
 import java.util.*;
+import model.Language;
 
 public class KeywordsView extends BaseView
 {
 	private JScrollPane scroll;
 	private JTextArea text;
 
-	public KeywordsView()
+	public KeywordsView(Language lang)
 	{
-		super("Keywords");
+		super(lang, "Keywords");
 		text = new JTextArea();
 		scroll = new JScrollPane(text);
 		add(scroll);

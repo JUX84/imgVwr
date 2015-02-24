@@ -23,6 +23,7 @@ import javax.imageio.ImageIO;
 import controller.Controller;
 import model.Thumbnail;
 import model.Path;
+import model.Language;
 
 public class ExplorerView extends BaseView implements Observer
 {
@@ -86,9 +87,9 @@ public class ExplorerView extends BaseView implements Observer
 		loadImageWorker.execute();
 	}
 
-	public ExplorerView(final Controller controller, Path p)
+	public ExplorerView(final Controller controller, Path p, Language lang)
 	{
-		super("Explorer");
+		super(lang, "Explorer");
 
 		this.controller = controller;
 
