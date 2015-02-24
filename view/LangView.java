@@ -31,7 +31,9 @@ public class LangView extends BaseView {
 	}
 
 	public void update (Observable o, Object arg) {
-
+		String tmp = (String)arg;
+		if(tmp.equals("language"))
+			setLanguage((Language)o);
 	}
 }
 
