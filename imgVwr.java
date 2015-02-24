@@ -13,11 +13,12 @@ public class imgVwr {
 		Path p = new Path(System.getProperty("user.home"));
 		Language l = new Language("fr");
 
-		Controller controller = new Controller(i,p,l);
+		Controller controller = new Controller(i, p, l);
 
 		JFrame frame = new JFrame("imgVwr");
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
+<<<<<<< HEAD
 		JPanel panel = new JPanel();
 		panel.setPreferredSize(new Dimension(720,480));
 		panel.setLayout(new BoxLayout(panel, BoxLayout.PAGE_AXIS));
@@ -35,19 +36,46 @@ public class imgVwr {
 		LangView lang = new LangView(controller);
 		TreeView tree = new TreeView(controller);
 		MenuView menu = new MenuView(controller);
+=======
+		ViewerView viewer = new ViewerView(i, l);
+		KeywordsView keywords = new KeywordsView(l);
+		ExplorerView explorer = new ExplorerView(controller, p, l);
+		LangView lang = new LangView(l);
+		TreeView tree = new TreeView(controller, l);
+		MenuView menu = new MenuView(l);
+>>>>>>> 425ec8fdfcf83d8de5799a23f975d4c027992117
+
+		JPanel mainPanel = new JPanel();
+		mainPanel.setPreferredSize(new Dimension(720, 480));
+		mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.PAGE_AXIS));
+
+		JPanel langPanel = new JPanel();
+		langPanel.setLayout(new BoxLayout(langPanel, BoxLayout.LINE_AXIS));
+
+		JSplitPane treeViewerSplit = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, tree, viewer);
+		treeViewerSplit.setResizeWeight(0.3);
+		JPanel treeViewerSplitContainer = new JPanel();
+		treeViewerSplitContainer.setLayout(new BoxLayout(treeViewerSplitContainer, BoxLayout.LINE_AXIS));
+		treeViewerSplitContainer.add(treeViewerSplit);
+
+		JSplitPane keywordsExplorerSplit = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, keywords, explorer);
+		keywordsExplorerSplit.setResizeWeight(0.5);
+		JPanel keywordsExplorerSplitContainer = new JPanel();
+		keywordsExplorerSplitContainer.setPreferredSize(new Dimension(720, 240));
+		keywordsExplorerSplitContainer.setLayout(new BoxLayout(keywordsExplorerSplitContainer, BoxLayout.LINE_AXIS));
+		keywordsExplorerSplitContainer.add(keywordsExplorerSplit);
+
+		JSplitPane verticalSplit = new JSplitPane(JSplitPane.VERTICAL_SPLIT, treeViewerSplitContainer, keywordsExplorerSplitContainer);
+		verticalSplit.setResizeWeight(0.6);
+		JPanel verticalSplitContainer = new JPanel();
+		verticalSplitContainer.setLayout(new BoxLayout(verticalSplitContainer, BoxLayout.LINE_AXIS));
+		verticalSplitContainer.add(verticalSplit);
+
+		mainPanel.add(lang);
+		mainPanel.add(verticalSplitContainer);
 
 		frame.setJMenuBar(menu);
-
-		panel3.add(lang);
-		panel.add(panel3, BorderLayout.CENTER);
-		panel4.add(tree);
-		panel4.add(viewer);
-		panel.add(panel4);
-		panel2.add(keywords);
-		panel2.add(explorer);
-		panel.add(panel2);
-
-		frame.add(panel);
+		frame.add(mainPanel);
 		frame.pack();
 		frame.setVisible(true);
 	}
