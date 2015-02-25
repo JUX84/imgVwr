@@ -3,6 +3,7 @@ package model;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
 public class Keywords
@@ -17,11 +18,12 @@ public class Keywords
 			if (c == null)
 				return;
 
-			Statement statement = c.createStatement();
+			PreparedStatement statement = c.prepareStatement("insert or replace into " + tableName + " (path, keywords)"
+					+ " values(?, ?)");
 			statement.setQueryTimeout(10);
-
-			statement.executeUpdate("insert or replace into " + tableName + " (path, keywords)"
-					+ " values('" + path + "', '" + keywords + "')");
+			statement.setString(1, path);
+			statement.setString(2, keywords);
+			statement.executeUpdate();
 		}
 		catch (Exception e) {
 			System.err.println(e);
