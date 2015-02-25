@@ -16,13 +16,13 @@ import controller.Controller;
 
 public class KeywordsView extends BaseView implements Observer
 {
-	private Controller controller;
+	private final Controller controller;
 	private Language language;
 	private JScrollPane scroll;
 	private JTextArea text;
 	private JButton save;
 
-	public KeywordsView(Controller controller)
+	public KeywordsView(final Controller controller)
 	{
 		super();
 
