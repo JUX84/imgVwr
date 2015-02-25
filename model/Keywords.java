@@ -2,7 +2,6 @@ package model;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
-import java.sql.Statement;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
@@ -18,8 +17,9 @@ public class Keywords
 			if (c == null)
 				return;
 
-			PreparedStatement statement = c.prepareStatement("insert or replace into " + tableName + " (path, keywords)"
-					+ " values(?, ?)");
+			PreparedStatement statement =
+				c.prepareStatement("insert or replace into " + tableName + " (path, keywords)"
+						+ " values(?, ?)");
 			statement.setQueryTimeout(10);
 			statement.setString(1, path);
 			statement.setString(2, keywords);
@@ -39,11 +39,12 @@ public class Keywords
 			if (c == null)
 				return result;
 
-			Statement statement = c.createStatement();
+			PreparedStatement statement = c.prepareStatement(
+					"select keywords from " + tableName + " where path = ?");
+			statement.setString(1, path);
 			statement.setQueryTimeout(10);
 
-			ResultSet rs = statement.executeQuery(
-					"select keywords from " + tableName + " where path = '" + path + "'");
+			ResultSet rs = statement.executeQuery();
 
 			if (rs.next())
 				result = rs.getString("keywords");
