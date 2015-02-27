@@ -45,6 +45,7 @@ public class Controller
 
 	public void init(MenuView menu) {
 		language.addObserver(menu);
+		image.addObserver(menu);
 		menu.setLanguage(language);
 	}
 

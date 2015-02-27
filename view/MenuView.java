@@ -12,8 +12,10 @@ public class MenuView extends JMenuBar implements Observer {
 	private Language language;
 
 	private JMenu fileMenu;
+	private JMenu editMenu;
 	private JMenuItem opnImg;
 	private JMenuItem exit;
+	private JMenuItem rnmImg;
 
 	public MenuView(Controller controller) {
 		super();
@@ -21,13 +23,19 @@ public class MenuView extends JMenuBar implements Observer {
 		this.controller = controller;
 
 		fileMenu = new JMenu();
+		editMenu = new JMenu();
 		opnImg = new JMenuItem();
 		exit = new JMenuItem();
+		rnmImg = new JMenuItem();
+
+		rnmImg.setEnabled(false);
 
 		fileMenu.add(opnImg);
 		fileMenu.add(exit);
+		editMenu.add(rnmImg);
 
 		add(fileMenu);
+		add(editMenu);
 
 		controller.init(this);
 	}
@@ -35,13 +43,17 @@ public class MenuView extends JMenuBar implements Observer {
 	public void setLanguage(Language language) {
 		this.language = language;
 		fileMenu.setText(language.getString("menuFile"));
+		editMenu.setText(language.getString("menuEdit"));
 		opnImg.setText(language.getString("menuFileOpen"));
 		exit.setText(language.getString("menuFileExit"));
+		rnmImg.setText(language.getString("menuEditRename"));
 	}
 
 	public void update(Observable o, Object arg) {
 		String tmp = (String)arg;
 		if(tmp.equals("language"))
 			setLanguage((Language)o);
+		if(tmp.equals("image"))
+			rnmImg.setEnabled(true);
 	}
 }
