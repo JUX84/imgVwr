@@ -42,7 +42,22 @@ public class ViewerView extends BaseView implements Observer {
 
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
-		g.drawImage(image.getBufferedImage(), 0, 0, this);
+		int x, y, width, height, maxWidth, maxHeight;
+		maxWidth = getWidth();
+		maxHeight = getHeight();
+		width = image.getWidth();
+		height = image.getHeight();
+		if(width>maxWidth*0.80) {  // Double condition pour conserver les ratios
+			width = (int)(maxWidth*0.80);
+			height = (int)(maxHeight*0.80);
+		}
+		if(height>maxHeight*0.80) {
+			width = (int)(maxWidth*0.80);
+			height = (int)(maxHeight*0.80);
+		}
+		x = (maxWidth-width)/2; // On place l'image au milieu
+		y = (maxHeight-height)/2;
+		g.drawImage(image.getBufferedImage(), x, y, width, height, this);
 	}
 
 	public void update (Observable o, Object arg) {

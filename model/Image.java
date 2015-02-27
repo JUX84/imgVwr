@@ -47,4 +47,12 @@ public class Image extends Observable
 		}
 		return false;
 	}
+
+	public int getWidth() {
+		return (bi != null ? bi.getWidth() : 0);
+	}
+
+	public int getHeight() {
+		return (bi != null ? bi.getHeight() : 0);
+	}
 }
