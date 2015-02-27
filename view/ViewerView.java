@@ -30,8 +30,11 @@ public class ViewerView extends BaseView implements Observer {
 	public void setImage(Image image) {
 		this.image = image;
 		if(image.getBufferedImage() != null) {
+			super.setTitle(image.getName());
 			label = new JLabel(new ImageIcon(image.getBufferedImage()));
 			repaint();
+		} else {
+			super.setTitle(language.getString("viewer"));
 		}
 	}
 
