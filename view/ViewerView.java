@@ -3,9 +3,11 @@ package view;
 import javax.swing.JLabel;
 import javax.swing.JButton;
 import javax.swing.ImageIcon;
+import javax.swing.BoxLayout;
 import java.util.Observer;
 import java.util.Observable;
 import java.awt.Graphics;
+import java.awt.Component;
 import model.Image;
 import model.Thumbnail;
 import model.Language;
@@ -15,26 +17,30 @@ public class ViewerView extends BaseView implements Observer {
 	private Language language;
 	private Image image;
 	private Controller controller;
-	private JLabel label;
+	private JLabel imgLabel;
+	private JLabel nameLabel;
 	private JButton rename;
 	private JButton hide;
 
 	public ViewerView(final Controller controller) {
 		super();
 		this.controller = controller;
-		label = new JLabel();
-		add(label);
+		imgLabel = new JLabel();
+		nameLabel = new JLabel();
+		nameLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+		setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
+		add(imgLabel);
+		add(nameLabel);
+
 		controller.init(this);
 	}
 
 	public void setImage(Image image) {
 		this.image = image;
 		if(image.getBufferedImage() != null) {
-			super.setTitle(image.getName());
-			label = new JLabel(new ImageIcon(image.getBufferedImage()));
+			nameLabel.setText(image.getName());
+			imgLabel = new JLabel(new ImageIcon(image.getBufferedImage()));
 			repaint();
-		} else {
-			super.setTitle(language.getString("viewer"));
 		}
 	}
 
