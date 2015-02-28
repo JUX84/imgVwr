@@ -93,8 +93,8 @@ public class ExplorerView extends BaseView implements Observer
 		super();
 
 		this.controller = controller;
-
-		browse = new JButton("Browse");
+		
+		browse = new JButton();
 
 		iconListModel = new DefaultListModel();
 		iconList = new JList<Thumbnail>(iconListModel);
@@ -125,6 +125,7 @@ public class ExplorerView extends BaseView implements Observer
 	public void setLanguage(Language language) {
 		this.language = language;
 		super.setTitle(language.getString("explorer"));
+		browse.setText(language.getString("browse"));
 	}
 
 	public void setPath(Path p)
@@ -143,8 +144,9 @@ public class ExplorerView extends BaseView implements Observer
 		String tmp = (String)arg;
 		if (tmp.equals("path"))
 			setPath((Path)o);
-		else if (tmp.equals("language"))
+		else if (tmp.equals("language")) {
 			setLanguage((Language)o);
+		}
 	}
 
 	private void select() {
