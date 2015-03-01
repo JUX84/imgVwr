@@ -93,7 +93,7 @@ public class ExplorerView extends BaseView implements Observer
 		super();
 
 		this.controller = controller;
-		
+
 		browse = new JButton();
 
 		iconListModel = new DefaultListModel();
