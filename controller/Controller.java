@@ -1,5 +1,6 @@
 package controller;
 
+import javax.swing.JOptionPane;
 import view.ExplorerView;
 import view.LangView;
 import view.KeywordsView;
@@ -86,9 +87,12 @@ public class Controller
 		if (image != null) {
 			File f = new File(image.getPath());
 			File tmp = new File(f.getParent() + "/" + name);
-			System.out.println(tmp.getAbsolutePath());
-			if(tmp.exists())
+			if(f.getAbsolutePath().equals(tmp.getAbsolutePath()))
 				return;
+			if(tmp.exists()) {
+				JOptionPane.showMessageDialog(null, language.getString("errorDuplicate"), language.getString("error"), JOptionPane.ERROR_MESSAGE);
+				return;
+			}
 			f.renameTo(tmp);
 			image.setName(name);
 		}
