@@ -13,6 +13,8 @@ import javax.swing.ListSelectionModel;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.SwingWorker;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 import java.awt.Image;
 import java.awt.Dimension;
 import java.awt.Component;
@@ -25,12 +27,16 @@ import java.io.File;
 import java.io.IOException;
 import javax.imageio.ImageIO;
 import controller.Controller;
-import model.*;
+import model.Language;
+import model.Path;
+import model.SearchResults;
+import model.Thumbnail;
 
 public class ExplorerView extends BaseView implements Observer
 {
 	private final Controller controller;
 	private Language language;
+	private SearchResults results;
 	private String path;
 
 	private JScrollPane scroll;
@@ -46,53 +52,10 @@ public class ExplorerView extends BaseView implements Observer
 
 	public void createImages()
 	{
-		if (loadImageWorker != null)
-			loadImageWorker.cancel(true);
+		if (path == null)
+			return;
 
-		loadImageWorker = new SwingWorker<Void, Thumbnail>() {
-			@Override
-			protected Void doInBackground() throws Exception
-			{
-				iconListModel.clear();
-				File folder = new File(path);
-				File[] files = folder.listFiles();
-				if (files == null)
-					return null;
-
-				for (File f : files) {
-					if (isCancelled())
-						return null;
-
-					if(model.Image.isImage(f.getName())) {
-						try {
-							Thumbnail t = new Thumbnail(f.getAbsolutePath(), 100, 100);
-							publish(t);
-						}
-						catch (Exception e)
-						{
-							System.err.println(e);
-							// publish damaged image icon?
-						}
-					}
-				}
-
-				return null;
-			}
-
-			@Override
-			protected void process(List<Thumbnail> chunks)
-			{
-				if (!isCancelled()) {
-					for (Thumbnail t : chunks) {
-						iconListModel.addElement(t);
-						if (Path.isSelected(t.getName()))
-								iconList.setSelectedValue(t, true);
-					}
-				}
-			}
-		};
-
-		loadImageWorker.execute();
+		new imageLoader().execute();
 	}
 
 	public ExplorerView(final Controller controller)
@@ -103,6 +66,12 @@ public class ExplorerView extends BaseView implements Observer
 
 		browse = new JButton();
 		search = new JButton();
+		search.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e)
+			{
+				controller.searchByKeyword(searchField.getText());
+			}
+		});
 		searchField = new JTextField();
 		searchField.setPreferredSize(new Dimension(200, 20));
 
@@ -159,6 +128,11 @@ public class ExplorerView extends BaseView implements Observer
 		}
 	}
 
+	public void setSearchResults(SearchResults sr)
+	{
+		results = sr;
+	}
+
 	public void setSelectedName(model.Image img) {
 		iconList.getSelectedValue().setName(img.getName());
 	}
@@ -172,6 +146,8 @@ public class ExplorerView extends BaseView implements Observer
 			setLanguage((Language)o);
 		else if (tmp.equals("image"))
 			setSelectedName((model.Image)o);
+		else if (tmp.equals("searchResults"))
+			new imageLoader(results.getResults()).execute();
 	}
 
 	private void select() {
@@ -215,6 +191,75 @@ public class ExplorerView extends BaseView implements Observer
 			}
 
 			return this;
+		}
+	}
+
+	private class imageLoader extends SwingWorker<Void, Thumbnail>
+	{
+		private File[] files;
+
+		public imageLoader()
+		{
+			if (loadImageWorker != null)
+				loadImageWorker.cancel(true);
+
+			loadImageWorker = this;
+
+			File folder = new File(path);
+			files = folder.listFiles();
+		}
+
+		public imageLoader(List<String> paths)
+		{
+			if (loadImageWorker != null)
+				loadImageWorker.cancel(true);
+
+			loadImageWorker = this;
+
+			int size = paths.size();
+			files = new File[size];
+			for (int i = 0; i < size; i++)
+				files[i] = new File(paths.get(i));
+
+			results.clear();
+		}
+
+		@Override
+		protected Void doInBackground() throws Exception
+		{
+			iconListModel.clear();
+			if (files == null)
+				return null;
+
+			for (File f : files) {
+				if (isCancelled())
+					return null;
+
+				if(model.Image.isImage(f.getName())) {
+					try {
+						Thumbnail t = new Thumbnail(f.getAbsolutePath(), 100, 100);
+						publish(t);
+					}
+					catch (Exception e) {
+						System.err.println(e);
+						// publish damaged image icon?
+					}
+				}
+			}
+
+			return null;
+		}
+
+		@Override
+		protected void process(List<Thumbnail> chunks)
+		{
+			if (!isCancelled()) {
+				for (Thumbnail t : chunks) {
+					iconListModel.addElement(t);
+					if (Path.isSelected(t.getName()))
+						iconList.setSelectedValue(t, true);
+				}
+			}
 		}
 	}
 }

@@ -4,6 +4,8 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.util.List;
+import java.util.ArrayList;
 
 public class Keywords
 {
@@ -51,6 +53,33 @@ public class Keywords
 		}
 		catch (Exception e) {
 			System.err.println(e);
+		}
+
+		return result;
+	}
+
+	public static List<String> search(String str)
+	{
+		ArrayList<String> result = new ArrayList<String>();
+
+		try {
+			Connection c = DBConnection.getConnection();
+			if (c == null)
+				return null;
+
+			PreparedStatement statement = c.prepareStatement(
+					"select path from " + tableName + " where keywords like ? collate nocase");
+			statement.setString(1, "%" + str + "%");
+			statement.setQueryTimeout(10);
+
+			ResultSet rs = statement.executeQuery();
+
+			while (rs.next())
+				result.add(rs.getString("path"));
+		}
+		catch (Exception e) {
+			System.err.println(e);
+			result = null;
 		}
 
 		return result;
