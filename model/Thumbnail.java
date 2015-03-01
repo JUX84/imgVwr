@@ -43,6 +43,10 @@ public class Thumbnail
 		return name;
 	}
 
+	public void setName(String name) {
+		this.name = name;
+	}
+
 	public String getPath() {
 		return path;
 	}
