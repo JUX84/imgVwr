@@ -42,6 +42,8 @@ public class MenuView extends JMenuBar implements Observer {
 		rnmImg.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				String str = JOptionPane.showInputDialog(language.getString("renameImage"));
+				if(str == null || str.isEmpty())
+					return;
 				controller.imageRenamed(str);
 			}
 		});
