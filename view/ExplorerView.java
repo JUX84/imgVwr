@@ -18,6 +18,7 @@ import java.awt.Dimension;
 import java.awt.Component;
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
+import java.awt.event.*;
 import java.util.Observer;
 import java.util.Observable;
 import java.util.List;
@@ -26,6 +27,7 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 import controller.Controller;
 import model.*;
+import view.FileChooser;
 
 public class ExplorerView extends BaseView implements Observer
 {
@@ -102,6 +104,13 @@ public class ExplorerView extends BaseView implements Observer
 		this.controller = controller;
 
 		browse = new JButton();
+
+		browse.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				new FileChooser(controller);
+			}
+		});
+
 		search = new JButton();
 		searchField = new JTextField();
 		searchField.setPreferredSize(new Dimension(200, 20));

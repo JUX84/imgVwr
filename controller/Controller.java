@@ -53,6 +53,7 @@ public class Controller
 
 	public void init(TreeView tree) {
 		language.addObserver(tree);
+		path.addObserver(tree);
 		tree.setLanguage(language);
 	}
 
