@@ -1,12 +1,13 @@
 package view;
 
+import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JList;
 import javax.swing.JLabel;
 import javax.swing.JButton;
+import javax.swing.JTextField;
 import javax.swing.ImageIcon;
 import javax.swing.DefaultListModel;
-import javax.swing.BoxLayout;
 import javax.swing.ListCellRenderer;
 import javax.swing.ListSelectionModel;
 import javax.swing.event.ListSelectionListener;
@@ -15,6 +16,8 @@ import javax.swing.SwingWorker;
 import java.awt.Image;
 import java.awt.Dimension;
 import java.awt.Component;
+import java.awt.BorderLayout;
+import java.awt.FlowLayout;
 import java.util.Observer;
 import java.util.Observable;
 import java.util.List;
@@ -38,6 +41,8 @@ public class ExplorerView extends BaseView implements Observer
 	private JList<Thumbnail> iconList;
 
 	private JButton browse;
+	private JButton search;
+	private JTextField searchField;
 
 	private SwingWorker<Void, Thumbnail> loadImageWorker = null;
 
@@ -99,6 +104,9 @@ public class ExplorerView extends BaseView implements Observer
 		this.controller = controller;
 
 		browse = new JButton();
+		search = new JButton();
+		searchField = new JTextField();
+		searchField.setPreferredSize(new Dimension(200, 20));
 
 		iconListModel = new DefaultListModel();
 		iconList = new JList<Thumbnail>(iconListModel);
@@ -120,9 +128,18 @@ public class ExplorerView extends BaseView implements Observer
 		scroll = new JScrollPane(iconList);
 		scroll.setPreferredSize(new Dimension(300, 300));
 
-		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-		add(browse);
-		add(scroll);
+		JPanel top = new JPanel();
+		top.setLayout(new BorderLayout());
+		top.add(browse, BorderLayout.LINE_START);
+		JPanel topRight = new JPanel();
+		topRight.setLayout(new FlowLayout());
+		topRight.add(searchField);
+		topRight.add(search);
+		top.add(topRight, BorderLayout.LINE_END);
+
+		setLayout(new BorderLayout());
+		add(top, BorderLayout.PAGE_START);
+		add(scroll, BorderLayout.CENTER);
 		controller.init(this);
 	}
 
@@ -130,6 +147,7 @@ public class ExplorerView extends BaseView implements Observer
 		this.language = language;
 		super.setTitle(language.getString("explorer"));
 		browse.setText(language.getString("browse"));
+		search.setText(language.getString("search"));
 	}
 
 	public void setPath(Path p)
