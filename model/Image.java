@@ -9,6 +9,13 @@ public class Image extends Observable
 	private String path = null;
 	private BufferedImage bi = null;
 
+	public void setName(String name) {
+		this.name = name;
+
+		setChanged();
+		notifyObservers("image");
+	}
+
 	public String getName() {
 		return name;
 	}

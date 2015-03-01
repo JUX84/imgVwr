@@ -80,4 +80,9 @@ public class Controller
 		if (p != null)
 			Keywords.setKeywords(p, kws);
 	}
+
+	public void imageRenamed(String name) {
+		if (image != null)
+			image.setName(name);
+	}
 }

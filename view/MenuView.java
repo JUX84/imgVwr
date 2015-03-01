@@ -3,6 +3,7 @@ package view;
 import javax.swing.*;
 import model.*;
 import controller.Controller;
+import java.awt.event.*;
 import java.util.Observer;
 import java.util.Observable;
 
@@ -27,6 +28,12 @@ public class MenuView extends JMenuBar implements Observer {
 		opnImg = new JMenuItem();
 		exit = new JMenuItem();
 		rnmImg = new JMenuItem();
+		rnmImg.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				String str = JOptionPane.showInputDialog(language.getString("renameImage"));
+				controller.imageRenamed(str);
+			}
+		});
 
 		rnmImg.setEnabled(false);
 

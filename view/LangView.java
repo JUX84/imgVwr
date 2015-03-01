@@ -11,18 +11,33 @@ import controller.Controller;
 public class LangView extends BaseView {
 	private Controller controller;
 	private Language language;
+	private JButton en, fr, ja;
 
 	public LangView(Controller controller) {
 		super();
 		this.controller = controller;
 		setLayout(new BoxLayout(this, BoxLayout.LINE_AXIS));
-		LangButton engBtn, fraBtn, japBtn;
-		engBtn = new LangButton("English", controller);
-		fraBtn = new LangButton("Français", controller);
-		japBtn = new LangButton("日本人", controller);
-		add(engBtn);
-		add(fraBtn);
-		add(japBtn);
+		en = new JButton("English");
+		fr = new JButton("Français");
+		ja = new JButton("日本人");
+		en.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				controller.languageSelected("en");
+			}
+		});
+		fr.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				controller.languageSelected("fr");
+			}
+		});
+		ja.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				controller.languageSelected("ja");
+			}
+		});
+		add(en);
+		add(fr);
+		add(ja);
 		controller.init(this);
 	}
 
@@ -35,25 +50,5 @@ public class LangView extends BaseView {
 		String tmp = (String)arg;
 		if(tmp.equals("language"))
 			setLanguage((Language)o);
-	}
-}
-
-class LangButton extends JButton implements ActionListener {
-	private String lang;
-	private Controller controller;
-
-	public LangButton(String str, Controller controller) {
-		super(str);
-		lang = "fr";
-		if(str.equals("English"))
-			lang = "en";
-		if(str.equals("日本人"))
-			lang = "ja";
-		this.controller = controller;
-		addActionListener(this);
-	}
-
-	public void actionPerformed(ActionEvent e) {
-		controller.languageSelected(lang);
 	}
 }
