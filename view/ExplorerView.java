@@ -19,6 +19,7 @@ import java.util.Observer;
 import java.util.Observable;
 import java.util.List;
 import java.io.File;
+import java.io.IOException;
 import javax.imageio.ImageIO;
 import controller.Controller;
 import model.*;
@@ -63,7 +64,10 @@ public class ExplorerView extends BaseView implements Observer
 							publish(t);
 						}
 						catch (Exception e)
-						{}
+						{
+							System.err.println(e);
+							// publish damaged image icon?
+						}
 					}
 				}
 
@@ -91,7 +95,7 @@ public class ExplorerView extends BaseView implements Observer
 		super();
 
 		this.controller = controller;
-		
+
 		browse = new JButton();
 
 		iconListModel = new DefaultListModel();
