@@ -21,9 +21,7 @@ import java.util.List;
 import java.io.File;
 import javax.imageio.ImageIO;
 import controller.Controller;
-import model.Thumbnail;
-import model.Path;
-import model.Language;
+import model.*;
 
 public class ExplorerView extends BaseView implements Observer
 {
@@ -139,14 +137,19 @@ public class ExplorerView extends BaseView implements Observer
 		}
 	}
 
+	public void setSelectedName(model.Image img) {
+		iconList.getSelectedValue().setName(img.getName());
+	}
+
 	public void update(Observable o, Object arg)
 	{
 		String tmp = (String)arg;
 		if (tmp.equals("path"))
 			setPath((Path)o);
-		else if (tmp.equals("language")) {
+		else if (tmp.equals("language"))
 			setLanguage((Language)o);
-		}
+		else if (tmp.equals("image"))
+			setSelectedName((model.Image)o);
 	}
 
 	private void select() {

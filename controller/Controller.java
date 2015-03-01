@@ -28,6 +28,7 @@ public class Controller
 	public void init(ExplorerView explorer) {
 		language.addObserver(explorer);
 		path.addObserver(explorer);
+		image.addObserver(explorer);
 		explorer.setLanguage(language);
 		explorer.setPath(path);
 	}
@@ -82,7 +83,14 @@ public class Controller
 	}
 
 	public void imageRenamed(String name) {
-		if (image != null)
+		if (image != null) {
+			File f = new File(image.getPath());
+			File tmp = new File(f.getParent() + "/" + name);
+			System.out.println(tmp.getAbsolutePath());
+			if(tmp.exists())
+				return;
+			f.renameTo(tmp);
 			image.setName(name);
+		}
 	}
 }
