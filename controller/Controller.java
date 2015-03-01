@@ -1,5 +1,6 @@
 package controller;
 
+import java.util.List;
 import javax.swing.JOptionPane;
 import view.ExplorerView;
 import view.LangView;
@@ -12,6 +13,7 @@ import model.Image;
 import model.Path;
 import model.Thumbnail;
 import model.Keywords;
+import model.SearchResults;
 import java.io.File;
 
 public class Controller
@@ -19,19 +21,23 @@ public class Controller
 	private Image image;
 	private Path path;
 	private Language language;
+	private SearchResults results;
 
-	public Controller(Image image, Path path, Language language) {
+	public Controller(Image image, Path path, Language language, SearchResults results) {
 		this.image = image;
 		this.path = path;
 		this.language = language;
+		this.results = results;
 	}
 
 	public void init(ExplorerView explorer) {
 		language.addObserver(explorer);
 		path.addObserver(explorer);
 		image.addObserver(explorer);
+		results.addObserver(explorer);
 		explorer.setLanguage(language);
 		explorer.setPath(path);
+		explorer.setSearchResults(results);
 	}
 
 	public void init(KeywordsView keywords) {
@@ -97,5 +103,11 @@ public class Controller
 			f.renameTo(tmp);
 			image.setName(name);
 		}
+	}
+
+	public void searchByKeyword(String searchText)
+	{
+		if (!searchText.isEmpty())
+			results.setResults(Keywords.search(searchText));
 	}
 }

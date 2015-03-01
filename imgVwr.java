@@ -8,6 +8,7 @@ import java.awt.event.WindowAdapter;
 import model.Language;
 import model.Path;
 import model.DBConnection;
+import model.SearchResults;
 import view.ExplorerView;
 import view.LangView;
 import view.KeywordsView;
@@ -23,8 +24,9 @@ public class imgVwr {
 		model.Image i = new model.Image();
 		Path p = new Path(System.getProperty("user.home"));
 		Language l = new Language("fr");
+		SearchResults sr = new SearchResults();
 
-		Controller controller = new Controller(i, p, l);
+		Controller controller = new Controller(i, p, l, sr);
 
 		JFrame frame = new JFrame("imgVwr");
 		frame.addWindowListener(new WindowAdapter() {
