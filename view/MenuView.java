@@ -36,7 +36,8 @@ public class MenuView extends JMenuBar implements Observer {
 		});
 		exit.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				((JFrame)getParent().getParent().getParent()).dispose();
+				JFrame frame = ((JFrame)getParent().getParent().getParent());
+				frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
 			}
 		});
 		rnmImg.addActionListener(new ActionListener() {
