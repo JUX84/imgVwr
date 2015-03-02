@@ -34,6 +34,7 @@ public class TreeView extends BaseView
         super.setTitle(language.getString("tree"));
 	}
 
+	@Override
 	public void update (Observable o, Object arg) {
 		String tmp = (String)arg;
 		if(tmp.equals("language"))

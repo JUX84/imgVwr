@@ -56,6 +56,7 @@ public class ExplorerView extends BaseView implements Observer
         browse = new JButton();
 
 		browse.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				new FileChooser(controller);
 			}
@@ -63,6 +64,7 @@ public class ExplorerView extends BaseView implements Observer
 
 		search = new JButton();
 		search.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e)
 			{
 				controller.searchByKeyword(searchField.getText());
@@ -78,6 +80,7 @@ public class ExplorerView extends BaseView implements Observer
 		iconList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		iconList.setVisibleRowCount(-1);
 		iconList.addListSelectionListener(new ListSelectionListener() {
+			@Override
 			public void valueChanged(ListSelectionEvent e)
 			{
 				Thumbnail t = iconList.getSelectedValue();
@@ -132,6 +135,7 @@ public class ExplorerView extends BaseView implements Observer
 		iconList.getSelectedValue().setName(img.getName());
 	}
 
+	@Override
 	public void update(Observable o, Object arg)
 	{
 		String tmp = (String)arg;
@@ -162,6 +166,7 @@ public class ExplorerView extends BaseView implements Observer
 			setOpaque(true);
 		}
 
+		@Override
 		public Component getListCellRendererComponent(JList<? extends Thumbnail> list, Thumbnail value, int index, boolean isSelected, boolean cellHasFocus)
 		{
 			ImageIcon image = value.getImage();

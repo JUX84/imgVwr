@@ -32,6 +32,7 @@ class imgVwr {
 
 		JFrame frame = new JFrame("imgVwr");
 		frame.addWindowListener(new WindowAdapter() {
+			@Override
 			public void windowClosing(WindowEvent e)
 			{
 				DBConnection.closeConnection();
@@ -94,6 +95,7 @@ class imgVwr {
 
 	public static void main (String[] args) {
 		javax.swing.SwingUtilities.invokeLater(new Runnable() {
+			@Override
 			public void run() {
 				startGUI();
 			}

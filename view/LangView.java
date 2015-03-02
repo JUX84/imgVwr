@@ -17,16 +17,19 @@ public class LangView extends BaseView {
         JButton fr = new JButton("Français");
         JButton ja = new JButton("日本人");
 		en.addActionListener(new ActionListener() {
+			@Override
             public void actionPerformed(ActionEvent e) {
                 controller.languageSelected("en");
             }
         });
 		fr.addActionListener(new ActionListener() {
+			@Override
             public void actionPerformed(ActionEvent e) {
                 controller.languageSelected("fr");
             }
         });
 		ja.addActionListener(new ActionListener() {
+			@Override
             public void actionPerformed(ActionEvent e) {
                 controller.languageSelected("ja");
             }
@@ -41,6 +44,7 @@ public class LangView extends BaseView {
         super.setTitle(language.getString("language"));
 	}
 
+	@Override
 	public void update (Observable o, Object arg) {
 		String tmp = (String)arg;
 		if(tmp.equals("language"))

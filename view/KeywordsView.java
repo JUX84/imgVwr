@@ -30,6 +30,7 @@ public class KeywordsView extends BaseView implements Observer
 		save.setAlignmentX(Component.RIGHT_ALIGNMENT);
 		save.setAlignmentY(Component.BOTTOM_ALIGNMENT);
 		save.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e)
 			{
 				controller.keywordsSaved(text.getText());
@@ -48,6 +49,7 @@ public class KeywordsView extends BaseView implements Observer
 		save.setText(language.getString("save"));
 	}
 
+	@Override
 	public void update(Observable o, Object arg) {
 		String tmp = (String)arg;
 		if (tmp.equals("language"))
