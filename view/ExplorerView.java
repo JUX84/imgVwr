@@ -232,7 +232,10 @@ public class ExplorerView extends BaseView implements Observer
 					}
 					catch (Exception e) {
 						System.err.println(e.getMessage());
-						// publish damaged image icon?
+						try {
+							publish(Thumbnail.getDamagedIcon(f.getName()));
+						}
+						catch (Exception ex) {}
 					}
 				}
 			}

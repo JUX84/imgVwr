@@ -14,6 +14,8 @@ public class Thumbnail
 	private String name;
 	private final String path;
 
+	private static Thumbnail damaged = null;
+
 	public Thumbnail(String path) throws Exception
 	{
 		this.path = path;
@@ -35,6 +37,15 @@ public class Thumbnail
 		int newHeight = (int)(imgHeight * scale);
 
 		image = new ImageIcon(original.getScaledInstance(newWidth, newHeight, java.awt.Image.SCALE_FAST));
+	}
+
+	public static Thumbnail getDamagedIcon(String name) throws Exception
+	{
+		if (damaged == null)
+			damaged = new Thumbnail("damaged.png");
+
+		damaged.setName(name);
+		return damaged;
 	}
 
 	public String getName()
