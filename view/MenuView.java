@@ -1,16 +1,22 @@
 package view;
 
-import javax.swing.*;
-import model.*;
 import controller.Controller;
-import java.awt.event.*;
+import model.Language;
+
+import javax.swing.JMenuBar;
+import javax.swing.JMenu;
+import javax.swing.JMenuItem;
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.WindowEvent;
 import java.util.Observer;
 import java.util.Observable;
 
 public class MenuView extends JMenuBar implements Observer {
 
-	private Controller controller;
-	private Language language;
+    private Language language;
 
 	private JMenu fileMenu;
 	private JMenu editMenu;
@@ -20,12 +26,10 @@ public class MenuView extends JMenuBar implements Observer {
 	private JMenuItem rnmImg;
 	private JMenuItem about;
 
-	public MenuView(Controller controller) {
+	public MenuView(final Controller controller) {
 		super();
 
-		this.controller = controller;
-
-		fileMenu = new JMenu();
+        fileMenu = new JMenu();
 		editMenu = new JMenu();
 		helpMenu = new JMenu();
 		opnImg = new JMenuItem();
@@ -34,17 +38,20 @@ public class MenuView extends JMenuBar implements Observer {
 		about = new JMenuItem();
 
 		opnImg.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				new FileChooser(controller);
 			}
 		});
 		exit.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				JFrame frame = ((JFrame)getParent().getParent().getParent());
 				frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
 			}
 		});
 		rnmImg.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				String str = JOptionPane.showInputDialog(language.getString("renameImage"));
 				if(str == null || str.isEmpty())
@@ -83,6 +90,7 @@ public class MenuView extends JMenuBar implements Observer {
 		about.setText(language.getString("about"));
 	}
 
+	@Override
 	public void update(Observable o, Object arg) {
 		String tmp = (String)arg;
 		if(tmp.equals("language"))

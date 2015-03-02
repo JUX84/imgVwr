@@ -23,7 +23,7 @@ public class DBConnection
 						+ " (path text primary key, keywords text)");
 			}
 			catch (Exception e) {
-				System.err.println(e);
+				System.err.println(e.getMessage());
 				closeConnection();
 			}
 		}
@@ -38,7 +38,7 @@ public class DBConnection
 				con.close();
 		}
 		catch (SQLException e) {
-			System.err.println(e);
+			System.err.println(e.getMessage());
 		}
 	}
 }

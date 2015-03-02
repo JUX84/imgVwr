@@ -13,9 +13,9 @@ public class Language extends Observable {
 
 	public void setLanguage(String lang) {
 		Locale locale;
-		if(lang == "fr")
+		if(lang.equals("fr"))
 			locale = Locale.FRENCH;
-		else if (lang == "ja")
+		else if (lang.equals("ja"))
 			locale = Locale.JAPANESE;
 		else
 			locale = Locale.ENGLISH;

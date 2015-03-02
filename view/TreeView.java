@@ -1,28 +1,29 @@
 package view;
 
-import javax.swing.*;
-import javax.swing.event.*;
-import javax.swing.tree.*;
-import java.awt.*;
-import java.util.*;
-import java.io.*;
-import model.Path;
 import model.Language;
 import controller.Controller;
 
+import javax.swing.JTree;
+import javax.swing.JScrollPane;
+import javax.swing.event.TreeModelEvent;
+import javax.swing.event.TreeModelListener;
+import javax.swing.event.TreeSelectionEvent;
+import javax.swing.event.TreeSelectionListener;
+import javax.swing.tree.TreeModel;
+import javax.swing.tree.TreePath;
+import java.io.File;
+import java.util.Iterator;
+import java.util.Observable;
+import java.util.Vector;
+
 public class TreeView extends BaseView
 {
-	private JScrollPane scroll;
-	private JTree tree;
-	private FileSystemModel fileSystemModel;
-	private final Controller controller;
-	private Language language;
+    private final JTree tree;
 
-	public TreeView(final Controller controller)
+    public TreeView(final Controller controller)
 	{
 		super();
-		this.controller = controller;
-		fileSystemModel = new FileSystemModel(new File("/"));
+        FileSystemModel fileSystemModel = new FileSystemModel(new File(System.getProperty("user.home")));
 		tree = new JTree(fileSystemModel);
 		tree.setEditable(true);
 		tree.addTreeSelectionListener(new TreeSelectionListener() {
@@ -31,16 +32,16 @@ public class TreeView extends BaseView
 				controller.pathSelected(file);
 			}
 		});
-		scroll = new JScrollPane(tree);
+        JScrollPane scroll = new JScrollPane(tree);
 		add(scroll);
 		controller.init(this);
 	}
 
 	public void setLanguage(Language language) {
-		this.language = language;
-		super.setTitle(language.getString("tree"));
+        super.setTitle(language.getString("tree"));
 	}
 
+	@Override
 	public void update (Observable o, Object arg) {
 		String tmp = (String)arg;
 		if(tmp.equals("language"))
@@ -49,9 +50,9 @@ public class TreeView extends BaseView
 }
 
 class FileSystemModel implements TreeModel {
-	private File root;
+	private final File root;
 
-	private Vector listeners = new Vector();
+	private final Vector<TreeModelListener> listeners = new Vector<TreeModelListener>();
 
 	public FileSystemModel(File rootDirectory) {
 		root = rootDirectory;
@@ -100,26 +101,27 @@ class FileSystemModel implements TreeModel {
 		String fileParentPath = oldFile.getParent();
 		String newFileName = (String) value;
 		File targetFile = new File(fileParentPath, newFileName);
-		oldFile.renameTo(targetFile);
-		File parent = new File(fileParentPath);
-		int[] changedChildrenIndices = { getIndexOfChild(parent, targetFile) };
-		Object[] changedChildren = { targetFile };
-		fireTreeNodesChanged(path.getParentPath(), changedChildrenIndices, changedChildren);
-
+		boolean b = oldFile.renameTo(targetFile);
+        if(b) {
+            File parent = new File(fileParentPath);
+            int[] changedChildrenIndices = {getIndexOfChild(parent, targetFile)};
+            Object[] changedChildren = {targetFile};
+            fireTreeNodesChanged(path.getParentPath(), changedChildrenIndices, changedChildren);
+        }
 	}
 
 	private void fireTreeNodesChanged(TreePath parentPath, int[] indices, Object[] children) {
 		TreeModelEvent event = new TreeModelEvent(this, parentPath, indices, children);
-		Iterator iterator = listeners.iterator();
-		TreeModelListener listener = null;
+		Iterator<TreeModelListener> iterator = listeners.iterator();
+		TreeModelListener listener;
 		while (iterator.hasNext()) {
-			listener = (TreeModelListener) iterator.next();
+			listener = iterator.next();
 			listener.treeNodesChanged(event);
 		}
 	}
 
 	public void addTreeModelListener(TreeModelListener listener) {
-		listeners.add(listener);
+        listeners.add(listener);
 	}
 
 	public void removeTreeModelListener(TreeModelListener listener) {

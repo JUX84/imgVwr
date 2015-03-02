@@ -9,32 +9,31 @@ import model.Language;
 import controller.Controller;
 
 public class LangView extends BaseView {
-	private Controller controller;
-	private Language language;
-	private JButton en, fr, ja;
 
-	public LangView(Controller controller) {
+    public LangView(final Controller controller) {
 		super();
-		this.controller = controller;
-		setLayout(new BoxLayout(this, BoxLayout.LINE_AXIS));
-		en = new JButton("English");
-		fr = new JButton("Français");
-		ja = new JButton("日本人");
+        setLayout(new BoxLayout(this, BoxLayout.LINE_AXIS));
+        JButton en = new JButton("English");
+        JButton fr = new JButton("Français");
+        JButton ja = new JButton("日本人");
 		en.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				controller.languageSelected("en");
-			}
-		});
+			@Override
+            public void actionPerformed(ActionEvent e) {
+                controller.languageSelected("en");
+            }
+        });
 		fr.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				controller.languageSelected("fr");
-			}
-		});
+			@Override
+            public void actionPerformed(ActionEvent e) {
+                controller.languageSelected("fr");
+            }
+        });
 		ja.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				controller.languageSelected("ja");
-			}
-		});
+			@Override
+            public void actionPerformed(ActionEvent e) {
+                controller.languageSelected("ja");
+            }
+        });
 		add(en);
 		add(fr);
 		add(ja);
@@ -42,10 +41,10 @@ public class LangView extends BaseView {
 	}
 
 	public void setLanguage(Language language) {
-		this.language = language;
-		super.setTitle(language.getString("language"));
+        super.setTitle(language.getString("language"));
 	}
 
+	@Override
 	public void update (Observable o, Object arg) {
 		String tmp = (String)arg;
 		if(tmp.equals("language"))

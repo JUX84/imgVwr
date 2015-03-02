@@ -3,7 +3,6 @@ package model;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.PreparedStatement;
-import java.sql.SQLException;
 import java.util.List;
 import java.util.ArrayList;
 
@@ -28,7 +27,7 @@ public class Keywords
 			statement.executeUpdate();
 		}
 		catch (Exception e) {
-			System.err.println(e);
+			System.err.println(e.getMessage());
 		}
 	}
 
@@ -52,7 +51,7 @@ public class Keywords
 				result = rs.getString("keywords");
 		}
 		catch (Exception e) {
-			System.err.println(e);
+			System.err.println(e.getMessage());
 		}
 
 		return result;
@@ -78,7 +77,7 @@ public class Keywords
 				result.add(rs.getString("path"));
 		}
 		catch (Exception e) {
-			System.err.println(e);
+			System.err.println(e.getMessage());
 			result = null;
 		}
 

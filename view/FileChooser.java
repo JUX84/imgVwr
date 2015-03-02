@@ -1,16 +1,11 @@
 package view;
 
-import java.io.*;
-import java.awt.*;
-import java.awt.event.*;
-import javax.swing.*;
-import javax.swing.SwingUtilities;
-import javax.swing.filechooser.*;
-import java.util.Observable;
 import controller.Controller;
-import view.TreeView;
 
-public class FileChooser extends JPanel {
+import javax.swing.JPanel;
+import javax.swing.JFileChooser;
+
+class FileChooser extends JPanel {
 	public FileChooser(final Controller controller) {
 		super();
 

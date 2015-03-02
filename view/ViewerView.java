@@ -1,33 +1,41 @@
 package view;
 
 import javax.swing.JLabel;
-import javax.swing.JButton;
-import javax.swing.ImageIcon;
+import javax.swing.JOptionPane;
 import javax.swing.BoxLayout;
+import javax.swing.ImageIcon;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.Observer;
 import java.util.Observable;
 import java.awt.Graphics;
 import java.awt.Component;
 import model.Image;
-import model.Thumbnail;
 import model.Language;
 import controller.Controller;
 
 public class ViewerView extends BaseView implements Observer {
-	private Language language;
-	private Image image;
-	private Controller controller;
-	private JLabel imgLabel;
-	private JLabel nameLabel;
-	private JButton rename;
-	private JButton hide;
+    private Image image;
+    private Language language;
+    private JLabel imgLabel;
+	private final JLabel nameLabel;
 
 	public ViewerView(final Controller controller) {
 		super();
-		this.controller = controller;
-		imgLabel = new JLabel();
+        imgLabel = new JLabel();
 		nameLabel = new JLabel();
 		nameLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+        nameLabel.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mousePressed(MouseEvent e) {
+                if(e.getClickCount() >= 2) {
+                    String str = JOptionPane.showInputDialog(language.getString("renameImage"));
+                    if (str == null || str.isEmpty())
+                        return;
+                    controller.imageRenamed(str);
+                }
+            }
+        });
 		setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
 		add(imgLabel);
 		add(nameLabel);
@@ -45,8 +53,8 @@ public class ViewerView extends BaseView implements Observer {
 	}
 
 	public void setLanguage(Language language) {
-		this.language = language;
-		super.setTitle(language.getString("viewer"));
+        this.language = language;
+        super.setTitle(language.getString("viewer"));
 	}
 
 	public void paintComponent(Graphics g) {
@@ -56,19 +64,20 @@ public class ViewerView extends BaseView implements Observer {
 		maxHeight = getHeight();
 		width = image.getWidth();
 		height = image.getHeight();
-		if(width>maxWidth*0.80) {  // Double condition pour conserver les ratios
-			width = (int)(maxWidth*0.80);
-			height = (int)(maxHeight*0.80);
-		}
-		if(height>maxHeight*0.80) {
-			width = (int)(maxWidth*0.80);
-			height = (int)(maxHeight*0.80);
-		}
+
+        double maxRatio = (double)maxWidth / maxHeight;
+        double imgRatio = (double)width / height;
+        double scale = (imgRatio > maxRatio) ?  (double)maxWidth*0.8 / width : (double)maxHeight*0.8 / height;
+
+        width = (int)(width * scale);
+        height = (int)(height * scale);
+
 		x = (maxWidth-width)/2; // On place l'image au milieu
 		y = (maxHeight-height)/2;
 		g.drawImage(image.getBufferedImage(), x, y, width, height, this);
 	}
 
+	@Override
 	public void update (Observable o, Object arg) {
 		String tmp = (String)arg;
 		if(tmp.equals("language"))
