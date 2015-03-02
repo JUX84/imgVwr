@@ -25,6 +25,7 @@ public class ViewerView extends BaseView implements Observer {
 		nameLabel = new JLabel();
 		nameLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
         nameLabel.addMouseListener(new MouseAdapter() {
+            @Override
             public void mousePressed(MouseEvent e) {
                 if(e.getClickCount() >= 2) {
                     String str = JOptionPane.showInputDialog(language.getString("renameImage"));
