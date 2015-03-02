@@ -70,6 +70,7 @@ public class ExplorerView extends BaseView implements Observer
             @Override
 			public void actionPerformed(ActionEvent e)
 			{
+				path = "";
 				controller.searchByKeyword(searchField.getText());
 			}
 		});
