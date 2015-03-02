@@ -48,7 +48,7 @@ public class ViewerView extends BaseView implements Observer {
 		if(image.getBufferedImage() != null) {
 			nameLabel.setText(image.getName());
 			imgLabel = new JLabel(new ImageIcon(image.getBufferedImage()));
-			repaint();
+			new imageLoader(image).run();
 		}
 	}
 
@@ -84,5 +84,18 @@ public class ViewerView extends BaseView implements Observer {
 			setLanguage((Language)o);
 		else if(tmp.equals("image"))
 			setImage((Image)o);
+	}
+
+	private class imageLoader extends Thread {
+		private Image image;
+
+		public imageLoader(Image image) {
+			this.image = image;
+		}
+
+		@Override
+		public void run() {
+			repaint();
+		}
 	}
 }
