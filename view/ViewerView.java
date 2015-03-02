@@ -1,8 +1,10 @@
 package view;
 
-import javax.swing.JLabel;
-import javax.swing.ImageIcon;
-import javax.swing.BoxLayout;
+import javax.swing.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.Observer;
 import java.util.Observable;
 import java.awt.Graphics;
@@ -13,6 +15,7 @@ import controller.Controller;
 
 public class ViewerView extends BaseView implements Observer {
     private Image image;
+    private Language language;
     private JLabel imgLabel;
 	private final JLabel nameLabel;
 
@@ -21,6 +24,16 @@ public class ViewerView extends BaseView implements Observer {
         imgLabel = new JLabel();
 		nameLabel = new JLabel();
 		nameLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+        nameLabel.addMouseListener(new MouseAdapter() {
+            public void mousePressed(MouseEvent e) {
+                if(e.getClickCount() >= 2) {
+                    String str = JOptionPane.showInputDialog(language.getString("renameImage"));
+                    if (str == null || str.isEmpty())
+                        return;
+                    controller.imageRenamed(str);
+                }
+            }
+        });
 		setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
 		add(imgLabel);
 		add(nameLabel);
@@ -38,6 +51,7 @@ public class ViewerView extends BaseView implements Observer {
 	}
 
 	public void setLanguage(Language language) {
+        this.language = language;
         super.setTitle(language.getString("viewer"));
 	}
 
