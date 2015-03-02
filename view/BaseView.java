@@ -18,5 +18,6 @@ abstract class BaseView extends JPanel implements Observer {
 					BorderFactory.createEmptyBorder(5,5,5,5)));
 	}
 
+	@Override
 	public abstract void update (Observable o, Object arg);
 }

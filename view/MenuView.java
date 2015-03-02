@@ -27,17 +27,20 @@ public class MenuView extends JMenuBar implements Observer {
 		rnmImg = new JMenuItem();
 
 		opnImg.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				new FileChooser(controller);
 			}
 		});
 		exit.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				JFrame frame = ((JFrame)getParent().getParent().getParent());
 				frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
 			}
 		});
 		rnmImg.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				String str = JOptionPane.showInputDialog(language.getString("renameImage"));
 				if(str == null || str.isEmpty())
@@ -67,6 +70,7 @@ public class MenuView extends JMenuBar implements Observer {
 		rnmImg.setText(language.getString("menuEditRename"));
 	}
 
+	@Override
 	public void update(Observable o, Object arg) {
 		String tmp = (String)arg;
 		if(tmp.equals("language"))

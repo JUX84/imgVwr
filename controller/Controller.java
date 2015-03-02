@@ -100,8 +100,8 @@ public class Controller
 				return;
 			}
 			boolean b = f.renameTo(tmp);
-            if(b)
-			    image.setName(name);
+			if(b)
+				image.setName(name);
 		}
 	}
 

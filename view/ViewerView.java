@@ -75,6 +75,7 @@ public class ViewerView extends BaseView implements Observer {
 		g.drawImage(image.getBufferedImage(), x, y, width, height, this);
 	}
 
+	@Override
 	public void update (Observable o, Object arg) {
 		String tmp = (String)arg;
 		if(tmp.equals("language"))
