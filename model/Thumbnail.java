@@ -42,7 +42,7 @@ public class Thumbnail
 	public static Thumbnail getDamagedIcon(String name) throws Exception
 	{
 		if (damaged == null)
-			damaged = new Thumbnail("damaged.png");
+			damaged = new Thumbnail(new File("damaged.png").getAbsolutePath());
 
 		damaged.setName(name);
 		return damaged;

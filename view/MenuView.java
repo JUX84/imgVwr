@@ -18,13 +18,13 @@ public class MenuView extends JMenuBar implements Observer {
 
     private Language language;
 
-	private JMenu fileMenu;
-	private JMenu editMenu;
-	private JMenu helpMenu;
-	private JMenuItem opnImg;
-	private JMenuItem exit;
-	private JMenuItem rnmImg;
-	private JMenuItem about;
+	private final JMenu fileMenu;
+	private final JMenu editMenu;
+	private final JMenu helpMenu;
+	private final JMenuItem opnImg;
+	private final JMenuItem exit;
+	private final JMenuItem rnmImg;
+	private final JMenuItem about;
 
 	public MenuView(final Controller controller) {
 		super();

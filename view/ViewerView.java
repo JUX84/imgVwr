@@ -45,11 +45,14 @@ public class ViewerView extends BaseView implements Observer {
 
 	public void setImage(Image image) {
 		this.image = image;
-		if(image.getBufferedImage() != null) {
-			nameLabel.setText(image.getName());
-			imgLabel = new JLabel(new ImageIcon(image.getBufferedImage()));
-			new imageLoader(image).run();
-		}
+        if(image != null) {
+            nameLabel.setText(image.getName());
+            if (image.isNotDamaged())
+                imgLabel = new JLabel(new ImageIcon(image.getBufferedImage()));
+            else
+                imgLabel = null;
+        }
+        new imageLoader().run();
 	}
 
 	public void setLanguage(Language language) {
@@ -59,22 +62,24 @@ public class ViewerView extends BaseView implements Observer {
 
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
-		int x, y, width, height, maxWidth, maxHeight;
-		maxWidth = getWidth();
-		maxHeight = getHeight();
-		width = image.getWidth();
-		height = image.getHeight();
+        if(image != null && image.isNotDamaged()) {
+            int x, y, width, height, maxWidth, maxHeight;
+            maxWidth = getWidth();
+            maxHeight = getHeight();
+            width = image.getWidth();
+            height = image.getHeight();
 
-        double maxRatio = (double)maxWidth / maxHeight;
-        double imgRatio = (double)width / height;
-        double scale = (imgRatio > maxRatio) ?  (double)maxWidth*0.8 / width : (double)maxHeight*0.8 / height;
+            double maxRatio = (double) maxWidth / maxHeight;
+            double imgRatio = (double) width / height;
+            double scale = (imgRatio > maxRatio) ? (double) maxWidth * 0.8 / width : (double) maxHeight * 0.8 / height;
 
-        width = (int)(width * scale);
-        height = (int)(height * scale);
+            width = (int) (width * scale);
+            height = (int) (height * scale);
 
-		x = (maxWidth-width)/2; // On place l'image au milieu
-		y = (maxHeight-height)/2;
-		g.drawImage(image.getBufferedImage(), x, y, width, height, this);
+            x = (maxWidth - width) / 2; // On place l'image au milieu
+            y = (maxHeight - height) / 2;
+            g.drawImage(image.getBufferedImage(), x, y, width, height, this);
+        }
 	}
 
 	@Override
@@ -87,12 +92,6 @@ public class ViewerView extends BaseView implements Observer {
 	}
 
 	private class imageLoader extends Thread {
-		private Image image;
-
-		public imageLoader(Image image) {
-			this.image = image;
-		}
-
 		@Override
 		public void run() {
 			repaint();

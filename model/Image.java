@@ -1,6 +1,7 @@
 package model;
 
 import java.awt.image.BufferedImage;
+import java.io.File;
 import java.util.Observable;
 
 public class Image extends Observable
@@ -59,7 +60,13 @@ public class Image extends Observable
 		return (bi != null ? bi.getWidth() : 0);
 	}
 
-	public int getHeight() {
-		return (bi != null ? bi.getHeight() : 0);
-	}
+	public int getHeight() { return (bi != null ? bi.getHeight() : 0); }
+
+    public boolean isNotDamaged() {
+        if(path != null) {
+            File f = new File(path);
+            return (!f.getName().equals("damaged.png") || f.getParentFile().getAbsolutePath().equals(path));
+        }
+        return false;
+    }
 }

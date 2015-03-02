@@ -44,7 +44,7 @@ public class ExplorerView extends BaseView implements Observer
 
 	private SwingWorker<Void, Thumbnail> loadImageWorker = null;
 
-	boolean searchDisplay = false;
+	private boolean searchDisplay = false;
 
 	void createImages()
 	{
@@ -235,7 +235,9 @@ public class ExplorerView extends BaseView implements Observer
 						try {
 							publish(Thumbnail.getDamagedIcon(f.getName()));
 						}
-						catch (Exception ex) {}
+						catch (Exception ex) {
+                            System.err.println(ex.getMessage());
+                        }
 					}
 				}
 			}
