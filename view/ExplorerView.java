@@ -44,6 +44,8 @@ public class ExplorerView extends BaseView implements Observer
 
 	private SwingWorker<Void, Thumbnail> loadImageWorker = null;
 
+	boolean searchDisplay = false;
+
 	void createImages()
 	{
 		if (path == null)
@@ -70,11 +72,27 @@ public class ExplorerView extends BaseView implements Observer
             @Override
 			public void actionPerformed(ActionEvent e)
 			{
-				controller.searchByKeyword(searchField.getText());
+				String s = searchField.getText();
+				if (s.isEmpty())
+					createImages();
+				else
+					controller.searchByKeyword(searchField.getText());
 			}
 		});
+
 		searchField = new JTextField();
 		searchField.setPreferredSize(new Dimension(200, 20));
+		searchField.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e)
+			{
+				String s = searchField.getText();
+				if (s.isEmpty())
+					createImages();
+				else
+					controller.searchByKeyword(searchField.getText());
+			}
+		});
 
 		iconListModel = new DefaultListModel<Thumbnail>();
         iconList = new JList<Thumbnail>(iconListModel);
@@ -120,7 +138,7 @@ public class ExplorerView extends BaseView implements Observer
 
 	public void setPath(Path p)
 	{
-		if (path != null && path.equals(p.getPath())) {
+		if (path != null && path.equals(p.getPath()) && !searchDisplay) {
 			select();
 		}
 		else {
@@ -168,6 +186,8 @@ public class ExplorerView extends BaseView implements Observer
 
 		public imageLoader()
 		{
+			searchDisplay = false;
+
 			if (loadImageWorker != null)
 				loadImageWorker.cancel(true);
 
@@ -179,6 +199,8 @@ public class ExplorerView extends BaseView implements Observer
 
 		public imageLoader(List<String> paths)
 		{
+			searchDisplay = true;
+
 			if (loadImageWorker != null)
 				loadImageWorker.cancel(true);
 
