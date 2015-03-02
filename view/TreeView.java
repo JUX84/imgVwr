@@ -45,7 +45,7 @@ public class TreeView extends BaseView
 class FileSystemModel implements TreeModel {
 	private final File root;
 
-	private final Vector listeners = new Vector();
+	private final Vector<TreeModelListener> listeners = new Vector<TreeModelListener>();
 
 	public FileSystemModel(File rootDirectory) {
 		root = rootDirectory;
@@ -105,10 +105,10 @@ class FileSystemModel implements TreeModel {
 
 	private void fireTreeNodesChanged(TreePath parentPath, int[] indices, Object[] children) {
 		TreeModelEvent event = new TreeModelEvent(this, parentPath, indices, children);
-		Iterator iterator = listeners.iterator();
+		Iterator<TreeModelListener> iterator = listeners.iterator();
 		TreeModelListener listener;
 		while (iterator.hasNext()) {
-			listener = (TreeModelListener) iterator.next();
+			listener = iterator.next();
 			listener.treeNodesChanged(event);
 		}
 	}

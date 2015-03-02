@@ -25,14 +25,13 @@ import java.io.File;
 
 import controller.Controller;
 import model.*;
-import view.FileChooser;
 
 public class ExplorerView extends BaseView implements Observer
 {
     private SearchResults results;
 	private String path;
 
-    private final DefaultListModel iconListModel;
+    private final DefaultListModel<Thumbnail> iconListModel;
 	private final JList<Thumbnail> iconList;
 
 	private final JButton browse;
@@ -56,7 +55,7 @@ public class ExplorerView extends BaseView implements Observer
         browse = new JButton();
 
 		browse.addActionListener(new ActionListener() {
-			@Override
+            @Override
 			public void actionPerformed(ActionEvent e) {
 				new FileChooser(controller);
 			}
@@ -64,7 +63,7 @@ public class ExplorerView extends BaseView implements Observer
 
 		search = new JButton();
 		search.addActionListener(new ActionListener() {
-			@Override
+            @Override
 			public void actionPerformed(ActionEvent e)
 			{
 				controller.searchByKeyword(searchField.getText());
@@ -73,14 +72,14 @@ public class ExplorerView extends BaseView implements Observer
 		searchField = new JTextField();
 		searchField.setPreferredSize(new Dimension(200, 20));
 
-		iconListModel = new DefaultListModel();
+		iconListModel = new DefaultListModel<Thumbnail>();
         iconList = new JList<Thumbnail>(iconListModel);
 		iconList.setCellRenderer(new iconListCellRenderer());
 		iconList.setLayoutOrientation(JList.HORIZONTAL_WRAP);
 		iconList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		iconList.setVisibleRowCount(-1);
 		iconList.addListSelectionListener(new ListSelectionListener() {
-			@Override
+            @Override
 			public void valueChanged(ListSelectionEvent e)
 			{
 				Thumbnail t = iconList.getSelectedValue();
@@ -135,7 +134,7 @@ public class ExplorerView extends BaseView implements Observer
 		iconList.getSelectedValue().setName(img.getName());
 	}
 
-	@Override
+    @Override
 	public void update(Observable o, Object arg)
 	{
 		String tmp = (String)arg;
@@ -150,14 +149,14 @@ public class ExplorerView extends BaseView implements Observer
 	}
 
 	private void select() {
-		for(int i = 0; i<iconListModel.getSize(); ++i) {
-			if(Path.isSelected(((Thumbnail)iconListModel.getElementAt(i)).getName())) {
-				iconList.setSelectedValue(iconListModel.getElementAt(i), true);
-				return;
-			}
-		}
-		iconList.clearSelection();
-	}
+        for (int i = 0; i < iconListModel.getSize(); ++i) {
+            if (Path.isSelected((iconListModel.getElementAt(i)).getName())) {
+                iconList.setSelectedValue(iconListModel.getElementAt(i), true);
+                return;
+            }
+        }
+        iconList.clearSelection();
+    }
 
 	private class imageLoader extends SwingWorker<Void, Thumbnail>
 	{
@@ -202,11 +201,11 @@ public class ExplorerView extends BaseView implements Observer
 
 				if(model.Image.isImage(f.getName())) {
 					try {
-						Thumbnail t = new Thumbnail(f.getAbsolutePath(), 100, 100);
+						Thumbnail t = new Thumbnail(f.getAbsolutePath());
 						publish(t);
 					}
 					catch (Exception e) {
-						System.err.println(e);
+						System.err.println(e.getMessage());
 						// publish damaged image icon?
 					}
 				}
@@ -231,36 +230,34 @@ public class ExplorerView extends BaseView implements Observer
 
 class iconListCellRenderer extends JLabel implements ListCellRenderer<Thumbnail>
 {
-	public iconListCellRenderer()
-	{
-		setOpaque(true);
-	}
+    public iconListCellRenderer()
+    {
+        setOpaque(true);
+    }
 
-	@Override
-	public Component getListCellRendererComponent(JList<? extends Thumbnail> list, Thumbnail value, int index, boolean isSelected, boolean cellHasFocus)
-	{
-		ImageIcon image = value.getImage();
-		if (image != null) {
-			setPreferredSize(new Dimension(image.getIconWidth(), image.getIconHeight() + 20));
+    public Component getListCellRendererComponent(JList<? extends Thumbnail> list, Thumbnail value, int index, boolean isSelected, boolean cellHasFocus)
+    {
+        ImageIcon image = value.getImage();
+        if (image != null) {
+            setPreferredSize(new Dimension(image.getIconWidth(), image.getIconHeight() + 20));
 
-			setText(value.getName());
-			setVerticalTextPosition(JLabel.BOTTOM);
-			setHorizontalTextPosition(JLabel.CENTER);
+            setText(value.getName());
+            setVerticalTextPosition(JLabel.BOTTOM);
+            setHorizontalTextPosition(JLabel.CENTER);
 
-			setIcon(value.getImage());
-			setHorizontalAlignment(JLabel.CENTER);
+            setIcon(value.getImage());
+            setHorizontalAlignment(JLabel.CENTER);
 
-			if (isSelected) {
-				setBackground(list.getSelectionBackground());
-				setForeground(list.getSelectionForeground());
-			}
-			else {
-				setBackground(list.getBackground());
-				setForeground(list.getForeground());
-			}
-		}
+            if (isSelected) {
+                setBackground(list.getSelectionBackground());
+                setForeground(list.getSelectionForeground());
+            }
+            else {
+                setBackground(list.getBackground());
+                setForeground(list.getForeground());
+            }
+        }
 
-		return this;
-	}
+        return this;
+    }
 }
-

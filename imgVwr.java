@@ -24,7 +24,6 @@ class imgVwr {
 
 		model.Image i = new model.Image();
 		Path p = new Path(System.getProperty("user.home"));
-        System.out.println(System.getProperty("user.language"));
 		Language l = new Language(System.getProperty("user.language"));
 		SearchResults sr = new SearchResults();
 

@@ -14,7 +14,7 @@ public class Thumbnail
 	private String name;
 	private final String path;
 
-	public Thumbnail(String path, int maxWidth, int maxHeight) throws Exception
+	public Thumbnail(String path) throws Exception
 	{
 		this.path = path;
 		Path p = Paths.get(path);
@@ -27,9 +27,9 @@ public class Thumbnail
 		int imgWidth = original.getWidth();
 		int imgHeight = original.getHeight();
 
-		double maxRatio = (double)maxWidth / maxHeight;
+		double maxRatio = 1;
 		double imgRatio = (double)imgWidth / imgHeight;
-		double scale = (imgRatio > maxRatio) ?  (double)maxWidth / imgWidth : (double)maxHeight / imgHeight;
+		double scale = (imgRatio > maxRatio) ? (100.0 / imgWidth) : (100.0 / imgHeight);
 
 		int newWidth = (int)(imgWidth * scale);
 		int newHeight = (int)(imgHeight * scale);

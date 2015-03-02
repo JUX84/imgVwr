@@ -27,7 +27,7 @@ public class Keywords
 			statement.executeUpdate();
 		}
 		catch (Exception e) {
-			System.err.println(e);
+			System.err.println(e.getMessage());
 		}
 	}
 
@@ -51,7 +51,7 @@ public class Keywords
 				result = rs.getString("keywords");
 		}
 		catch (Exception e) {
-			System.err.println(e);
+			System.err.println(e.getMessage());
 		}
 
 		return result;
@@ -77,7 +77,7 @@ public class Keywords
 				result.add(rs.getString("path"));
 		}
 		catch (Exception e) {
-			System.err.println(e);
+			System.err.println(e.getMessage());
 			result = null;
 		}
 
