@@ -1,9 +1,16 @@
 package view;
 
-import javax.swing.*;
-import model.*;
 import controller.Controller;
-import java.awt.event.*;
+import model.Language;
+
+import javax.swing.JMenuBar;
+import javax.swing.JMenu;
+import javax.swing.JMenuItem;
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.WindowEvent;
 import java.util.Observer;
 import java.util.Observable;
 

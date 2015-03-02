@@ -17,14 +17,18 @@ import java.awt.Dimension;
 import java.awt.Component;
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
-import java.awt.event.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.Observer;
 import java.util.Observable;
 import java.util.List;
 import java.io.File;
 
 import controller.Controller;
-import model.*;
+import model.Language;
+import model.Path;
+import model.SearchResults;
+import model.Thumbnail;
 
 public class ExplorerView extends BaseView implements Observer
 {

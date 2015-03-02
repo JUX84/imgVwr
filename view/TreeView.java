@@ -1,13 +1,20 @@
 package view;
 
-import javax.swing.*;
-import javax.swing.event.*;
-import javax.swing.tree.*;
-import java.util.*;
-import java.io.*;
-
 import model.Language;
 import controller.Controller;
+
+import javax.swing.JTree;
+import javax.swing.JScrollPane;
+import javax.swing.event.TreeModelEvent;
+import javax.swing.event.TreeModelListener;
+import javax.swing.event.TreeSelectionEvent;
+import javax.swing.event.TreeSelectionListener;
+import javax.swing.tree.TreeModel;
+import javax.swing.tree.TreePath;
+import java.io.File;
+import java.util.Iterator;
+import java.util.Observable;
+import java.util.Vector;
 
 public class TreeView extends BaseView
 {

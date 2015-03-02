@@ -1,8 +1,9 @@
 package view;
 
-import javax.swing.*;
-
 import controller.Controller;
+
+import javax.swing.JPanel;
+import javax.swing.JFileChooser;
 
 class FileChooser extends JPanel {
 	public FileChooser(final Controller controller) {
