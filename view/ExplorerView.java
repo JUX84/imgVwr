@@ -13,9 +13,6 @@ import javax.swing.ListSelectionModel;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.SwingWorker;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
-import java.awt.Image;
 import java.awt.Dimension;
 import java.awt.Component;
 import java.awt.BorderLayout;
@@ -25,31 +22,26 @@ import java.util.Observer;
 import java.util.Observable;
 import java.util.List;
 import java.io.File;
-import java.io.IOException;
-import javax.imageio.ImageIO;
+
 import controller.Controller;
 import model.*;
 import view.FileChooser;
 
 public class ExplorerView extends BaseView implements Observer
 {
-	private final Controller controller;
-	private Language language;
-	private SearchResults results;
+    private SearchResults results;
 	private String path;
 
-	private JScrollPane scroll;
+    private final DefaultListModel iconListModel;
+	private final JList<Thumbnail> iconList;
 
-	private DefaultListModel iconListModel;
-	private JList<Thumbnail> iconList;
-
-	private JButton browse;
-	private JButton search;
+	private final JButton browse;
+	private final JButton search;
 	private JTextField searchField;
 
 	private SwingWorker<Void, Thumbnail> loadImageWorker = null;
 
-	public void createImages()
+	void createImages()
 	{
 		if (path == null)
 			return;
@@ -61,9 +53,7 @@ public class ExplorerView extends BaseView implements Observer
 	{
 		super();
 
-		this.controller = controller;
-
-		browse = new JButton();
+        browse = new JButton();
 
 		browse.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -82,7 +72,7 @@ public class ExplorerView extends BaseView implements Observer
 		searchField.setPreferredSize(new Dimension(200, 20));
 
 		iconListModel = new DefaultListModel();
-		iconList = new JList<Thumbnail>(iconListModel);
+        iconList = new JList<Thumbnail>(iconListModel);
 		iconList.setCellRenderer(new iconListCellRenderer());
 		iconList.setLayoutOrientation(JList.HORIZONTAL_WRAP);
 		iconList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
@@ -90,7 +80,7 @@ public class ExplorerView extends BaseView implements Observer
 		iconList.addListSelectionListener(new ListSelectionListener() {
 			public void valueChanged(ListSelectionEvent e)
 			{
-				Thumbnail t = (Thumbnail)iconList.getSelectedValue();
+				Thumbnail t = iconList.getSelectedValue();
 				if (t != null)
 					controller.thumbnailSelected(t);
 			}
@@ -98,7 +88,7 @@ public class ExplorerView extends BaseView implements Observer
 
 		createImages();
 
-		scroll = new JScrollPane(iconList);
+        JScrollPane scroll = new JScrollPane(iconList);
 		scroll.setPreferredSize(new Dimension(300, 300));
 
 		JPanel top = new JPanel();
@@ -117,8 +107,7 @@ public class ExplorerView extends BaseView implements Observer
 	}
 
 	public void setLanguage(Language language) {
-		this.language = language;
-		super.setTitle(language.getString("explorer"));
+        super.setTitle(language.getString("explorer"));
 		browse.setText(language.getString("browse"));
 		search.setText(language.getString("search"));
 	}
@@ -139,7 +128,7 @@ public class ExplorerView extends BaseView implements Observer
 		results = sr;
 	}
 
-	public void setSelectedName(model.Image img) {
+	void setSelectedName(model.Image img) {
 		iconList.getSelectedValue().setName(img.getName());
 	}
 
@@ -202,7 +191,7 @@ public class ExplorerView extends BaseView implements Observer
 
 	private class imageLoader extends SwingWorker<Void, Thumbnail>
 	{
-		private File[] files;
+		private final File[] files;
 
 		public imageLoader()
 		{
@@ -261,7 +250,7 @@ public class ExplorerView extends BaseView implements Observer
 		{
 			if (!isCancelled()) {
 				for (Thumbnail t : chunks) {
-					iconListModel.addElement(t);
+                    iconListModel.addElement(t);
 					if (Path.isSelected(t.getName()))
 						iconList.setSelectedValue(t, true);
 				}

@@ -16,20 +16,15 @@ import controller.Controller;
 
 public class KeywordsView extends BaseView implements Observer
 {
-	private final Controller controller;
-	private Language language;
-	private JScrollPane scroll;
-	private JTextArea text;
-	private JButton save;
+    private final JTextArea text;
+	private final JButton save;
 
 	public KeywordsView(final Controller controller)
 	{
 		super();
 
-		this.controller = controller;
-
-		text = new JTextArea();
-		scroll = new JScrollPane(text);
+        text = new JTextArea();
+        JScrollPane scroll = new JScrollPane(text);
 
 		save = new JButton();
 		save.setAlignmentX(Component.RIGHT_ALIGNMENT);
@@ -49,8 +44,7 @@ public class KeywordsView extends BaseView implements Observer
 	}
 
 	public void setLanguage(Language language) {
-		this.language = language;
-		super.setTitle(language.getString("keywords"));
+        super.setTitle(language.getString("keywords"));
 		save.setText(language.getString("save"));
 	}
 
@@ -62,7 +56,7 @@ public class KeywordsView extends BaseView implements Observer
 			loadImageKeywords(((Image)o).getPath());
 	}
 
-	public void loadImageKeywords(String p)
+	void loadImageKeywords(String p)
 	{
 		if (p != null) {
 			String t = Keywords.getkeywords(p);

@@ -1,6 +1,5 @@
 package controller;
 
-import java.util.List;
 import javax.swing.JOptionPane;
 import view.ExplorerView;
 import view.LangView;
@@ -18,10 +17,10 @@ import java.io.File;
 
 public class Controller
 {
-	private Image image;
-	private Path path;
-	private Language language;
-	private SearchResults results;
+	private final Image image;
+	private final Path path;
+	private final Language language;
+	private final SearchResults results;
 
 	public Controller(Image image, Path path, Language language, SearchResults results) {
 		this.image = image;
@@ -100,8 +99,9 @@ public class Controller
 				JOptionPane.showMessageDialog(null, language.getString("errorDuplicate"), language.getString("error"), JOptionPane.ERROR_MESSAGE);
 				return;
 			}
-			f.renameTo(tmp);
-			image.setName(name);
+			boolean b = f.renameTo(tmp);
+            if(b)
+			    image.setName(name);
 		}
 	}
 

@@ -5,7 +5,7 @@ import java.util.Observable;
 
 public class SearchResults extends Observable
 {
-	List<String> results = null;
+	private List<String> results = null;
 
 	public void setResults(List<String> results)
 	{

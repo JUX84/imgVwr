@@ -4,7 +4,6 @@ import javax.swing.ImageIcon;
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.File;
-import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
@@ -13,7 +12,7 @@ public class Thumbnail
 	private BufferedImage original;
 	private ImageIcon image;
 	private String name;
-	private String path;
+	private final String path;
 
 	public Thumbnail(String path, int maxWidth, int maxHeight) throws Exception
 	{

@@ -9,21 +9,18 @@ import java.util.Observable;
 
 public class MenuView extends JMenuBar implements Observer {
 
-	private Controller controller;
-	private Language language;
+    private Language language;
 
-	private JMenu fileMenu;
-	private JMenu editMenu;
-	private JMenuItem opnImg;
-	private JMenuItem exit;
-	private JMenuItem rnmImg;
+	private final JMenu fileMenu;
+	private final JMenu editMenu;
+	private final JMenuItem opnImg;
+	private final JMenuItem exit;
+	private final JMenuItem rnmImg;
 
-	public MenuView(Controller controller) {
+	public MenuView(final Controller controller) {
 		super();
 
-		this.controller = controller;
-
-		fileMenu = new JMenu();
+        fileMenu = new JMenu();
 		editMenu = new JMenu();
 		opnImg = new JMenuItem();
 		exit = new JMenuItem();

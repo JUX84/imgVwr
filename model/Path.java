@@ -16,7 +16,7 @@ public class Path extends Observable {
 		return path;
 	}
 
-	public void setPath(String path) {
+	void setPath(String path) {
 		this.path = path;
 	}
 
@@ -37,8 +37,6 @@ public class Path extends Observable {
 	}
 
 	public static boolean isSelected(String name) {
-		if(name.equals(selected))
-			return true;
-		return false;
-	}
+        return name.equals(selected);
+    }
 }

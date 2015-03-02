@@ -5,6 +5,7 @@ import javax.swing.BoxLayout;
 import java.awt.Dimension;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowAdapter;
+
 import model.Language;
 import model.Path;
 import model.DBConnection;
@@ -17,13 +18,14 @@ import view.MenuView;
 import view.TreeView;
 import controller.Controller;
 
-public class imgVwr {
+class imgVwr {
 
-	public static void startGUI() {
+	private static void startGUI() {
 
 		model.Image i = new model.Image();
 		Path p = new Path(System.getProperty("user.home"));
-		Language l = new Language("fr");
+        System.out.println(System.getProperty("user.language"));
+		Language l = new Language(System.getProperty("user.language"));
 		SearchResults sr = new SearchResults();
 
 		Controller controller = new Controller(i, p, l, sr);
