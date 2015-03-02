@@ -18,20 +18,24 @@ public class MenuView extends JMenuBar implements Observer {
 
     private Language language;
 
-	private final JMenu fileMenu;
-	private final JMenu editMenu;
-	private final JMenuItem opnImg;
-	private final JMenuItem exit;
-	private final JMenuItem rnmImg;
+	private JMenu fileMenu;
+	private JMenu editMenu;
+	private JMenu helpMenu;
+	private JMenuItem opnImg;
+	private JMenuItem exit;
+	private JMenuItem rnmImg;
+	private JMenuItem about;
 
 	public MenuView(final Controller controller) {
 		super();
 
         fileMenu = new JMenu();
 		editMenu = new JMenu();
+		helpMenu = new JMenu();
 		opnImg = new JMenuItem();
 		exit = new JMenuItem();
 		rnmImg = new JMenuItem();
+		about = new JMenuItem();
 
 		opnImg.addActionListener(new ActionListener() {
 			@Override
@@ -55,15 +59,22 @@ public class MenuView extends JMenuBar implements Observer {
 				controller.imageRenamed(str);
 			}
 		});
+		about.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				JOptionPane.showMessageDialog(null, language.getString("aboutContent"), language.getString("about"), JOptionPane.INFORMATION_MESSAGE);
+			}
+		});
 
 		rnmImg.setEnabled(false);
 
 		fileMenu.add(opnImg);
 		fileMenu.add(exit);
 		editMenu.add(rnmImg);
+		helpMenu.add(about);
 
 		add(fileMenu);
 		add(editMenu);
+		add(helpMenu);
 
 		controller.init(this);
 	}
@@ -72,9 +83,11 @@ public class MenuView extends JMenuBar implements Observer {
 		this.language = language;
 		fileMenu.setText(language.getString("menuFile"));
 		editMenu.setText(language.getString("menuEdit"));
+		helpMenu.setText(language.getString("menuHelp"));
 		opnImg.setText(language.getString("menuFileOpen"));
 		exit.setText(language.getString("menuFileExit"));
 		rnmImg.setText(language.getString("menuEditRename"));
+		about.setText(language.getString("about"));
 	}
 
 	@Override
