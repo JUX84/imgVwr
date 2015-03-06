@@ -97,10 +97,15 @@ public class ViewerView extends BaseView implements Observer {
             width = (int) (width * scale);
             height = (int) (height * scale);
 
-            if(height>0.88*maxHeight)
+            if(maxHeight-height<60)
                 nameLabel.setForeground(Color.white);
             else
                 nameLabel.setForeground(Color.black);
+
+            if(maxWidth-width<60 && maxHeight-height<20)
+                super.setTitleColor(Color.white);
+            else
+                super.setTitleColor(Color.black);
 
             x = (maxWidth - width) / 2; // On place l'image au milieu
             y = (maxHeight - height) / 2;
