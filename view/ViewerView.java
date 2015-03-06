@@ -1,15 +1,15 @@
 package view;
 
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.BoxLayout;
-import javax.swing.ImageIcon;
+import javax.swing.*;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.math.BigDecimal;
 import java.util.Observer;
 import java.util.Observable;
-import java.awt.Graphics;
-import java.awt.Component;
+
 import model.Image;
 import model.Language;
 import controller.Controller;
@@ -19,12 +19,15 @@ public class ViewerView extends BaseView implements Observer {
     private Language language;
     private JLabel imgLabel;
 	private final JLabel nameLabel;
+    private double scale;
+    private final SpinnerNumberModel model;
+    private final JSpinner spinner;
 
 	public ViewerView(final Controller controller) {
 		super();
         imgLabel = new JLabel();
 		nameLabel = new JLabel();
-		nameLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+        nameLabel.setAlignmentX(CENTER_ALIGNMENT);
         nameLabel.addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent e) {
@@ -40,17 +43,39 @@ public class ViewerView extends BaseView implements Observer {
 		add(imgLabel);
 		add(nameLabel);
 
+        model = new SpinnerNumberModel(1.0d, 0.1d, 2.0d, 0.01d);
+        spinner = new JSpinner(model);
+        spinner.setMaximumSize(new Dimension(50,20));
+        spinner.addChangeListener(new ChangeListener() {
+            public void stateChanged(ChangeEvent e) {
+                Double d = (Double) spinner.getValue();
+                setScale(d);
+            }
+        });
+        spinner.setVisible(false);
+        add(spinner);
+
 		controller.init(this);
 	}
 
 	public void setImage(Image image) {
 		this.image = image;
+        spinner.setVisible(false);
         if(image != null) {
             nameLabel.setText(image.getName());
-            if (image.isNotDamaged())
+            if (image.isNotDamaged()) {
                 imgLabel = new JLabel(new ImageIcon(image.getBufferedImage()));
-            else
+                double width = getWidth();
+                double height = getHeight();
+                double imageWidth = image.getWidth();
+                double imageHeight = image.getHeight();
+                scale = Math.min(width/imageWidth*0.80, height/imageHeight*0.80);
+                scale = new BigDecimal(scale).setScale(2,BigDecimal.ROUND_HALF_UP).doubleValue();
+                model.setValue(scale);
+                spinner.setVisible(true);
+            } else {
                 imgLabel = null;
+            }
         }
         new imageLoader().run();
 	}
@@ -69,18 +94,26 @@ public class ViewerView extends BaseView implements Observer {
             width = image.getWidth();
             height = image.getHeight();
 
-            double maxRatio = (double) maxWidth / maxHeight;
-            double imgRatio = (double) width / height;
-            double scale = (imgRatio > maxRatio) ? (double) maxWidth * 0.8 / width : (double) maxHeight * 0.8 / height;
-
             width = (int) (width * scale);
             height = (int) (height * scale);
+
+            if(height>0.88*maxHeight)
+                nameLabel.setForeground(Color.white);
+            else
+                nameLabel.setForeground(Color.black);
 
             x = (maxWidth - width) / 2; // On place l'image au milieu
             y = (maxHeight - height) / 2;
             g.drawImage(image.getBufferedImage(), x, y, width, height, this);
         }
 	}
+
+    void setScale(double s)
+    {
+        scale = s;
+        revalidate();      // update the scroll pane
+        repaint();
+    }
 
 	@Override
 	public void update (Observable o, Object arg) {
