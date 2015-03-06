@@ -6,6 +6,7 @@ import javax.swing.event.ChangeListener;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseWheelEvent;
 import java.math.BigDecimal;
 import java.util.Observer;
 import java.util.Observable;
@@ -54,6 +55,25 @@ public class ViewerView extends BaseView implements Observer {
         });
         spinner.setVisible(false);
         add(spinner);
+
+		addMouseWheelListener(new MouseAdapter() {
+			@Override
+			public void mouseWheelMoved(MouseWheelEvent e)
+			{
+				if (spinner.isVisible()) {
+					int notches = e.getWheelRotation();
+
+					if (e.getScrollType() == MouseWheelEvent.WHEEL_UNIT_SCROLL) {
+						Double d = (Double)model.getValue();
+						double amount = (double)e.getScrollAmount() / 100;
+						if (notches >= 0)
+							amount *= -1;
+
+						model.setValue((Double)(d + amount));
+					}
+				}
+			}
+		});
 
 		controller.init(this);
 	}
