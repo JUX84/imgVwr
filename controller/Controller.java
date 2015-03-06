@@ -110,4 +110,13 @@ public class Controller
 		if (!searchText.isEmpty())
 			results.setResults(Keywords.search(searchText));
 	}
+
+	public void imageDeleted()
+	{
+		if (image != null) {
+			File f = new File(image.getPath());
+			f.delete();
+			path.set(new File(path.getPath())); // get path observers to update
+		}
+	}
 }

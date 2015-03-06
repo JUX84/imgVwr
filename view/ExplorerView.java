@@ -214,6 +214,7 @@ public class ExplorerView extends BaseView implements Observer
 	private class ImageContextMenu extends JPopupMenu
 	{
 		JMenuItem rename;
+		JMenuItem delete;
 
 		public ImageContextMenu(final Controller controller)
 		{
@@ -230,11 +231,26 @@ public class ExplorerView extends BaseView implements Observer
 				}
 			});
 			add(rename);
+
+			delete = new JMenuItem();
+			delete.addActionListener(new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent e)
+				{
+					int val = JOptionPane.showConfirmDialog(ExplorerView.this,
+							language.getString("deleteImageConfirm"), "",
+							JOptionPane.YES_NO_OPTION);
+					if (val == JOptionPane.YES_OPTION)
+						controller.imageDeleted();
+				}
+			});
+			add(delete);
 		}
 
 		public void setLanguage(Language lang)
 		{
 			rename.setText(lang.getString("menuEditRename"));
+			delete.setText(lang.getString("menuEditDelete"));
 		}
 	}
 
