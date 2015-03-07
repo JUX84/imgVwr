@@ -19,18 +19,18 @@ import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 
-public class ExplorerView extends BaseView implements Observer
+public final class ExplorerView extends BaseView implements Observer
 {
 	private final DefaultListModel<Thumbnail> iconListModel;
 	private final JList<Thumbnail> iconList;
 	private final JButton browse;
 	private final JButton search;
 	private final ImageContextMenu contextMenu;
-	private SearchResults results;
-	private String path;
+	private SearchResults results = null;
+	private String path = null;
 	private JTextField searchField;
 	private SwingWorker<Void, Thumbnail> loadImageWorker = null;
-	private model.Image image;
+	private model.Image image = null;
 
 	private boolean searchDisplay = false;
 
@@ -169,7 +169,7 @@ public class ExplorerView extends BaseView implements Observer
 		}
 	}
 
-	public void setImage(model.Image image) {
+	void setImage(model.Image image) {
 		if(this.image == null)
 			this.image = image;
 		iconList.getSelectedValue().setName(image.getName());
