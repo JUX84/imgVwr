@@ -1,6 +1,7 @@
 package view;
 
 import controller.Controller;
+import model.Image;
 import model.Language;
 
 import javax.swing.*;
@@ -18,8 +19,10 @@ public class MenuView extends JMenuBar implements Observer {
 	private final JMenuItem opnImg;
 	private final JMenuItem exit;
 	private final JMenuItem rnmImg;
+	private final JMenuItem delImg;
 	private final JMenuItem about;
 	private Language language;
+	private Image image;
 
 	public MenuView(final Controller controller) {
 		super();
@@ -30,6 +33,7 @@ public class MenuView extends JMenuBar implements Observer {
 		opnImg = new JMenuItem();
 		exit = new JMenuItem();
 		rnmImg = new JMenuItem();
+		delImg = new JMenuItem();
 		about = new JMenuItem();
 
 		opnImg.addActionListener(new ActionListener() {
@@ -45,11 +49,27 @@ public class MenuView extends JMenuBar implements Observer {
 				frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
 			}
 		});
+		delImg.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				int val = JOptionPane.showConfirmDialog(null,
+						language.getString("deleteImageConfirm"), language.getString("menuEditDelete"),
+						JOptionPane.YES_NO_OPTION);
+				if (val == JOptionPane.YES_OPTION)
+					controller.imageDeleted();
+			}
+		});
 		rnmImg.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				String str = JOptionPane.showInputDialog(language.getString("renameImage"));
-				if (str == null || str.isEmpty())
+				String str = image.getName();
+				String ext = str.substring(str.lastIndexOf('.'), str.length());
+				str = JOptionPane.showInputDialog(null, language.getString("renameImage"), image.getName());
+				while(!str.substring(str.lastIndexOf('.'), str.length()).equals(ext)) {
+					JOptionPane.showMessageDialog(null, language.getString("extensionError"), language.getString("menuEditRename"), JOptionPane.ERROR_MESSAGE);
+					str = JOptionPane.showInputDialog(null, language.getString("renameImage"), str);
+				}
+				if (str.isEmpty() || str.equals(image.getName()))
 					return;
 				controller.imageRenamed(str);
 			}
@@ -61,10 +81,12 @@ public class MenuView extends JMenuBar implements Observer {
 		});
 
 		rnmImg.setEnabled(false);
+		delImg.setEnabled(false);
 
 		fileMenu.add(opnImg);
 		fileMenu.add(exit);
 		editMenu.add(rnmImg);
+		editMenu.add(delImg);
 		helpMenu.add(about);
 
 		add(fileMenu);
@@ -83,7 +105,15 @@ public class MenuView extends JMenuBar implements Observer {
 		opnImg.setText(language.getString("menuFileOpen"));
 		exit.setText(language.getString("menuFileExit"));
 		rnmImg.setText(language.getString("menuEditRename"));
+		delImg.setText(language.getString("menuEditDelete"));
 		about.setText(language.getString("about"));
+	}
+
+	void setImage(Image image) {
+		if(this.image == null)
+			this.image = image;
+		rnmImg.setEnabled(true);
+		delImg.setEnabled(true);
 	}
 
 	@Override
@@ -92,6 +122,6 @@ public class MenuView extends JMenuBar implements Observer {
 		if (tmp.equals("language"))
 			setLanguage((Language) o);
 		if (tmp.equals("image"))
-			rnmImg.setEnabled(true);
+			setImage((Image) o);
 	}
 }

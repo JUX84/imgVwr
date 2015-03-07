@@ -30,6 +30,7 @@ public class ExplorerView extends BaseView implements Observer
 	private String path;
 	private JTextField searchField;
 	private SwingWorker<Void, Thumbnail> loadImageWorker = null;
+	private model.Image image;
 
 	private boolean searchDisplay = false;
 
@@ -99,6 +100,7 @@ public class ExplorerView extends BaseView implements Observer
 					if (index != -1
 							&& iconList.getCellBounds(index, index).contains(p)) {
 						iconList.setSelectedIndex(index);
+						contextMenu.setImage(image);
 						contextMenu.show(e.getComponent(), e.getX(), e.getY());
 					}
 				}
@@ -114,6 +116,7 @@ public class ExplorerView extends BaseView implements Observer
 					if (index != -1
 							&& iconList.getCellBounds(index, index).contains(p)) {
 						iconList.setSelectedIndex(index);
+						contextMenu.setImage(image);
 						contextMenu.show(e.getComponent(), e.getX(), e.getY());
 					}
 				}
@@ -166,12 +169,14 @@ public class ExplorerView extends BaseView implements Observer
 		}
 	}
 
-	public void setSearchResults(SearchResults sr) {
-		results = sr;
+	void setImage(model.Image image) {
+		if(this.image == null)
+			this.image = image;
+		iconList.getSelectedValue().setName(image.getName());
 	}
 
-	void setSelectedName(model.Image img) {
-		iconList.getSelectedValue().setName(img.getName());
+	public void setSearchResults(SearchResults sr) {
+		results = sr;
 	}
 
 	@Override
@@ -182,7 +187,7 @@ public class ExplorerView extends BaseView implements Observer
 		else if (tmp.equals("language"))
 			setLanguage((Language) o);
 		else if (tmp.equals("image"))
-			setSelectedName((model.Image) o);
+			setImage((model.Image) o);
 		else if (tmp.equals("searchResults"))
 			new imageLoader(results.getResults()).execute();
 	}

@@ -50,8 +50,14 @@ public class ViewerView extends BaseView implements Observer {
 			@Override
 			public void mousePressed(MouseEvent e) {
 				if (e.getClickCount() >= 2) {
-					String str = JOptionPane.showInputDialog(language.getString("renameImage"));
-					if (str == null || str.isEmpty())
+					String str = image.getName();
+					String ext = str.substring(str.lastIndexOf('.'), str.length());
+					str = JOptionPane.showInputDialog(null, language.getString("renameImage"), image.getName());
+					while(!str.substring(str.lastIndexOf('.'), str.length()).equals(ext)) {
+						JOptionPane.showMessageDialog(null, language.getString("extensionError"), language.getString("menuEditRename"), JOptionPane.ERROR_MESSAGE);
+						str = JOptionPane.showInputDialog(null, language.getString("renameImage"), str);
+					}
+					if (str.isEmpty() || str.equals(image.getName()))
 						return;
 					controller.imageRenamed(str);
 				}
@@ -118,6 +124,7 @@ public class ViewerView extends BaseView implements Observer {
 				scale = new BigDecimal(scale).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
 				model.setValue(scale);
 				spinner.setVisible(true);
+				contextMenu.setImage(image);
 			} else {
 				imgLabel = null;
 			}
