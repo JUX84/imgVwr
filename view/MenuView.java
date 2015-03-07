@@ -1,6 +1,7 @@
 package view;
 
 import controller.Controller;
+import model.Image;
 import model.Language;
 
 import javax.swing.*;
@@ -21,6 +22,7 @@ public class MenuView extends JMenuBar implements Observer {
 	private final JMenuItem delImg;
 	private final JMenuItem about;
 	private Language language;
+	private Image image;
 
 	public MenuView(final Controller controller) {
 		super();
@@ -60,8 +62,14 @@ public class MenuView extends JMenuBar implements Observer {
 		rnmImg.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				String str = JOptionPane.showInputDialog(null, language.getString("renameImage"), language.getString("renameTitle"), JOptionPane.INFORMATION_MESSAGE);
-				if (str == null || str.isEmpty())
+				String str = image.getName();
+				String ext = str.substring(str.lastIndexOf('.'), str.length());
+				str = JOptionPane.showInputDialog(null, language.getString("renameImage"), image.getName());
+				while(!str.substring(str.lastIndexOf('.'), str.length()).equals(ext)) {
+					JOptionPane.showMessageDialog(null, language.getString("extensionError"), language.getString("menuEditRename"), JOptionPane.ERROR_MESSAGE);
+					str = JOptionPane.showInputDialog(null, language.getString("renameImage"), str);
+				}
+				if (str.isEmpty() || str.equals(image.getName()))
 					return;
 				controller.imageRenamed(str);
 			}
@@ -101,14 +109,19 @@ public class MenuView extends JMenuBar implements Observer {
 		about.setText(language.getString("about"));
 	}
 
+	void setImage(Image image) {
+		if(this.image == null)
+			this.image = image;
+		rnmImg.setEnabled(true);
+		delImg.setEnabled(true);
+	}
+
 	@Override
 	public void update(Observable o, Object arg) {
 		String tmp = (String) arg;
 		if (tmp.equals("language"))
 			setLanguage((Language) o);
-		if (tmp.equals("image")) {
-			rnmImg.setEnabled(true);
-			delImg.setEnabled(true);
-		}
+		if (tmp.equals("image"))
+			setImage((Image) o);
 	}
 }

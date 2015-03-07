@@ -1,6 +1,7 @@
 package view;
 
 import controller.Controller;
+import model.Image;
 import model.Language;
 
 import javax.swing.*;
@@ -11,16 +12,22 @@ class ImageContextMenu extends JPopupMenu {
 	private final JMenuItem rename;
 	private final JMenuItem delete;
 	private Language language;
+	private Image image;
 
 	public ImageContextMenu(final Controller controller) {
 		rename = new JMenuItem();
 		rename.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				String str = JOptionPane.showInputDialog(language.getString("renameImage"));
-				if (str == null || str.isEmpty())
+				String str = image.getName();
+				String ext = str.substring(str.lastIndexOf('.'), str.length());
+				str = JOptionPane.showInputDialog(null, language.getString("renameImage"), image.getName());
+				while(!str.substring(str.lastIndexOf('.'), str.length()).equals(ext)) {
+					JOptionPane.showMessageDialog(null, language.getString("extensionError"), language.getString("menuEditRename"), JOptionPane.ERROR_MESSAGE);
+					str = JOptionPane.showInputDialog(null, language.getString("renameImage"), str);
+				}
+				if (str.isEmpty() || str.equals(image.getName()))
 					return;
-
 				controller.imageRenamed(str);
 			}
 		});
@@ -31,7 +38,7 @@ class ImageContextMenu extends JPopupMenu {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				int val = JOptionPane.showConfirmDialog(null,
-						language.getString("deleteImageConfirm"), "",
+						language.getString("deleteImageConfirm"), language.getString("menuEditDelete"),
 						JOptionPane.YES_NO_OPTION);
 				if (val == JOptionPane.YES_OPTION)
 					controller.imageDeleted();
@@ -45,5 +52,10 @@ class ImageContextMenu extends JPopupMenu {
 			language = lang;
 		rename.setText(lang.getString("menuEditRename"));
 		delete.setText(lang.getString("menuEditDelete"));
+	}
+
+	public void setImage(Image image) {
+		if(this.image == null)
+			this.image = image;
 	}
 }
