@@ -12,8 +12,6 @@ import java.util.Observer;
 
 public class MenuView extends JMenuBar implements Observer {
 
-    private Language language;
-
 	private final JMenu fileMenu;
 	private final JMenu editMenu;
 	private final JMenu helpMenu;
@@ -21,11 +19,12 @@ public class MenuView extends JMenuBar implements Observer {
 	private final JMenuItem exit;
 	private final JMenuItem rnmImg;
 	private final JMenuItem about;
+	private Language language;
 
 	public MenuView(final Controller controller) {
 		super();
 
-        fileMenu = new JMenu();
+		fileMenu = new JMenu();
 		editMenu = new JMenu();
 		helpMenu = new JMenu();
 		opnImg = new JMenuItem();
@@ -42,7 +41,7 @@ public class MenuView extends JMenuBar implements Observer {
 		exit.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				JFrame frame = ((JFrame)getParent().getParent().getParent());
+				JFrame frame = ((JFrame) getParent().getParent().getParent());
 				frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
 			}
 		});
@@ -50,7 +49,7 @@ public class MenuView extends JMenuBar implements Observer {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				String str = JOptionPane.showInputDialog(language.getString("renameImage"));
-				if(str == null || str.isEmpty())
+				if (str == null || str.isEmpty())
 					return;
 				controller.imageRenamed(str);
 			}
@@ -76,8 +75,8 @@ public class MenuView extends JMenuBar implements Observer {
 	}
 
 	public void setLanguage(Language language) {
-        if(this.language == null)
-		    this.language = language;
+		if (this.language == null)
+			this.language = language;
 		fileMenu.setText(language.getString("menuFile"));
 		editMenu.setText(language.getString("menuEdit"));
 		helpMenu.setText(language.getString("menuHelp"));
@@ -89,10 +88,10 @@ public class MenuView extends JMenuBar implements Observer {
 
 	@Override
 	public void update(Observable o, Object arg) {
-		String tmp = (String)arg;
-		if(tmp.equals("language"))
-			setLanguage((Language)o);
-		if(tmp.equals("image"))
+		String tmp = (String) arg;
+		if (tmp.equals("language"))
+			setLanguage((Language) o);
+		if (tmp.equals("image"))
 			rnmImg.setEnabled(true);
 	}
 }
