@@ -56,7 +56,7 @@ class imgVwr {
 		langPanel.setLayout(new BoxLayout(langPanel, BoxLayout.LINE_AXIS));
 
 		JSplitPane treeViewerSplit = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, tree, viewer);
-		treeViewerSplit.setResizeWeight(0.3);
+		treeViewerSplit.setResizeWeight(0.1);
 		JPanel treeViewerSplitContainer = new JPanel();
 		treeViewerSplitContainer.setLayout(new BoxLayout(treeViewerSplitContainer, BoxLayout.LINE_AXIS));
 		treeViewerSplitContainer.add(treeViewerSplit);
