@@ -53,7 +53,7 @@ public class KeywordsView extends BaseView implements Observer {
 			loadImageKeywords(((Image) o).getPath());
 	}
 
-	void loadImageKeywords(String p) {
+	private void loadImageKeywords(String p) {
 		if (p != null) {
 			String t = Keywords.getkeywords(p);
 			if (t != null)

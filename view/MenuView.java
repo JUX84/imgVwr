@@ -65,9 +65,13 @@ public class MenuView extends JMenuBar implements Observer {
 				String str = image.getName();
 				String ext = str.substring(str.lastIndexOf('.'), str.length());
 				str = JOptionPane.showInputDialog(null, language.getString("renameImage"), image.getName());
+				if(str == null)
+					return;
 				while(!str.substring(str.lastIndexOf('.'), str.length()).equals(ext)) {
 					JOptionPane.showMessageDialog(null, language.getString("extensionError"), language.getString("menuEditRename"), JOptionPane.ERROR_MESSAGE);
 					str = JOptionPane.showInputDialog(null, language.getString("renameImage"), str);
+					if(str == null)
+						return;
 				}
 				if (str.isEmpty() || str.equals(image.getName()))
 					return;
@@ -109,7 +113,7 @@ public class MenuView extends JMenuBar implements Observer {
 		about.setText(language.getString("about"));
 	}
 
-	void setImage(Image image) {
+	public void setImage(Image image) {
 		if(this.image == null)
 			this.image = image;
 		rnmImg.setEnabled(true);

@@ -22,9 +22,13 @@ class ImageContextMenu extends JPopupMenu {
 				String str = image.getName();
 				String ext = str.substring(str.lastIndexOf('.'), str.length());
 				str = JOptionPane.showInputDialog(null, language.getString("renameImage"), image.getName());
+				if(str == null)
+					return;
 				while(!str.substring(str.lastIndexOf('.'), str.length()).equals(ext)) {
 					JOptionPane.showMessageDialog(null, language.getString("extensionError"), language.getString("menuEditRename"), JOptionPane.ERROR_MESSAGE);
 					str = JOptionPane.showInputDialog(null, language.getString("renameImage"), str);
+					if(str == null)
+						return;
 				}
 				if (str.isEmpty() || str.equals(image.getName()))
 					return;

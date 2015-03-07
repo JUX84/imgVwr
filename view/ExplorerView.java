@@ -169,7 +169,7 @@ public class ExplorerView extends BaseView implements Observer
 		}
 	}
 
-	void setImage(model.Image image) {
+	public void setImage(model.Image image) {
 		if(this.image == null)
 			this.image = image;
 		iconList.getSelectedValue().setName(image.getName());

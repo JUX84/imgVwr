@@ -7,8 +7,6 @@ import view.*;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
 import java.awt.event.*;
 import java.util.*;
 
@@ -16,12 +14,12 @@ class imgVwr {
 
 	private static void startGUI() {
 
-		model.Image i = new model.Image();
-		Path p = new Path(System.getProperty("user.home"));
-		Language l = new Language(System.getProperty("user.language"));
-		SearchResults sr = new SearchResults();
+		final model.Image i = new model.Image();
+		final Path p = new Path(System.getProperty("user.home"));
+		final Language l = new Language(System.getProperty("user.language"));
+		final SearchResults sr = new SearchResults();
 
-		Controller controller = new Controller(i, p, l, sr);
+		final Controller controller = new Controller(i, p, l, sr);
 
 		JFrame frame = new JFrame("imgVwr");
 		frame.addWindowListener(new WindowAdapter() {
@@ -79,25 +77,27 @@ class imgVwr {
 		mainPanel.add(lang);
 		mainPanel.add(verticalSplitContainer);
 
-		HashMap<KeyStroke, Action> actionMap = new HashMap<KeyStroke, Action>();
+		final HashMap<KeyStroke, Action> actionMap = new HashMap<KeyStroke, Action>();
 
 		KeyStroke ctrlr = KeyStroke.getKeyStroke(KeyEvent.VK_R, KeyEvent.CTRL_DOWN_MASK);
 		actionMap.put(ctrlr, new AbstractAction("ctrlr") {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				if (i != null) {
-					String str = i.getName();
-					if (str != null && !str.isEmpty()) {
-						String ext = str.substring(str.lastIndexOf('.'), str.length());
-						str = JOptionPane.showInputDialog(null, l.getString("renamei"), i.getName());
-						while(!str.substring(str.lastIndexOf('.'), str.length()).equals(ext)) {
-							JOptionPane.showMessageDialog(null, l.getString("extensionError"), l.getString("menuEditRename"), JOptionPane.ERROR_MESSAGE);
-							str = JOptionPane.showInputDialog(null, l.getString("renamei"), str);
-						}
-						if (str.isEmpty() || str.equals(i.getName()))
+				String str = i.getName();
+				if (str != null && !str.isEmpty()) {
+					String ext = str.substring(str.lastIndexOf('.'), str.length());
+					str = JOptionPane.showInputDialog(null, l.getString("renameImage"), i.getName());
+					if(str == null)
+						return;
+					while(!str.substring(str.lastIndexOf('.'), str.length()).equals(ext)) {
+						JOptionPane.showMessageDialog(null, l.getString("extensionError"), l.getString("menuEditRename"), JOptionPane.ERROR_MESSAGE);
+						str = JOptionPane.showInputDialog(null, l.getString("renameImage"), str);
+						if(str == null)
 							return;
-						controller.imageRenamed(str);
 					}
+					if (str.isEmpty() || str.equals(i.getName()))
+						return;
+					controller.imageRenamed(str);
 				}
 			}
 		});
@@ -106,9 +106,9 @@ class imgVwr {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				String str = i.getPath();
-				if (i != null && str != null && !str.isEmpty()) {
+				if (str != null && !str.isEmpty()) {
 					int val = JOptionPane.showConfirmDialog(null,
-							l.getString("deleteImageConfirm"), "",
+							l.getString("deleteImageConfirm"), l.getString("menuEditDelete"),
 							JOptionPane.YES_NO_OPTION);
 					if (val == JOptionPane.YES_OPTION)
 						controller.imageDeleted();
