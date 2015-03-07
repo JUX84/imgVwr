@@ -17,8 +17,8 @@ public class Keywords {
 				return;
 
 			PreparedStatement statement =
-					c.prepareStatement("INSERT OR REPLACE INTO " + tableName + " (path, keywords)"
-							+ " VALUES(?, ?)");
+				c.prepareStatement("INSERT OR REPLACE INTO " + tableName + " (path, keywords)"
+						+ " VALUES(?, ?)");
 			statement.setQueryTimeout(10);
 			statement.setString(1, path);
 			statement.setString(2, keywords);

@@ -15,8 +15,8 @@ abstract class BaseView extends JPanel implements Observer {
 
 	void setTitle(String str) {
 		setBorder(BorderFactory.createCompoundBorder(
-				BorderFactory.createTitledBorder(str),
-				BorderFactory.createEmptyBorder(5, 5, 5, 5)));
+					BorderFactory.createTitledBorder(str),
+					BorderFactory.createEmptyBorder(5, 5, 5, 5)));
 	}
 
 	void setTitleColor(Color c) {
