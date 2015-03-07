@@ -61,7 +61,7 @@ public class ViewerView extends BaseView implements Observer {
 		add(imgLabel);
 		add(nameLabel);
 
-		model = new SpinnerNumberModel(1.0d, 0.1d, 2.0d, 0.01d);
+		model = new SpinnerNumberModel(1.0d, 0.1d, 10.0d, 0.01d);
 		spinner = new JSpinner(model);
 		spinner.setMaximumSize(new Dimension(50, 20));
 		spinner.addChangeListener(new ChangeListener() {
@@ -81,11 +81,18 @@ public class ViewerView extends BaseView implements Observer {
 
 					if (e.getScrollType() == MouseWheelEvent.WHEEL_UNIT_SCROLL) {
 						Double d = (Double) model.getValue();
-						double amount = (double) e.getScrollAmount() / 100;
-						if (notches >= 0)
-							amount *= -1;
-
-						model.setValue(d + amount);
+						double amount = (double) e.getScrollAmount() * (Math.max(image.getWidth(), image.getHeight())/500000.0d);
+						if(amount < 0.01d)
+							amount = 0.01d;
+						if (notches >= 0.0d)
+							amount *= -1.0d;
+						d += amount;
+						scale = new BigDecimal(d).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
+						if(scale<0.1d)
+							scale = 0.1d;
+						if(scale>10.0d)
+							scale = 10.0d;
+						model.setValue(scale);
 					}
 				}
 			}
