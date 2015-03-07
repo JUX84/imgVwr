@@ -85,12 +85,19 @@ class imgVwr {
 		actionMap.put(ctrlr, new AbstractAction("ctrlr") {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				if (i != null && !i.getPath().isEmpty()) {
-					String str = JOptionPane.showInputDialog(l.getString("renameImage"));
-					if (str == null || str.isEmpty())
-						return;
-
-					controller.imageRenamed(str);
+				if (i != null) {
+					String str = i.getName();
+					if (str != null && !str.isEmpty()) {
+						String ext = str.substring(str.lastIndexOf('.'), str.length());
+						str = JOptionPane.showInputDialog(null, l.getString("renamei"), i.getName());
+						while(!str.substring(str.lastIndexOf('.'), str.length()).equals(ext)) {
+							JOptionPane.showMessageDialog(null, l.getString("extensionError"), l.getString("menuEditRename"), JOptionPane.ERROR_MESSAGE);
+							str = JOptionPane.showInputDialog(null, l.getString("renamei"), str);
+						}
+						if (str.isEmpty() || str.equals(i.getName()))
+							return;
+						controller.imageRenamed(str);
+					}
 				}
 			}
 		});
@@ -98,7 +105,8 @@ class imgVwr {
 		actionMap.put(ctrld, new AbstractAction("ctrld") {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				if (i != null && !i.getPath().isEmpty()) {
+				String str = i.getPath();
+				if (i != null && str != null && !str.isEmpty()) {
 					int val = JOptionPane.showConfirmDialog(null,
 							l.getString("deleteImageConfirm"), "",
 							JOptionPane.YES_NO_OPTION);
