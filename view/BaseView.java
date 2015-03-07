@@ -1,12 +1,11 @@
 package view;
 
-import javax.swing.JPanel;
-import javax.swing.BorderFactory;
+import javax.swing.*;
 import javax.swing.border.CompoundBorder;
 import javax.swing.border.TitledBorder;
 import java.awt.*;
-import java.util.Observer;
 import java.util.Observable;
+import java.util.Observer;
 
 abstract class BaseView extends JPanel implements Observer {
 	BaseView() {
