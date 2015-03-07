@@ -1,10 +1,10 @@
 package model;
 
 import java.sql.Connection;
-import java.sql.ResultSet;
 import java.sql.PreparedStatement;
-import java.util.List;
+import java.sql.ResultSet;
 import java.util.ArrayList;
+import java.util.List;
 
 public class Keywords
 {

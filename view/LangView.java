@@ -1,12 +1,12 @@
 package view;
 
-import javax.swing.JButton;
-import javax.swing.BoxLayout;
-import java.util.Observable;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
-import model.Language;
 import controller.Controller;
+import model.Language;
+
+import javax.swing.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.Observable;
 
 public class LangView extends BaseView {
 

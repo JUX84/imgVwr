@@ -1,18 +1,9 @@
 package controller;
 
-import javax.swing.JOptionPane;
-import view.ExplorerView;
-import view.LangView;
-import view.KeywordsView;
-import view.ViewerView;
-import view.MenuView;
-import view.TreeView;
-import model.Language;
-import model.Image;
-import model.Path;
-import model.Thumbnail;
-import model.Keywords;
-import model.SearchResults;
+import model.*;
+import view.*;
+
+import javax.swing.*;
 import java.io.File;
 
 public class Controller
@@ -115,7 +106,8 @@ public class Controller
 	{
 		if (image != null) {
 			File f = new File(image.getPath());
-			f.delete();
+			if(!f.delete())
+                JOptionPane.showMessageDialog(null, language.getString("errorDelete"), language.getString("error"), JOptionPane.ERROR_MESSAGE);
 			path.set(new File(path.getPath())); // get path observers to update
 		}
 	}

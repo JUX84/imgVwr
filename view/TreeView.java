@@ -1,10 +1,9 @@
 package view;
 
-import model.Language;
 import controller.Controller;
+import model.Language;
 
-import javax.swing.JTree;
-import javax.swing.JScrollPane;
+import javax.swing.*;
 import javax.swing.event.TreeModelEvent;
 import javax.swing.event.TreeModelListener;
 import javax.swing.event.TreeSelectionEvent;

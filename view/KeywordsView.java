@@ -1,18 +1,16 @@
 package view;
 
-import javax.swing.JTextArea;
-import javax.swing.JScrollPane;
-import javax.swing.JButton;
-import javax.swing.BoxLayout;
-import java.awt.Component;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
-import java.util.Observable;
-import java.util.Observer;
-import model.Language;
+import controller.Controller;
 import model.Image;
 import model.Keywords;
-import controller.Controller;
+import model.Language;
+
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.Observable;
+import java.util.Observer;
 
 public class KeywordsView extends BaseView implements Observer
 {

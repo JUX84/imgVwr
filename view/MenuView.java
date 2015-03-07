@@ -3,16 +3,12 @@ package view;
 import controller.Controller;
 import model.Language;
 
-import javax.swing.JMenuBar;
-import javax.swing.JMenu;
-import javax.swing.JMenuItem;
-import javax.swing.JFrame;
-import javax.swing.JOptionPane;
+import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
-import java.util.Observer;
 import java.util.Observable;
+import java.util.Observer;
 
 public class MenuView extends JMenuBar implements Observer {
 
@@ -80,7 +76,8 @@ public class MenuView extends JMenuBar implements Observer {
 	}
 
 	public void setLanguage(Language language) {
-		this.language = language;
+        if(this.language == null)
+		    this.language = language;
 		fileMenu.setText(language.getString("menuFile"));
 		editMenu.setText(language.getString("menuEdit"));
 		helpMenu.setText(language.getString("menuHelp"));

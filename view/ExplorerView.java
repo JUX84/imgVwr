@@ -1,40 +1,23 @@
 package view;
 
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JOptionPane;
-import javax.swing.JList;
-import javax.swing.JLabel;
-import javax.swing.JButton;
-import javax.swing.JTextField;
-import javax.swing.JPopupMenu;
-import javax.swing.JMenuItem;
-import javax.swing.ImageIcon;
-import javax.swing.DefaultListModel;
-import javax.swing.ListCellRenderer;
-import javax.swing.ListSelectionModel;
-import javax.swing.event.ListSelectionListener;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.SwingWorker;
-import java.awt.Dimension;
-import java.awt.Component;
-import java.awt.BorderLayout;
-import java.awt.FlowLayout;
-import java.awt.Point;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.util.Observer;
-import java.util.Observable;
-import java.util.List;
-import java.io.File;
-
 import controller.Controller;
 import model.Language;
 import model.Path;
 import model.SearchResults;
 import model.Thumbnail;
+
+import javax.swing.*;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.io.File;
+import java.util.List;
+import java.util.Observable;
+import java.util.Observer;
 
 public class ExplorerView extends BaseView implements Observer
 {
@@ -47,7 +30,7 @@ public class ExplorerView extends BaseView implements Observer
 	private final JButton browse;
 	private final JButton search;
 	private JTextField searchField;
-	private ImageContextMenu contextMenu;
+	private final ImageContextMenu contextMenu;
 
 	private SwingWorker<Void, Thumbnail> loadImageWorker = null;
 
@@ -135,6 +118,20 @@ public class ExplorerView extends BaseView implements Observer
 							}
 				}
 			}
+            @Override
+            public void mouseReleased(MouseEvent e) // CROSSPLATFORM
+            {
+                if (e.isPopupTrigger()) {
+                    Point p = e.getPoint();
+                    int index = iconList.locationToIndex(p);
+
+                    if (index != -1
+                            && iconList.getCellBounds(index, index).contains(p)) {
+                        iconList.setSelectedIndex(index);
+                        contextMenu.show(e.getComponent(), e.getX(), e.getY());
+                    }
+                }
+            }
 		});
 
 		createImages();
@@ -209,49 +206,6 @@ public class ExplorerView extends BaseView implements Observer
 			}
 		}
 		iconList.clearSelection();
-	}
-
-	private class ImageContextMenu extends JPopupMenu
-	{
-		JMenuItem rename;
-		JMenuItem delete;
-
-		public ImageContextMenu(final Controller controller)
-		{
-			rename = new JMenuItem();
-			rename.addActionListener(new ActionListener() {
-				@Override
-				public void actionPerformed(ActionEvent e)
-				{
-					String str = JOptionPane.showInputDialog(language.getString("renameImage"));
-					if(str == null || str.isEmpty())
-						return;
-
-					controller.imageRenamed(str);
-				}
-			});
-			add(rename);
-
-			delete = new JMenuItem();
-			delete.addActionListener(new ActionListener() {
-				@Override
-				public void actionPerformed(ActionEvent e)
-				{
-					int val = JOptionPane.showConfirmDialog(ExplorerView.this,
-							language.getString("deleteImageConfirm"), "",
-							JOptionPane.YES_NO_OPTION);
-					if (val == JOptionPane.YES_OPTION)
-						controller.imageDeleted();
-				}
-			});
-			add(delete);
-		}
-
-		public void setLanguage(Language lang)
-		{
-			rename.setText(lang.getString("menuEditRename"));
-			delete.setText(lang.getString("menuEditDelete"));
-		}
 	}
 
 	private class imageLoader extends SwingWorker<Void, Thumbnail>

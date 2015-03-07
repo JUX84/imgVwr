@@ -1,7 +1,7 @@
 package model;
 
-import java.util.Observable;
 import java.io.File;
+import java.util.Observable;
 
 public class Path extends Observable {
 	private String path;

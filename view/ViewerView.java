@@ -1,19 +1,20 @@
 package view;
 
+import controller.Controller;
+import model.Image;
+import model.Language;
+
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.awt.event.MouseWheelEvent;
 import java.math.BigDecimal;
-import java.util.Observer;
 import java.util.Observable;
-
-import model.Image;
-import model.Language;
-import controller.Controller;
+import java.util.Observer;
 
 public class ViewerView extends BaseView implements Observer {
     private Image image;
@@ -23,9 +24,24 @@ public class ViewerView extends BaseView implements Observer {
     private double scale;
     private final SpinnerNumberModel model;
     private final JSpinner spinner;
+    private final ImageContextMenu contextMenu;
+    private final MouseListener ml;
 
 	public ViewerView(final Controller controller) {
 		super();
+        ml = new MouseAdapter() {
+            @Override
+            public void mousePressed(MouseEvent e) {
+                if (e.isPopupTrigger())
+                    contextMenu.show(e.getComponent(), e.getX(), e.getY());
+            }
+            @Override
+            public void mouseReleased(MouseEvent e) {  // CROSSPLATFORM
+                if (e.isPopupTrigger())
+                    contextMenu.show(e.getComponent(), e.getX(), e.getY());
+            }
+        };
+        contextMenu = new ImageContextMenu(controller);
         imgLabel = new JLabel();
 		nameLabel = new JLabel();
         nameLabel.setAlignmentX(CENTER_ALIGNMENT);
@@ -57,23 +73,22 @@ public class ViewerView extends BaseView implements Observer {
         add(spinner);
 
 		addMouseWheelListener(new MouseAdapter() {
-			@Override
-			public void mouseWheelMoved(MouseWheelEvent e)
-			{
-				if (spinner.isVisible()) {
-					int notches = e.getWheelRotation();
+            @Override
+            public void mouseWheelMoved(MouseWheelEvent e) {
+                if (spinner.isVisible()) {
+                    int notches = e.getWheelRotation();
 
-					if (e.getScrollType() == MouseWheelEvent.WHEEL_UNIT_SCROLL) {
-						Double d = (Double)model.getValue();
-						double amount = (double)e.getScrollAmount() / 100;
-						if (notches >= 0)
-							amount *= -1;
+                    if (e.getScrollType() == MouseWheelEvent.WHEEL_UNIT_SCROLL) {
+                        Double d = (Double) model.getValue();
+                        double amount = (double) e.getScrollAmount() / 100;
+                        if (notches >= 0)
+                            amount *= -1;
 
-						model.setValue((Double)(d + amount));
-					}
-				}
-			}
-		});
+                        model.setValue(d + amount);
+                    }
+                }
+            }
+        });
 
 		controller.init(this);
 	}
@@ -81,10 +96,12 @@ public class ViewerView extends BaseView implements Observer {
 	public void setImage(Image image) {
 		this.image = image;
         spinner.setVisible(false);
+        removeMouseListener(ml);
         if(image != null) {
             nameLabel.setText(image.getName());
             if (image.isNotDamaged()) {
                 imgLabel = new JLabel(new ImageIcon(image.getBufferedImage()));
+                addMouseListener(ml);
                 double width = getWidth();
                 double height = getHeight();
                 double imageWidth = image.getWidth();
@@ -101,8 +118,10 @@ public class ViewerView extends BaseView implements Observer {
 	}
 
 	public void setLanguage(Language language) {
-        this.language = language;
+        if(this.language == null)
+            this.language = language;
         super.setTitle(language.getString("viewer"));
+        contextMenu.setLanguage(language);
 	}
 
 	public void paintComponent(Graphics g) {
