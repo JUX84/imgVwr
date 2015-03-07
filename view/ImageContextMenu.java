@@ -11,8 +11,8 @@ import java.awt.event.ActionListener;
 class ImageContextMenu extends JPopupMenu {
 	private final JMenuItem rename;
 	private final JMenuItem delete;
-	private Language language;
-	private Image image;
+	private Language language = null;
+	private Image image = null;
 
 	public ImageContextMenu(final Controller controller) {
 		rename = new JMenuItem();

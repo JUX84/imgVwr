@@ -21,8 +21,8 @@ public class MenuView extends JMenuBar implements Observer {
 	private final JMenuItem rnmImg;
 	private final JMenuItem delImg;
 	private final JMenuItem about;
-	private Language language;
-	private Image image;
+	private Language language = null;
+	private Image image = null;
 
 	public MenuView(final Controller controller) {
 		super();
@@ -113,7 +113,7 @@ public class MenuView extends JMenuBar implements Observer {
 		about.setText(language.getString("about"));
 	}
 
-	public void setImage(Image image) {
+	void setImage(Image image) {
 		if(this.image == null)
 			this.image = image;
 		rnmImg.setEnabled(true);

@@ -125,7 +125,7 @@ class FileSystemModel implements TreeModel {
 		listeners.remove(listener);
 	}
 
-	private class TreeFile extends File {
+	private static class TreeFile extends File {
 		public TreeFile(File parent, String child) {
 			super(parent, child);
 		}

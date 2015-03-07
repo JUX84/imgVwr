@@ -4,8 +4,8 @@ import java.util.Locale;
 import java.util.Observable;
 import java.util.ResourceBundle;
 
-public class Language extends Observable {
-	private ResourceBundle rb;
+public final class Language extends Observable {
+	private ResourceBundle rb = null;
 
 	public Language(String lang) {
 		setLanguage(lang);

@@ -22,10 +22,10 @@ public class ViewerView extends BaseView implements Observer {
 	private final JSpinner spinner;
 	private final ImageContextMenu contextMenu;
 	private final MouseListener ml;
-	private Image image;
-	private Language language;
+	private Image image = null;
+	private Language language = null;
 	private JLabel imgLabel;
-	private double scale;
+	private double scale = 0.0;
 
 	public ViewerView(final Controller controller) {
 		super();
@@ -96,13 +96,13 @@ public class ViewerView extends BaseView implements Observer {
 							amount = 0.01d;
 						if (notches >= 0.0d)
 							amount *= -1.0d;
-						d += amount;
+						d = d + amount;
 						scale = new BigDecimal(d).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
 						if(scale<0.1d)
 							scale = 0.1d;
 						if(scale>10.0d)
 							scale = 10.0d;
-						model.setValue(scale);
+						model.setValue(Double.valueOf(scale));
 					}
 				}
 			}
@@ -126,7 +126,7 @@ public class ViewerView extends BaseView implements Observer {
 				double imageHeight = image.getHeight();
 				scale = Math.min(width / imageWidth * 0.80, height / imageHeight * 0.80);
 				scale = new BigDecimal(scale).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
-				model.setValue(scale);
+				model.setValue(Double.valueOf(scale));
 				spinner.setVisible(true);
 				contextMenu.setImage(image);
 			} else {
@@ -152,8 +152,8 @@ public class ViewerView extends BaseView implements Observer {
 			width = image.getWidth();
 			height = image.getHeight();
 
-			width = (int) (width * scale);
-			height = (int) (height * scale);
+			width *= scale;
+			height *= scale;
 
 			if (maxHeight - height < 60)
 				nameLabel.setForeground(Color.white);
@@ -171,7 +171,7 @@ public class ViewerView extends BaseView implements Observer {
 		}
 	}
 
-	public void setScale(double s) {
+	void setScale(double s) {
 		scale = s;
 		revalidate();      // update the scroll pane
 		repaint();
@@ -186,7 +186,7 @@ public class ViewerView extends BaseView implements Observer {
 			setImage((Image) o);
 	}
 
-	public class imageLoader extends Thread {
+	private class imageLoader extends Thread {
 		@Override
 		public void run() {
 			repaint();

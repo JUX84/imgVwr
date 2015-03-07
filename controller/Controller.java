@@ -80,7 +80,7 @@ public class Controller {
 	public void imageRenamed(String name) {
 		if (image != null) {
 			File f = new File(image.getPath());
-			File tmp = new File(f.getParent() + "/" + name);
+			File tmp = new File(f.getParent() + System.getProperty("file.separator") + name);
 			if (f.getAbsolutePath().equals(tmp.getAbsolutePath()))
 				return;
 			if (tmp.exists()) {

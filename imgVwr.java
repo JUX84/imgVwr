@@ -30,22 +30,12 @@ class imgVwr {
 			}
 		});
 
-		JPanel panel = new JPanel();
-		panel.setPreferredSize(new Dimension(720, 480));
-		panel.setLayout(new BoxLayout(panel, BoxLayout.PAGE_AXIS));
-		JPanel panel2 = new JPanel();
-		panel2.setPreferredSize(new Dimension(720, 240));
-		panel2.setLayout(new BoxLayout(panel2, BoxLayout.LINE_AXIS));
-		JPanel panel3 = new JPanel();
-		panel3.setLayout(new BoxLayout(panel3, BoxLayout.LINE_AXIS));
-		JPanel panel4 = new JPanel();
-		panel4.setLayout(new BoxLayout(panel4, BoxLayout.LINE_AXIS));
-
 		ViewerView viewer = new ViewerView(controller);
 		KeywordsView keywords = new KeywordsView(controller);
 		ExplorerView explorer = new ExplorerView(controller);
 		LangView lang = new LangView(controller);
 		TreeView tree = new TreeView(controller);
+		tree.setPreferredSize(new Dimension(180, 240));
 		MenuView menu = new MenuView(controller);
 
 		JPanel mainPanel = new JPanel();
@@ -56,7 +46,7 @@ class imgVwr {
 		langPanel.setLayout(new BoxLayout(langPanel, BoxLayout.LINE_AXIS));
 
 		JSplitPane treeViewerSplit = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, tree, viewer);
-		treeViewerSplit.setResizeWeight(0.1);
+		treeViewerSplit.setResizeWeight(0.2);
 		JPanel treeViewerSplitContainer = new JPanel();
 		treeViewerSplitContainer.setLayout(new BoxLayout(treeViewerSplitContainer, BoxLayout.LINE_AXIS));
 		treeViewerSplitContainer.add(treeViewerSplit);
@@ -64,7 +54,6 @@ class imgVwr {
 		JSplitPane keywordsExplorerSplit = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, keywords, explorer);
 		keywordsExplorerSplit.setResizeWeight(0.5);
 		JPanel keywordsExplorerSplitContainer = new JPanel();
-		keywordsExplorerSplitContainer.setPreferredSize(new Dimension(720, 240));
 		keywordsExplorerSplitContainer.setLayout(new BoxLayout(keywordsExplorerSplitContainer, BoxLayout.LINE_AXIS));
 		keywordsExplorerSplitContainer.add(keywordsExplorerSplit);
 

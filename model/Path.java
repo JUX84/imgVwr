@@ -4,7 +4,7 @@ import java.io.File;
 import java.util.Observable;
 
 public class Path extends Observable {
-	private static String selected;
+	private static String selected = null;
 	private String path;
 
 	public Path(String path) {
