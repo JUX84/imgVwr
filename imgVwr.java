@@ -9,6 +9,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.awt.event.*;
+import java.util.*;
 
 class imgVwr {
 
@@ -76,6 +78,53 @@ class imgVwr {
 
 		mainPanel.add(lang);
 		mainPanel.add(verticalSplitContainer);
+
+		HashMap<KeyStroke, Action> actionMap = new HashMap<KeyStroke, Action>();
+
+		KeyStroke ctrlr = KeyStroke.getKeyStroke(KeyEvent.VK_R, KeyEvent.CTRL_DOWN_MASK);
+		actionMap.put(ctrlr, new AbstractAction("ctrlr") {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if (i != null && !i.getPath().isEmpty()) {
+					String str = JOptionPane.showInputDialog(l.getString("renameImage"));
+					if (str == null || str.isEmpty())
+						return;
+
+					controller.imageRenamed(str);
+				}
+			}
+		});
+		KeyStroke ctrld = KeyStroke.getKeyStroke(KeyEvent.VK_D, KeyEvent.CTRL_DOWN_MASK);
+		actionMap.put(ctrld, new AbstractAction("ctrld") {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if (i != null && !i.getPath().isEmpty()) {
+					int val = JOptionPane.showConfirmDialog(null,
+							l.getString("deleteImageConfirm"), "",
+							JOptionPane.YES_NO_OPTION);
+					if (val == JOptionPane.YES_OPTION)
+						controller.imageDeleted();
+				}
+			}
+		});
+
+		KeyboardFocusManager kfm = KeyboardFocusManager.getCurrentKeyboardFocusManager();
+		kfm.addKeyEventDispatcher( new KeyEventDispatcher() {
+			@Override
+			public boolean dispatchKeyEvent(KeyEvent e) {
+				KeyStroke keyStroke = KeyStroke.getKeyStrokeForEvent(e);
+
+				if (actionMap.containsKey(keyStroke)) {
+					final Action a = actionMap.get(keyStroke);
+					final ActionEvent ae = new ActionEvent(e.getSource(), e.getID(), null);
+					a.actionPerformed(ae);
+
+					return true;
+				}
+
+				return false;
+			}
+		});
 
 		frame.setJMenuBar(menu);
 		frame.add(mainPanel);

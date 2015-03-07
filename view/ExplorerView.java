@@ -19,7 +19,8 @@ import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 
-public class ExplorerView extends BaseView implements Observer {
+public class ExplorerView extends BaseView implements Observer
+{
 	private final DefaultListModel<Thumbnail> iconListModel;
 	private final JList<Thumbnail> iconList;
 	private final JButton browse;
@@ -34,7 +35,8 @@ public class ExplorerView extends BaseView implements Observer {
 
 	private Language language = null;
 
-	public ExplorerView(final Controller controller) {
+	public ExplorerView(final Controller controller)
+	{
 		super();
 
 		contextMenu = new ImageContextMenu(controller);
