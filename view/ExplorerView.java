@@ -19,35 +19,22 @@ import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 
-public class ExplorerView extends BaseView implements Observer
-{
-	private SearchResults results;
-	private String path;
-
+public class ExplorerView extends BaseView implements Observer {
 	private final DefaultListModel<Thumbnail> iconListModel;
 	private final JList<Thumbnail> iconList;
-
 	private final JButton browse;
 	private final JButton search;
-	private JTextField searchField;
 	private final ImageContextMenu contextMenu;
-
+	private SearchResults results;
+	private String path;
+	private JTextField searchField;
 	private SwingWorker<Void, Thumbnail> loadImageWorker = null;
 
 	private boolean searchDisplay = false;
 
 	private Language language = null;
 
-	void createImages()
-	{
-		if (path == null)
-			return;
-
-		new imageLoader().execute();
-	}
-
-	public ExplorerView(final Controller controller)
-	{
+	public ExplorerView(final Controller controller) {
 		super();
 
 		contextMenu = new ImageContextMenu(controller);
@@ -64,8 +51,7 @@ public class ExplorerView extends BaseView implements Observer
 		search = new JButton();
 		search.addActionListener(new ActionListener() {
 			@Override
-			public void actionPerformed(ActionEvent e)
-			{
+			public void actionPerformed(ActionEvent e) {
 				String s = searchField.getText();
 				if (s.isEmpty())
 					createImages();
@@ -78,8 +64,7 @@ public class ExplorerView extends BaseView implements Observer
 		searchField.setPreferredSize(new Dimension(200, 20));
 		searchField.addActionListener(new ActionListener() {
 			@Override
-			public void actionPerformed(ActionEvent e)
-			{
+			public void actionPerformed(ActionEvent e) {
 				String s = searchField.getText();
 				if (s.isEmpty())
 					createImages();
@@ -96,8 +81,7 @@ public class ExplorerView extends BaseView implements Observer
 		iconList.setVisibleRowCount(-1);
 		iconList.addListSelectionListener(new ListSelectionListener() {
 			@Override
-			public void valueChanged(ListSelectionEvent e)
-			{
+			public void valueChanged(ListSelectionEvent e) {
 				Thumbnail t = iconList.getSelectedValue();
 				if (t != null)
 					controller.thumbnailSelected(t);
@@ -105,7 +89,21 @@ public class ExplorerView extends BaseView implements Observer
 		});
 		iconList.addMouseListener(new MouseAdapter() {
 			@Override
-			public void mousePressed(MouseEvent e)
+			public void mousePressed(MouseEvent e) {
+				if (e.isPopupTrigger()) {
+					Point p = e.getPoint();
+					int index = iconList.locationToIndex(p);
+
+					if (index != -1
+							&& iconList.getCellBounds(index, index).contains(p)) {
+						iconList.setSelectedIndex(index);
+						contextMenu.show(e.getComponent(), e.getX(), e.getY());
+					}
+				}
+			}
+
+			@Override
+			public void mouseReleased(MouseEvent e) // CROSSPLATFORM
 			{
 				if (e.isPopupTrigger()) {
 					Point p = e.getPoint();
@@ -115,23 +113,9 @@ public class ExplorerView extends BaseView implements Observer
 							&& iconList.getCellBounds(index, index).contains(p)) {
 						iconList.setSelectedIndex(index);
 						contextMenu.show(e.getComponent(), e.getX(), e.getY());
-							}
+					}
 				}
 			}
-            @Override
-            public void mouseReleased(MouseEvent e) // CROSSPLATFORM
-            {
-                if (e.isPopupTrigger()) {
-                    Point p = e.getPoint();
-                    int index = iconList.locationToIndex(p);
-
-                    if (index != -1
-                            && iconList.getCellBounds(index, index).contains(p)) {
-                        iconList.setSelectedIndex(index);
-                        contextMenu.show(e.getComponent(), e.getX(), e.getY());
-                    }
-                }
-            }
 		});
 
 		createImages();
@@ -154,6 +138,13 @@ public class ExplorerView extends BaseView implements Observer
 		controller.init(this);
 	}
 
+	void createImages() {
+		if (path == null)
+			return;
+
+		new imageLoader().execute();
+	}
+
 	public void setLanguage(Language language) {
 		if (this.language == null)
 			this.language = language;
@@ -164,19 +155,16 @@ public class ExplorerView extends BaseView implements Observer
 		contextMenu.setLanguage(language);
 	}
 
-	public void setPath(Path p)
-	{
+	public void setPath(Path p) {
 		if (path != null && path.equals(p.getPath()) && !searchDisplay) {
 			select();
-		}
-		else {
+		} else {
 			path = p.getPath();
 			createImages();
 		}
 	}
 
-	public void setSearchResults(SearchResults sr)
-	{
+	public void setSearchResults(SearchResults sr) {
 		results = sr;
 	}
 
@@ -185,15 +173,14 @@ public class ExplorerView extends BaseView implements Observer
 	}
 
 	@Override
-	public void update(Observable o, Object arg)
-	{
-		String tmp = (String)arg;
+	public void update(Observable o, Object arg) {
+		String tmp = (String) arg;
 		if (tmp.equals("path"))
-			setPath((Path)o);
+			setPath((Path) o);
 		else if (tmp.equals("language"))
-			setLanguage((Language)o);
+			setLanguage((Language) o);
 		else if (tmp.equals("image"))
-			setSelectedName((model.Image)o);
+			setSelectedName((model.Image) o);
 		else if (tmp.equals("searchResults"))
 			new imageLoader(results.getResults()).execute();
 	}
@@ -208,12 +195,10 @@ public class ExplorerView extends BaseView implements Observer
 		iconList.clearSelection();
 	}
 
-	private class imageLoader extends SwingWorker<Void, Thumbnail>
-	{
+	private class imageLoader extends SwingWorker<Void, Thumbnail> {
 		private final File[] files;
 
-		public imageLoader()
-		{
+		public imageLoader() {
 			searchDisplay = false;
 
 			if (loadImageWorker != null)
@@ -225,8 +210,7 @@ public class ExplorerView extends BaseView implements Observer
 			files = folder.listFiles();
 		}
 
-		public imageLoader(List<String> paths)
-		{
+		public imageLoader(List<String> paths) {
 			searchDisplay = true;
 
 			if (loadImageWorker != null)
@@ -243,8 +227,7 @@ public class ExplorerView extends BaseView implements Observer
 		}
 
 		@Override
-		protected Void doInBackground() throws Exception
-		{
+		protected Void doInBackground() throws Exception {
 			iconListModel.clear();
 			if (files == null)
 				return null;
@@ -253,17 +236,15 @@ public class ExplorerView extends BaseView implements Observer
 				if (isCancelled())
 					return null;
 
-				if(model.Image.isImage(f.getName())) {
+				if (model.Image.isImage(f.getName())) {
 					try {
 						Thumbnail t = new Thumbnail(f.getAbsolutePath());
 						publish(t);
-					}
-					catch (Exception e) {
+					} catch (Exception e) {
 						System.err.println(e.getMessage());
 						try {
 							publish(Thumbnail.getDamagedIcon(f.getName()));
-						}
-						catch (Exception ex) {
+						} catch (Exception ex) {
 							System.err.println(ex.getMessage());
 						}
 					}
@@ -274,8 +255,7 @@ public class ExplorerView extends BaseView implements Observer
 		}
 
 		@Override
-		protected void process(List<Thumbnail> chunks)
-		{
+		protected void process(List<Thumbnail> chunks) {
 			if (!isCancelled()) {
 				for (Thumbnail t : chunks) {
 					iconListModel.addElement(t);
@@ -287,15 +267,12 @@ public class ExplorerView extends BaseView implements Observer
 	}
 }
 
-class iconListCellRenderer extends JLabel implements ListCellRenderer<Thumbnail>
-{
-	public iconListCellRenderer()
-	{
+class iconListCellRenderer extends JLabel implements ListCellRenderer<Thumbnail> {
+	public iconListCellRenderer() {
 		setOpaque(true);
 	}
 
-	public Component getListCellRendererComponent(JList<? extends Thumbnail> list, Thumbnail value, int index, boolean isSelected, boolean cellHasFocus)
-	{
+	public Component getListCellRendererComponent(JList<? extends Thumbnail> list, Thumbnail value, int index, boolean isSelected, boolean cellHasFocus) {
 		ImageIcon image = value.getImage();
 		if (image != null) {
 			setPreferredSize(new Dimension(image.getIconWidth(), image.getIconHeight() + 20));
@@ -310,8 +287,7 @@ class iconListCellRenderer extends JLabel implements ListCellRenderer<Thumbnail>
 			if (isSelected) {
 				setBackground(list.getSelectionBackground());
 				setForeground(list.getSelectionForeground());
-			}
-			else {
+			} else {
 				setBackground(list.getBackground());
 				setForeground(list.getForeground());
 			}

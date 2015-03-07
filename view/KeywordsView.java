@@ -12,25 +12,22 @@ import java.awt.event.ActionListener;
 import java.util.Observable;
 import java.util.Observer;
 
-public class KeywordsView extends BaseView implements Observer
-{
-    private final JTextArea text;
+public class KeywordsView extends BaseView implements Observer {
+	private final JTextArea text;
 	private final JButton save;
 
-	public KeywordsView(final Controller controller)
-	{
+	public KeywordsView(final Controller controller) {
 		super();
 
-        text = new JTextArea();
-        JScrollPane scroll = new JScrollPane(text);
+		text = new JTextArea();
+		JScrollPane scroll = new JScrollPane(text);
 
 		save = new JButton();
 		save.setAlignmentX(Component.RIGHT_ALIGNMENT);
 		save.setAlignmentY(Component.BOTTOM_ALIGNMENT);
 		save.addActionListener(new ActionListener() {
 			@Override
-			public void actionPerformed(ActionEvent e)
-			{
+			public void actionPerformed(ActionEvent e) {
 				controller.keywordsSaved(text.getText());
 			}
 		});
@@ -43,21 +40,20 @@ public class KeywordsView extends BaseView implements Observer
 	}
 
 	public void setLanguage(Language language) {
-        super.setTitle(language.getString("keywords"));
+		super.setTitle(language.getString("keywords"));
 		save.setText(language.getString("save"));
 	}
 
 	@Override
 	public void update(Observable o, Object arg) {
-		String tmp = (String)arg;
+		String tmp = (String) arg;
 		if (tmp.equals("language"))
-			setLanguage((Language)o);
+			setLanguage((Language) o);
 		else if (tmp.equals("image"))
-			loadImageKeywords(((Image)o).getPath());
+			loadImageKeywords(((Image) o).getPath());
 	}
 
-	void loadImageKeywords(String p)
-	{
+	void loadImageKeywords(String p) {
 		if (p != null) {
 			String t = Keywords.getkeywords(p);
 			if (t != null)

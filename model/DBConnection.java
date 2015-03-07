@@ -5,12 +5,10 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-public class DBConnection
-{
+public class DBConnection {
 	private static Connection con = null;
 
-	public static Connection getConnection()
-	{
+	public static Connection getConnection() {
 		if (con == null) {
 			try {
 				Class.forName("org.sqlite.JDBC");
@@ -21,8 +19,7 @@ public class DBConnection
 
 				statement.executeUpdate("create table if not exists " + Keywords.tableName
 						+ " (path text primary key, keywords text)");
-			}
-			catch (Exception e) {
+			} catch (Exception e) {
 				System.err.println(e.getMessage());
 				closeConnection();
 			}
@@ -31,13 +28,11 @@ public class DBConnection
 		return con;
 	}
 
-	public static void closeConnection()
-	{
+	public static void closeConnection() {
 		try {
 			if (con != null)
 				con.close();
-		}
-		catch (SQLException e) {
+		} catch (SQLException e) {
 			System.err.println(e.getMessage());
 		}
 	}

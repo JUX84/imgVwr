@@ -4,12 +4,16 @@ import java.io.File;
 import java.util.Observable;
 
 public class Path extends Observable {
-	private String path;
 	private static String selected;
+	private String path;
 
 	public Path(String path) {
 		this.path = path;
 		selected = null;
+	}
+
+	public static boolean isSelected(String name) {
+		return name.equals(selected);
 	}
 
 	public String getPath() {
@@ -25,8 +29,8 @@ public class Path extends Observable {
 			return;
 
 		selected = null;
-		if(!f.isDirectory()) {
-			if(Image.isImage(f.getName()))
+		if (!f.isDirectory()) {
+			if (Image.isImage(f.getName()))
 				selected = f.getName();
 			f = f.getParentFile();
 		}
@@ -35,8 +39,4 @@ public class Path extends Observable {
 		setChanged();
 		notifyObservers("path");
 	}
-
-	public static boolean isSelected(String name) {
-        return name.equals(selected);
-    }
 }

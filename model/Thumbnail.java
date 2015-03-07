@@ -7,17 +7,14 @@ import java.io.File;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-public class Thumbnail
-{
+public class Thumbnail {
+	private static Thumbnail damaged = null;
+	private final String path;
 	private BufferedImage original;
 	private ImageIcon image;
 	private String name;
-	private final String path;
 
-	private static Thumbnail damaged = null;
-
-	public Thumbnail(String path) throws Exception
-	{
+	public Thumbnail(String path) throws Exception {
 		this.path = path;
 		Path p = Paths.get(path);
 		name = p.getFileName().toString();
@@ -30,17 +27,16 @@ public class Thumbnail
 		int imgHeight = original.getHeight();
 
 		double maxRatio = 1;
-		double imgRatio = (double)imgWidth / imgHeight;
+		double imgRatio = (double) imgWidth / imgHeight;
 		double scale = (imgRatio > maxRatio) ? (100.0 / imgWidth) : (100.0 / imgHeight);
 
-		int newWidth = (int)(imgWidth * scale);
-		int newHeight = (int)(imgHeight * scale);
+		int newWidth = (int) (imgWidth * scale);
+		int newHeight = (int) (imgHeight * scale);
 
 		image = new ImageIcon(original.getScaledInstance(newWidth, newHeight, java.awt.Image.SCALE_FAST));
 	}
 
-	public static Thumbnail getDamagedIcon(String name) throws Exception
-	{
+	public static Thumbnail getDamagedIcon(String name) throws Exception {
 		if (damaged == null)
 			damaged = new Thumbnail(new File("damaged.png").getAbsolutePath());
 
@@ -48,8 +44,7 @@ public class Thumbnail
 		return damaged;
 	}
 
-	public String getName()
-	{
+	public String getName() {
 		return name;
 	}
 
@@ -61,13 +56,11 @@ public class Thumbnail
 		return path;
 	}
 
-	public ImageIcon getImage()
-	{
+	public ImageIcon getImage() {
 		return image;
 	}
 
-	public BufferedImage getOriginalImage()
-	{
+	public BufferedImage getOriginalImage() {
 		return original;
 	}
 }

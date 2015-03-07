@@ -15,14 +15,12 @@ import java.util.Iterator;
 import java.util.Observable;
 import java.util.Vector;
 
-public class TreeView extends BaseView
-{
-    private final JTree tree;
+public class TreeView extends BaseView {
+	private final JTree tree;
 
-    public TreeView(final Controller controller)
-	{
+	public TreeView(final Controller controller) {
 		super();
-        FileSystemModel fileSystemModel = new FileSystemModel(new File(System.getProperty("user.home")));
+		FileSystemModel fileSystemModel = new FileSystemModel(new File(System.getProperty("user.home")));
 		tree = new JTree(fileSystemModel);
 		tree.setEditable(true);
 		tree.addTreeSelectionListener(new TreeSelectionListener() {
@@ -31,20 +29,20 @@ public class TreeView extends BaseView
 				controller.pathSelected(file);
 			}
 		});
-        JScrollPane scroll = new JScrollPane(tree);
+		JScrollPane scroll = new JScrollPane(tree);
 		add(scroll);
 		controller.init(this);
 	}
 
 	public void setLanguage(Language language) {
-        super.setTitle(language.getString("tree"));
+		super.setTitle(language.getString("tree"));
 	}
 
 	@Override
-	public void update (Observable o, Object arg) {
-		String tmp = (String)arg;
-		if(tmp.equals("language"))
-			setLanguage((Language)o);
+	public void update(Observable o, Object arg) {
+		String tmp = (String) arg;
+		if (tmp.equals("language"))
+			setLanguage((Language) o);
 	}
 }
 
@@ -101,12 +99,12 @@ class FileSystemModel implements TreeModel {
 		String newFileName = (String) value;
 		File targetFile = new File(fileParentPath, newFileName);
 		boolean b = oldFile.renameTo(targetFile);
-        if(b) {
-            File parent = new File(fileParentPath);
-            int[] changedChildrenIndices = {getIndexOfChild(parent, targetFile)};
-            Object[] changedChildren = {targetFile};
-            fireTreeNodesChanged(path.getParentPath(), changedChildrenIndices, changedChildren);
-        }
+		if (b) {
+			File parent = new File(fileParentPath);
+			int[] changedChildrenIndices = {getIndexOfChild(parent, targetFile)};
+			Object[] changedChildren = {targetFile};
+			fireTreeNodesChanged(path.getParentPath(), changedChildrenIndices, changedChildren);
+		}
 	}
 
 	private void fireTreeNodesChanged(TreePath parentPath, int[] indices, Object[] children) {
@@ -120,7 +118,7 @@ class FileSystemModel implements TreeModel {
 	}
 
 	public void addTreeModelListener(TreeModelListener listener) {
-        listeners.add(listener);
+		listeners.add(listener);
 	}
 
 	public void removeTreeModelListener(TreeModelListener listener) {

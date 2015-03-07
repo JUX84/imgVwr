@@ -6,8 +6,7 @@ import view.*;
 import javax.swing.*;
 import java.io.File;
 
-public class Controller
-{
+public class Controller {
 	private final Image image;
 	private final Path path;
 	private final Language language;
@@ -64,8 +63,7 @@ public class Controller
 		language.setLanguage(str);
 	}
 
-	public void thumbnailSelected(Thumbnail t)
-	{
+	public void thumbnailSelected(Thumbnail t) {
 		image.set(t);
 	}
 
@@ -73,8 +71,7 @@ public class Controller
 		path.set(f);
 	}
 
-	public void keywordsSaved(String kws)
-	{
+	public void keywordsSaved(String kws) {
 		String p = image.getPath();
 		if (p != null)
 			Keywords.setKeywords(p, kws);
@@ -84,30 +81,28 @@ public class Controller
 		if (image != null) {
 			File f = new File(image.getPath());
 			File tmp = new File(f.getParent() + "/" + name);
-			if(f.getAbsolutePath().equals(tmp.getAbsolutePath()))
+			if (f.getAbsolutePath().equals(tmp.getAbsolutePath()))
 				return;
-			if(tmp.exists()) {
+			if (tmp.exists()) {
 				JOptionPane.showMessageDialog(null, language.getString("errorDuplicate"), language.getString("error"), JOptionPane.ERROR_MESSAGE);
 				return;
 			}
 			boolean b = f.renameTo(tmp);
-			if(b)
+			if (b)
 				image.setName(name);
 		}
 	}
 
-	public void searchByKeyword(String searchText)
-	{
+	public void searchByKeyword(String searchText) {
 		if (!searchText.isEmpty())
 			results.setResults(Keywords.search(searchText));
 	}
 
-	public void imageDeleted()
-	{
+	public void imageDeleted() {
 		if (image != null) {
 			File f = new File(image.getPath());
-			if(!f.delete())
-                JOptionPane.showMessageDialog(null, language.getString("errorDelete"), language.getString("error"), JOptionPane.ERROR_MESSAGE);
+			if (!f.delete())
+				JOptionPane.showMessageDialog(null, language.getString("errorDelete"), language.getString("error"), JOptionPane.ERROR_MESSAGE);
 			path.set(new File(path.getPath())); // get path observers to update
 		}
 	}

@@ -1,22 +1,14 @@
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.JSplitPane;
-import javax.swing.BoxLayout;
-import java.awt.Dimension;
-import java.awt.event.WindowEvent;
-import java.awt.event.WindowAdapter;
-
+import controller.Controller;
+import model.DBConnection;
 import model.Language;
 import model.Path;
-import model.DBConnection;
 import model.SearchResults;
-import view.ExplorerView;
-import view.LangView;
-import view.KeywordsView;
-import view.ViewerView;
-import view.MenuView;
-import view.TreeView;
-import controller.Controller;
+import view.*;
+
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 class imgVwr {
 
@@ -32,18 +24,17 @@ class imgVwr {
 		JFrame frame = new JFrame("imgVwr");
 		frame.addWindowListener(new WindowAdapter() {
 			@Override
-			public void windowClosing(WindowEvent e)
-			{
+			public void windowClosing(WindowEvent e) {
 				DBConnection.closeConnection();
 				System.exit(0);
 			}
 		});
 
 		JPanel panel = new JPanel();
-		panel.setPreferredSize(new Dimension(720,480));
+		panel.setPreferredSize(new Dimension(720, 480));
 		panel.setLayout(new BoxLayout(panel, BoxLayout.PAGE_AXIS));
 		JPanel panel2 = new JPanel();
-		panel2.setPreferredSize(new Dimension(720,240));
+		panel2.setPreferredSize(new Dimension(720, 240));
 		panel2.setLayout(new BoxLayout(panel2, BoxLayout.LINE_AXIS));
 		JPanel panel3 = new JPanel();
 		panel3.setLayout(new BoxLayout(panel3, BoxLayout.LINE_AXIS));
@@ -92,7 +83,7 @@ class imgVwr {
 		frame.setVisible(true);
 	}
 
-	public static void main (String[] args) {
+	public static void main(String[] args) {
 		javax.swing.SwingUtilities.invokeLater(new Runnable() {
 			@Override
 			public void run() {
