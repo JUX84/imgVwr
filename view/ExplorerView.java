@@ -172,7 +172,9 @@ public final class ExplorerView extends BaseView implements Observer
 	void setImage(model.Image image) {
 		if(this.image == null)
 			this.image = image;
+
 		iconList.getSelectedValue().setName(image.getName());
+		iconList.getSelectedValue().setPath(image.getPath());
 	}
 
 	public void setSearchResults(SearchResults sr) {

@@ -3,6 +3,7 @@ package model;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.util.Observable;
+import java.util.regex.Pattern;
 
 public class Image extends Observable {
 	private String name = null;
@@ -32,6 +33,16 @@ public class Image extends Observable {
 
 	public void setName(String name) {
 		this.name = name;
+
+		System.out.println(path);
+
+		String[] paths = path.split(Pattern.quote(System.getProperty("file.separator")));
+		paths[paths.length-1] = name;
+		path = "";
+		for ( int i = 1; i < paths.length; i++ )
+			path += "/" + paths[i];
+
+		System.out.println(path);
 
 		setChanged();
 		notifyObservers("image");

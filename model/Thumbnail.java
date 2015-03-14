@@ -9,7 +9,7 @@ import java.nio.file.Paths;
 
 public class Thumbnail {
 	private static Thumbnail damaged = null;
-	private final String path;
+	private String path;
 	private BufferedImage original;
 	private ImageIcon image;
 	private String name;
@@ -54,6 +54,10 @@ public class Thumbnail {
 
 	public String getPath() {
 		return path;
+	}
+
+	public void setPath(String path) {
+		this.path = path;
 	}
 
 	public ImageIcon getImage() {
