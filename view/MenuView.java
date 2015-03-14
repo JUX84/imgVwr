@@ -21,6 +21,7 @@ public class MenuView extends JMenuBar implements Observer {
 	private final JMenuItem rnmImg;
 	private final JMenuItem delImg;
 	private final JMenuItem about;
+	private final JMenuItem help;
 	private Language language = null;
 	private Image image = null;
 
@@ -35,6 +36,7 @@ public class MenuView extends JMenuBar implements Observer {
 		rnmImg = new JMenuItem();
 		delImg = new JMenuItem();
 		about = new JMenuItem();
+		help = new JMenuItem();
 
 		opnImg.addActionListener(new ActionListener() {
 			@Override
@@ -83,6 +85,12 @@ public class MenuView extends JMenuBar implements Observer {
 				JOptionPane.showMessageDialog(null, language.getString("aboutContent"), language.getString("about"), JOptionPane.INFORMATION_MESSAGE);
 			}
 		});
+		help.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e)
+			{
+				JOptionPane.showMessageDialog(null, language.getString("helpContent"), language.getString("menuHelp"), JOptionPane.INFORMATION_MESSAGE);
+			}
+		});
 
 		rnmImg.setEnabled(false);
 		delImg.setEnabled(false);
@@ -92,6 +100,7 @@ public class MenuView extends JMenuBar implements Observer {
 		editMenu.add(rnmImg);
 		editMenu.add(delImg);
 		helpMenu.add(about);
+		helpMenu.add(help);
 
 		add(fileMenu);
 		add(editMenu);
@@ -111,6 +120,7 @@ public class MenuView extends JMenuBar implements Observer {
 		rnmImg.setText(language.getString("menuEditRename"));
 		delImg.setText(language.getString("menuEditDelete"));
 		about.setText(language.getString("about"));
+		help.setText(language.getString("menuHelp"));
 	}
 
 	void setImage(Image image) {
