@@ -10,7 +10,7 @@ import java.awt.*;
 import java.awt.event.*;
 import java.util.*;
 
-class imgVwr {
+public class imgVwr {
 
 	private static void startGUI() {
 
