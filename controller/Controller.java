@@ -48,6 +48,7 @@ public class Controller {
 
 	public void init(TreeView tree) {
 		language.addObserver(tree);
+		image.addObserver(tree);
 		path.addObserver(tree);
 		tree.setLanguage(language);
 	}
