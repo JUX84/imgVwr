@@ -32,11 +32,7 @@ public class Image extends Observable {
 
 	public void setName(String name) {
 		this.name = name;
-		String[] paths = path.split("/");
-		paths[paths.length-1] = name;
-		path = "";
-		for ( int i = 1; i < paths.length; i++ )
-			path += "/" + paths[i];
+
 		setChanged();
 		notifyObservers("image");
 	}

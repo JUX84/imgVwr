@@ -1,7 +1,6 @@
 package view;
 
 import controller.Controller;
-import model.Image;
 import model.Language;
 
 import javax.swing.*;
@@ -39,19 +38,11 @@ public class TreeView extends BaseView {
 		super.setTitle(language.getString("tree"));
 	}
 
-	private void refreshTreeModel(Image image) {
-		FileSystemModel fileSystemModel = (FileSystemModel) tree.getModel();
-		fileSystemModel = new FileSystemModel(new File(image.getPath()));
-		tree.updateUI();
-	}
-
 	@Override
 	public void update(Observable o, Object arg) {
 		String tmp = (String) arg;
 		if (tmp.equals("language"))
 			setLanguage((Language) o);
-		if (tmp.equals("image"))
-			refreshTreeModel((Image) o);
 	}
 }
 
